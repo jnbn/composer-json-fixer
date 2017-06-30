@@ -1,0 +1,9 @@
+{
+    "license": "MIT",
+    "require": {
+        "psr/log": "*"
+    },
+    "require-dev": {
+        "psr/cache": "^1.0"
+    }
+}

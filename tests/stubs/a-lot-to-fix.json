@@ -1,0 +1,60 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Vendor\\Namespace\\": "",
+            "": "",
+            "Monolog\\": "src/"
+        },
+        "classmap": [
+            "ClassTwo.php",
+            "ClassOne.php"
+        ],
+        "psr-0": {
+            "Monolog\\": "src/",
+            "Vendor_Namespace": "src"
+        }
+    },
+
+    "Config": {
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+
+    "keywords": [
+        "keyword B",
+        "keyword A"
+    ],
+
+    "repositories": [
+        {
+            "type" : "composer",
+            "url": "https://packagist.org"
+        },
+        {
+            "url": "www.example.com/repo2",
+            "type": "vcs"
+        },
+        {
+            "type": "vcs",
+            "url": "www.example.com/repo1"
+        }
+    ],
+
+    "require": {
+        "php"              : "^5.5||^7.0",
+"roave/security-advisories": "dev-master",
+        "vendor/package-1" : " >  1.0",
+        "vendor/package-2" : " >= 1.0",
+        "vendor/package-3" : " <  1.0",
+        "vendor/package-4" : " <= 1.0",
+        "vendor/package-5" : " != 1.0",
+        "vendor/package-6" : "1.0,2.0",
+        "vendor/package-7" : "1.0|2.0",
+        "vendor/package-8" : "1.0 - 2.0",
+        "vendor/package-9" : ">=1.0 < 2.0",
+        "vendor/package-10": "    1.0    ",
+        "zorro"            : "dev-master"
+    },
+
+    "version": "1.0.0"
+}
