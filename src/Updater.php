@@ -3,7 +3,7 @@
 namespace ComposerJsonFixer;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Process\ProcessBuilder;
 
 class Updater
 {
@@ -20,9 +20,7 @@ class Updater
      */
     public function update()
     {
-        $this->execute('composer self-update --quiet --stable');
-
-        $this->file->save();
+        $this->executeComposer('self-update', ['--stable']);
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->file->dir() . '/composer.lock');
@@ -31,20 +29,13 @@ class Updater
         $data = $this->file->data();
 
         if (isset($data['require'])) {
-            $this->execute(sprintf(
-                'composer require %s --working-dir=%s %s',
-                '--no-interaction --no-plugins --no-scripts --quiet --sort-packages --update-with-dependencies',
-                $this->file->dir(),
-                implode(' ', $this->preparePackages($data['require']))
-            ));
+            $this->executeComposerRequire($this->preparePackages($data['require']));
         }
 
         if (isset($data['require-dev'])) {
-            $this->execute(sprintf(
-                'composer require %s --working-dir=%s %s',
-                '--dev --no-interaction --no-plugins --no-scripts --quiet --sort-packages --update-with-dependencies',
-                $this->file->dir(),
-                implode(' ', $this->preparePackages($data['require-dev']))
+            $this->executeComposerRequire(array_merge(
+                ['--dev'],
+                $this->preparePackages($data['require-dev'])
             ));
         }
 
@@ -53,17 +44,51 @@ class Updater
     }
 
     /**
-     * @param string $command
+     * @param array $arguments
      *
      * @throws \Exception
      */
-    private function execute($command)
+    private function executeComposerRequire(array $arguments)
     {
-        $process = new Process($command);
+        $this->executeComposer(
+            'require',
+            array_merge(
+                [
+                    '--no-interaction',
+                    '--no-plugins',
+                    '--no-scripts',
+                    '--sort-packages',
+                    '--update-with-dependencies',
+                ],
+                $arguments
+            )
+        );
+    }
+
+    /**
+     * @param string $command
+     * @param array  $arguments
+     *
+     * @throws \Exception
+     */
+    private function executeComposer($command, array $arguments)
+    {
+        $process = (new ProcessBuilder(
+            array_merge(
+                [
+                    'composer',
+                    $command,
+                    '--quiet',
+                ],
+                $arguments
+            )
+        ))
+            ->setWorkingDirectory($this->file->dir())->getProcess();
+
         $process->run();
 
         if ($process->getExitCode() !== 0) {
-            throw new \Exception(sprintf('Command failed: %s', $process->getErrorOutput()));
+            throw new \Exception(sprintf('Command "composer require" failed: %s', $process->getErrorOutput()));
         }
     }
 
