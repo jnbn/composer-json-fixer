@@ -101,7 +101,7 @@ class FunctionalTest extends TestCase
     public function testInvalidFile()
     {
         $this->doTest(__DIR__ . '/stubs/invalid-json.json', [], 2);
-        $this->assertContains('does not contain valid JSON', $this->tester->getDisplay());
+        $this->assertContains('File "composer.json" did not pass validation', $this->tester->getDisplay());
     }
 
     public function testSelfComposer()
@@ -118,7 +118,7 @@ class FunctionalTest extends TestCase
     public function testWithUpdateAndFakeRepository()
     {
         $this->doTest(__DIR__ . '/stubs/fake-require.json', ['--with-updates' => true], 2);
-        $this->assertContains('Could not find package dummy/dummy', $this->tester->getDisplay());
+        $this->assertContains('Command "composer require" failed', $this->tester->getDisplay());
     }
 
     public function testWithUpdateWhenNothingToFixAndUpdate()
