@@ -123,9 +123,6 @@ class FunctionalTest extends TestCase
 
     public function testWithUpdateWhenNothingToFixAndUpdate()
     {
-        file_put_contents(__DIR__ . '/composer.lock', '[]');
-        mkdir(__DIR__ . '/vendor');
-
         $this->doTest(__DIR__ . '/stubs/psr-fixed-updated.json', ['--with-updates' => true], 0);
     }
 

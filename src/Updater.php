@@ -3,7 +3,6 @@
 namespace ComposerJsonFixer;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 class Updater
@@ -25,7 +24,9 @@ class Updater
 
         $this->file->save();
 
-        $this->removeLockAndVendors();
+        $filesystem = new Filesystem();
+        $filesystem->remove($this->file->dir() . '/composer.lock');
+        $filesystem->remove($this->file->dir() . '/vendor');
 
         $data = $this->file->data();
 
@@ -49,23 +50,6 @@ class Updater
 
         $file = new File($this->file->dir());
         $this->file->update($file->data());
-    }
-
-    private function removeLockAndVendors()
-    {
-        $finder = (new Finder())->directories()->in($this->file->dir())->depth(0)->name('vendor');
-        if ($finder->count() === 1) {
-            $iterator = $finder->getIterator();
-            $iterator->rewind();
-            (new Filesystem())->remove($iterator->current()->getRealpath());
-        }
-
-        $finder = (new Finder())->files()->in($this->file->dir())->depth(0)->name('composer.lock');
-        if ($finder->count() === 1) {
-            $iterator = $finder->getIterator();
-            $iterator->rewind();
-            (new Filesystem())->remove($iterator->current()->getRealpath());
-        }
     }
 
     /**
