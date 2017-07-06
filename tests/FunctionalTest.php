@@ -12,6 +12,18 @@ class FunctionalTest extends TestCase
     /** @var ApplicationTester */
     private $tester;
 
+    public static function setUpBeforeClass()
+    {
+        eval(sprintf('
+            namespace Symfony\Component\Process {
+                function proc_open(&...$args)
+                {
+                    return \Tests\ProcOpenMock::call(...$args);
+                }
+            }
+        '));
+    }
+
     protected function setUp()
     {
         $application = new Application();
