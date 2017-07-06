@@ -25,6 +25,8 @@
         "keyword A"
     ],
 
+    "name": "Php/Project",
+
     "repositories": [
         {
             "type" : "composer",
