@@ -4,7 +4,7 @@ namespace Tests;
 
 class ProcOpenMock
 {
-    const COMMAND_PREFIX = "exec 'composer' '";
+    const COMMAND_PREFIX = "'composer' '";
 
     public static function call(&...$args)
     {
