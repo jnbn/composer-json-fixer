@@ -16,7 +16,7 @@ interface PropertyFixer
     /**
      * Apply fix for given value.
      *
-     * @param string|array $value
+     * @param array|string $value
      */
     public function applyFix(&$value);
 }
