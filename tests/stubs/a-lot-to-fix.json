@@ -25,6 +25,8 @@
         "keyword A"
     ],
 
+    "minimum-stability": "stable",
+
     "name": "Php/Project",
 
     "repositories": [
