@@ -22,7 +22,7 @@ class RepositoriesFixer implements PropertyFixer
         $value = array_filter(
             $value,
             function (array $repository) {
-                return 'https://packagist.org' !== $repository['url'];
+                return $repository['url'] !== 'https://packagist.org';
             }
         );
 

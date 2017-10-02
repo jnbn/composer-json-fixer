@@ -105,4 +105,9 @@ return PhpCsFixer\Config::create()
                 'method',
             ],
         ],
+        'yoda_style'                               => [
+            'equal'            => false,
+            'identical'        => false,
+            'less_and_greater' => false,
+        ],
     ]);
