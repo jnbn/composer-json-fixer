@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Application extends \Symfony\Component\Console\Application
 {
-    const VERSION = '1.2.1';
+    const VERSION = '1.2.2';
 
     public function __construct()
     {
