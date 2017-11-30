@@ -16,7 +16,7 @@ class FunctionalTest extends TestCase
     {
         eval(sprintf('
             namespace Symfony\Component\Process {
-                function proc_open(&...$args)
+                function proc_open(...$args)
                 {
                     return \Tests\ProcOpenMock::call(...$args);
                 }

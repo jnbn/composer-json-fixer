@@ -3,7 +3,7 @@
 namespace ComposerJsonFixer;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 
 class Updater
 {
@@ -73,7 +73,7 @@ class Updater
      */
     private function executeComposer($command, array $arguments)
     {
-        $process = (new ProcessBuilder(
+        $process = new Process(
             array_merge(
                 [
                     'composer',
@@ -81,9 +81,9 @@ class Updater
                     '--quiet',
                 ],
                 $arguments
-            )
-        ))
-            ->setWorkingDirectory($this->file->dir())->getProcess();
+            ),
+            $this->file->dir()
+        );
 
         $process->run();
 

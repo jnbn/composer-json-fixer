@@ -4,7 +4,7 @@ namespace ComposerJsonFixer;
 
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Process\ProcessBuilder;
+use Symfony\Component\Process\Process;
 
 class File
 {
@@ -34,15 +34,16 @@ class File
         $iterator->rewind();
         $this->path = $iterator->current()->getRealpath();
 
-        $process = (new ProcessBuilder([
+        $process = new Process(
+            [
                'composer',
                'validate',
                '--no-check-all',
                '--no-check-lock',
                '--no-check-publish',
-            ]))
-            ->setWorkingDirectory($this->dir())
-            ->getProcess();
+            ],
+            $this->dir()
+        );
 
         $process->run();
 
