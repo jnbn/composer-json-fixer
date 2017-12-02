@@ -15,6 +15,7 @@ notifications:
 matrix:
     include:
         - php: '5.6.30'
+          env: COMPOSER_FLAGS="--prefer-lowest"
         - php: '7.0'
         - php: '7.1'
         - php: '7.2'
@@ -23,7 +24,7 @@ before_install:
     - composer self-update --stable
 
 install:
-    - composer install
+    - composer install $COMPOSER_FLAGS
 
 script:
     - vendor/bin/phpcs --report-full --standard=PSR2 src tests
