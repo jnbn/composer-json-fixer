@@ -54,6 +54,11 @@ abstract class AbstractFixerTestCase extends TestCase
         $this->assertTrue($reflection->isFinal());
     }
 
+    final public function testFixerImplementsFixer()
+    {
+        $this->assertInstanceOf(Fixer::class, $this->fixer);
+    }
+
     final public function testFixerTestIsFinal()
     {
         $reflection = new \ReflectionClass($this);
