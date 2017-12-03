@@ -19,6 +19,8 @@ matrix:
         - php: '7.0'
         - php: '7.1'
         - php: '7.2'
+          install: composer require --dev phpstan/phpstan phpstan/phpstan-strict-rules
+          script: vendor/bin/phpstan analyse --configuration=tests/phpstan.neon --level=max src
 
 before_install:
     - composer self-update --stable
