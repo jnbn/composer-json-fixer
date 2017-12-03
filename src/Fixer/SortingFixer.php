@@ -2,8 +2,24 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class SortingFixer implements DeprecatedFixer
+class SortingFixer implements Fixer
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function fix(array $composerJson)
+    {
+        foreach ($composerJson as $name => $value) {
+            if (!$this->isCandidate($name)) {
+                continue;
+            }
+            $this->applyFix($value);
+            $composerJson[$name] = $value;
+        }
+
+        return $composerJson;
+    }
+
     public function isCandidate($property)
     {
         return $property === 'keywords';
