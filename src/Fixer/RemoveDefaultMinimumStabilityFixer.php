@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class RemoveDefaultMinimumStabilityFixer implements PropertyFixer
+class RemoveDefaultMinimumStabilityFixer implements Fixer
 {
     public function isCandidate($property)
     {

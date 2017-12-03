@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class RepositoriesFixer implements PropertyFixer
+class RepositoriesFixer implements Fixer
 {
     const PROPERTIES_ORDER = [
         'type',

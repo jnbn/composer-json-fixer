@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-interface PropertyFixer
+interface Fixer
 {
     /**
      * Check if fixer is a candidate for given property.

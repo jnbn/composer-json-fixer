@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class RequireFixer implements PropertyFixer
+class RequireFixer implements Fixer
 {
     public function isCandidate($property)
     {

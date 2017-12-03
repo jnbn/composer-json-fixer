@@ -3,6 +3,7 @@
 namespace ComposerJsonFixer\Console;
 
 use ComposerJsonFixer\Fixer;
+use ComposerJsonFixer\Runner;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -51,7 +52,7 @@ class Command extends \Symfony\Component\Console\Command\Command
                 ));
             }
 
-            $fixer = new Fixer($input->getArgument(self::PATH));
+            $fixer = new Runner($input->getArgument(self::PATH));
 
             $fixer->fix();
 

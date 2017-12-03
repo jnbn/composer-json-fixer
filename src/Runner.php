@@ -2,10 +2,10 @@
 
 namespace ComposerJsonFixer;
 
-use ComposerJsonFixer\Fixer\PropertyFixer;
+use ComposerJsonFixer\Fixer\Fixer;
 use Symfony\Component\Finder\Finder;
 
-class Fixer
+class Runner
 {
     const PROPERTIES_ORDER = [
         'name',
@@ -105,7 +105,7 @@ class Fixer
     }
 
     /**
-     * @return PropertyFixer[]
+     * @return Fixer[]
      */
     private function propertyFixers()
     {

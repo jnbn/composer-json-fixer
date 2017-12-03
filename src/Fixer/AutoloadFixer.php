@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class AutoloadFixer implements PropertyFixer
+class AutoloadFixer implements Fixer
 {
     const PROPERTIES_ORDER = [
         'psr-0',
