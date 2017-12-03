@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class RepositoriesFixer implements DeprecatedFixer
+final class RepositoriesFixer implements Fixer
 {
     const PROPERTIES_ORDER = [
         'type',
@@ -12,20 +12,35 @@ class RepositoriesFixer implements DeprecatedFixer
         'force-lazy-providers',
     ];
 
-    public function isCandidate($property)
+    /**
+     * {@inheritdoc}
+     */
+    public function fix(array $composerJson)
     {
-        return $property === 'repositories';
+        foreach ($composerJson as $name => $value) {
+            if ($name !== 'repositories') {
+                continue;
+            }
+            $value               = $this->filter($value);
+            $value               = $this->sort($value);
+            $composerJson[$name] = $this->sortRepositories($value);
+        }
+
+        return $composerJson;
     }
 
-    public function applyFix(&$value)
+    private function filter($value)
     {
-        $value = \array_filter(
+        return \array_filter(
             $value,
             function (array $repository) {
                 return $repository['url'] !== 'https://packagist.org';
             }
         );
+    }
 
+    private function sort($value)
+    {
         \usort(
             $value,
             function (array $x, array $y) {
@@ -33,9 +48,13 @@ class RepositoriesFixer implements DeprecatedFixer
             }
         );
 
-        \array_walk(
-            $value,
-            function (array &$repository) {
+        return $value;
+    }
+
+    private function sortRepositories($value)
+    {
+        return \array_map(
+            function (array $repository) {
                 \uksort(
                     $repository,
                     function ($x, $y) {
@@ -43,7 +62,10 @@ class RepositoriesFixer implements DeprecatedFixer
                             - \array_search($y, self::PROPERTIES_ORDER, true);
                     }
                 );
-            }
+
+                return $repository;
+            },
+            $value
         );
     }
 }
