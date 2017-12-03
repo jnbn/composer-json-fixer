@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class SortingFixer implements Fixer
+final class SortingFixer implements Fixer
 {
     /**
      * {@inheritdoc}
@@ -10,23 +10,13 @@ class SortingFixer implements Fixer
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {
-            if (!$this->isCandidate($name)) {
+            if ($name !== 'keywords') {
                 continue;
             }
-            $this->applyFix($value);
+            \sort($value);
             $composerJson[$name] = $value;
         }
 
         return $composerJson;
-    }
-
-    public function isCandidate($property)
-    {
-        return $property === 'keywords';
-    }
-
-    public function applyFix(&$value)
-    {
-        \sort($value);
     }
 }
