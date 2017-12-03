@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class SortingByKeyFixer implements Fixer
+class SortingByKeyFixer implements DeprecatedFixer
 {
     public function isCandidate($property)
     {

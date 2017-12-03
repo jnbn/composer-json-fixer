@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class AutoloadFixer implements Fixer
+class AutoloadFixer implements DeprecatedFixer
 {
     const PROPERTIES_ORDER = [
         'psr-0',

@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer;
 
-use ComposerJsonFixer\Fixer\Fixer;
+use ComposerJsonFixer\Fixer\DeprecatedFixer;
 use Symfony\Component\Finder\Finder;
 
 class Runner
@@ -105,7 +105,7 @@ class Runner
     }
 
     /**
-     * @return Fixer[]
+     * @return DeprecatedFixer[]
      */
     private function propertyFixers()
     {

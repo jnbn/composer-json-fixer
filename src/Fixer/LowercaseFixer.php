@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-final class LowercaseFixer implements Fixer
+final class LowercaseFixer implements DeprecatedFixer
 {
     public function isCandidate($property)
     {

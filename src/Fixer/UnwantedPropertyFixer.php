@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class UnwantedPropertyFixer implements Fixer
+class UnwantedPropertyFixer implements DeprecatedFixer
 {
     public function isCandidate($property)
     {

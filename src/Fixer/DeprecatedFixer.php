@@ -2,7 +2,10 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-interface Fixer
+/**
+ * @deprecated
+ */
+interface DeprecatedFixer
 {
     /**
      * Check if fixer is a candidate for given property.
