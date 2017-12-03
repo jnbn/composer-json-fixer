@@ -7,7 +7,7 @@ namespace Tests\Fixer;
  */
 final class LowercaseFixerTest extends AbstractFixerTestCase
 {
-    public function provideFixingCases()
+    public function provideFixerCases()
     {
         return [
             [

@@ -2,17 +2,20 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class RemoveDefaultMinimumStabilityFixer implements DeprecatedFixer
+final class RemoveDefaultMinimumStabilityFixer implements Fixer
 {
-    public function isCandidate($property)
+    /**
+     * {@inheritdoc}
+     */
+    public function fix(array $composerJson)
     {
-        return $property === 'minimum-stability';
-    }
-
-    public function applyFix(&$value)
-    {
-        if ($value === 'stable') {
-            $value = null;
+        foreach ($composerJson as $name => $value) {
+            if ($name === 'minimum-stability' && $value === 'stable') {
+                unset($composerJson[$name]);
+                break;
+            }
         }
+
+        return $composerJson;
     }
 }

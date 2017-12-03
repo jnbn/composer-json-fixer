@@ -25,12 +25,12 @@ abstract class AbstractFixerTestCase extends TestCase
     }
 
     /**
-     * @dataProvider provideFixingCases
+     * @dataProvider provideFixerCases
      *
      * @param array      $expected
      * @param array|null $input
      */
-    final public function testFixing(array $expected, array $input = null)
+    final public function testFixer(array $expected, array $input = null)
     {
         if ($expected === $input) {
             throw new \InvalidArgumentException('Input parameter must not be equal to expected parameter.');
@@ -45,7 +45,7 @@ abstract class AbstractFixerTestCase extends TestCase
         $this->assertSame($expected, $fixed);
     }
 
-    abstract public function provideFixingCases();
+    abstract public function provideFixerCases();
 
     final public function testFixerIsFinal()
     {
