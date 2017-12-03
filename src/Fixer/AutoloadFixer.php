@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class AutoloadFixer implements DeprecatedFixer
+final class AutoloadFixer implements Fixer
 {
     const PROPERTIES_ORDER = [
         'psr-0',
@@ -12,9 +12,19 @@ class AutoloadFixer implements DeprecatedFixer
         'exclude-from-classmap',
     ];
 
-    public function isCandidate($property)
+    /**
+     * {@inheritdoc}
+     */
+    public function fix(array $composerJson)
     {
-        return $property === 'autoload' || $property === 'autoload-dev';
+        foreach ($composerJson as $name => $value) {
+            if ($name !== 'autoload' && $name !== 'autoload-dev') {
+                continue;
+            }
+            $composerJson[$name] = $this->applyFix($value);
+        }
+
+        return $composerJson;
     }
 
     public function applyFix(&$value)
@@ -37,6 +47,8 @@ class AutoloadFixer implements DeprecatedFixer
                     - \array_search($y, self::PROPERTIES_ORDER, true);
             }
         );
+
+        return $value;
     }
 
     private function isArrayAssociative(array $array)
