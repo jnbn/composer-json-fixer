@@ -25,13 +25,13 @@ class Application extends \Symfony\Component\Console\Application
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         if (!$input->hasParameterOption(['--version', '-V'], true)) {
-            $output->writeln(sprintf('<info>%s</info> <comment>%s</comment>', $this->getName(), $this->getVersion()));
+            $output->writeln(\sprintf('<info>%s</info> <comment>%s</comment>', $this->getName(), $this->getVersion()));
         }
 
         try {
             return parent::doRun($input, $output);
         } catch (\Exception $e) {
-            $output->writeln(sprintf("\n<error>%s</error>\n", $e->getMessage()));
+            $output->writeln(\sprintf("\n<error>%s</error>\n", $e->getMessage()));
             parent::doRun(new ArrayInput(['--help']), $output);
 
             return 2;
@@ -64,6 +64,6 @@ class Application extends \Symfony\Component\Console\Application
      */
     protected function getDefaultCommands()
     {
-        return array_merge(parent::getDefaultCommands(), [new Command()]);
+        return \array_merge(parent::getDefaultCommands(), [new Command()]);
     }
 }

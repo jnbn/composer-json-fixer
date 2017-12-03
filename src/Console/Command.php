@@ -11,12 +11,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Command extends \Symfony\Component\Console\Command\Command
 {
-    const NAME         = 'composer-json-fixer';
+    const NAME = 'composer-json-fixer';
 
     const DRY_RUN      = 'dry-run';
     const WITH_UPDATES = 'with-updates';
 
-    const PATH         = 'path';
+    const PATH = 'path';
 
     protected function configure()
     {
@@ -37,7 +37,7 @@ class Command extends \Symfony\Component\Console\Command\Command
                 self::PATH,
                 InputArgument::OPTIONAL,
                 'Path to directory containing "composer.json" file',
-                getcwd()
+                \getcwd()
             );
     }
 
@@ -45,7 +45,7 @@ class Command extends \Symfony\Component\Console\Command\Command
     {
         try {
             if ($input->getOption(self::DRY_RUN) && $input->getOption(self::WITH_UPDATES)) {
-                throw new \Exception(sprintf(
+                throw new \Exception(\sprintf(
                     'It is impossible to run with both "--%s" and "--%s"',
                     self::DRY_RUN,
                     self::WITH_UPDATES
@@ -77,7 +77,7 @@ class Command extends \Symfony\Component\Console\Command\Command
 
             return 0;
         } catch (\Exception $exception) {
-            $output->writeln(sprintf('Exception was thrown: %s', $exception->getMessage()));
+            $output->writeln(\sprintf('Exception was thrown: %s', $exception->getMessage()));
 
             return 2;
         }

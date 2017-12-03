@@ -27,7 +27,7 @@ class File
         $finder = (new Finder())->files()->in($path)->depth(0)->name('composer.json');
 
         if ($finder->count() === 0) {
-            throw new \Exception(sprintf('File "composer.json" not found in "%s"', $path));
+            throw new \Exception(\sprintf('File "composer.json" not found in "%s"', $path));
         }
 
         $iterator = $finder->getIterator();
@@ -48,13 +48,13 @@ class File
         $process->run();
 
         if ($process->getExitCode() !== 0) {
-            throw new \Exception(sprintf(
+            throw new \Exception(\sprintf(
                 'File "composer.json" did not pass validation: %s',
                 $process->getErrorOutput()
             ));
         }
 
-        $this->originalContent = file_get_contents($this->path);
+        $this->originalContent = \file_get_contents($this->path);
         $this->currentContent  = $this->originalContent;
     }
 
@@ -63,7 +63,7 @@ class File
      */
     public function dir()
     {
-        return dirname($this->path);
+        return \dirname($this->path);
     }
 
     /**
@@ -71,7 +71,7 @@ class File
      */
     public function data()
     {
-        return json_decode($this->currentContent, true);
+        return \json_decode($this->currentContent, true);
     }
 
     /**
@@ -79,7 +79,7 @@ class File
      */
     public function update(array $data)
     {
-        $this->currentContent = json_encode(
+        $this->currentContent = \json_encode(
             $data,
             JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION
         ) . "\n";
@@ -95,7 +95,7 @@ class File
 
     public function save()
     {
-        file_put_contents($this->path, $this->currentContent);
+        \file_put_contents($this->path, $this->currentContent);
     }
 
     /**

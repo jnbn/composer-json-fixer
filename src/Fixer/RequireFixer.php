@@ -11,9 +11,9 @@ class RequireFixer implements DeprecatedFixer
 
     public function applyFix(&$value)
     {
-        $value = array_map(
+        $value = \array_map(
             function ($require) {
-                return trim(preg_replace(
+                return \trim(\preg_replace(
                     [
                         '#\s*\|\|?\s*#',
                         '#\s*,\s*#',

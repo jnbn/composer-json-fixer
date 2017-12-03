@@ -13,7 +13,7 @@ final class LowercaseFixer implements Fixer
             if ($name !== 'name') {
                 continue;
             }
-            $composerJson[$name] = mb_strtolower($value);
+            $composerJson[$name] = \mb_strtolower($value);
         }
 
         return $composerJson;

@@ -11,6 +11,6 @@ class SortingFixer implements DeprecatedFixer
 
     public function applyFix(&$value)
     {
-        sort($value);
+        \sort($value);
     }
 }

@@ -7,6 +7,9 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * @coversNothing
+ */
 class FunctionalTest extends TestCase
 {
     /** @var ApplicationTester */
@@ -14,7 +17,7 @@ class FunctionalTest extends TestCase
 
     public static function setUpBeforeClass()
     {
-        eval(sprintf('
+        eval(\sprintf('
             namespace Symfony\Component\Process {
                 function proc_open(...$args)
                 {
@@ -35,13 +38,13 @@ class FunctionalTest extends TestCase
 
     protected function tearDown()
     {
-        if (file_exists(__DIR__ . '/composer.json')) {
+        if (\file_exists(__DIR__ . '/composer.json')) {
             (new Filesystem())->remove(__DIR__ . '/composer.json');
         }
-        if (file_exists(__DIR__ . '/composer.lock')) {
+        if (\file_exists(__DIR__ . '/composer.lock')) {
             (new Filesystem())->remove(__DIR__ . '/composer.lock');
         }
-        if (is_dir(__DIR__ . '/vendor')) {
+        if (\is_dir(__DIR__ . '/vendor')) {
             (new Filesystem())->remove(__DIR__ . '/vendor');
         }
     }
@@ -64,8 +67,8 @@ class FunctionalTest extends TestCase
     public function testNonExistentOption()
     {
         $this->tester->run([
-            '--non-existent-option'=> true,
-            'path'                 => '',
+            '--non-existent-option' => true,
+            'path'                  => '',
         ]);
 
         $this->assertSame(2, $this->tester->getStatusCode());
@@ -99,11 +102,11 @@ class FunctionalTest extends TestCase
         $original = __DIR__ . '/stubs/a-lot-to-fix.json';
         $tested   = __DIR__ . '/composer.json';
 
-        copy($original, $tested);
+        \copy($original, $tested);
 
         $this->tester->run([
             '--dry-run' => true,
-            'path'      => dirname($tested),
+            'path'      => \dirname($tested),
         ]);
 
         $this->assertSame(1, $this->tester->getStatusCode());
@@ -155,9 +158,9 @@ class FunctionalTest extends TestCase
      */
     private function doTest($path, $options, $statusCode)
     {
-        copy($path, __DIR__ . '/composer.json');
+        \copy($path, __DIR__ . '/composer.json');
 
-        $this->tester->run(array_merge(
+        $this->tester->run(\array_merge(
             $options,
             ['path' => __DIR__]
         ));

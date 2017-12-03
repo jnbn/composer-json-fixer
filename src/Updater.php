@@ -33,7 +33,7 @@ class Updater
         }
 
         if (isset($data['require-dev'])) {
-            $this->executeComposerRequire(array_merge(
+            $this->executeComposerRequire(\array_merge(
                 ['--dev'],
                 $this->preparePackages($data['require-dev'])
             ));
@@ -52,7 +52,7 @@ class Updater
     {
         $this->executeComposer(
             'require',
-            array_merge(
+            \array_merge(
                 [
                     '--no-interaction',
                     '--no-plugins',
@@ -74,7 +74,7 @@ class Updater
     private function executeComposer($command, array $arguments)
     {
         $process = new Process(
-            array_merge(
+            \array_merge(
                 [
                     'composer',
                     $command,
@@ -88,7 +88,7 @@ class Updater
         $process->run();
 
         if ($process->getExitCode() !== 0) {
-            throw new \Exception(sprintf('Command "composer require" failed: %s', $process->getErrorOutput()));
+            throw new \Exception(\sprintf('Command "composer require" failed: %s', $process->getErrorOutput()));
         }
     }
 
@@ -101,7 +101,7 @@ class Updater
     {
         $packages = [];
         foreach ($requires as $name => $version) {
-            if (mb_strpos($name, 'ext-') === 0
+            if (\mb_strpos($name, 'ext-') === 0
                 || $name === 'roave/security-advisories' && $version === 'dev-master') {
                 continue;
             }

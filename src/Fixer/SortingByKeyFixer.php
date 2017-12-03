@@ -11,6 +11,6 @@ class SortingByKeyFixer implements DeprecatedFixer
 
     public function applyFix(&$value)
     {
-        ksort($value);
+        \ksort($value);
     }
 }
