@@ -2,15 +2,20 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class SortingByKeyFixer implements DeprecatedFixer
+final class SortingByKeyFixer implements Fixer
 {
-    public function isCandidate($property)
+    /**
+     * {@inheritdoc}
+     */
+    public function fix(array $composerJson)
     {
-        return $property === 'config';
-    }
+        foreach ($composerJson as $name => &$value) {
+            if ($name !== 'config') {
+                continue;
+            }
+            \ksort($value);
+        }
 
-    public function applyFix(&$value)
-    {
-        \ksort($value);
+        return $composerJson;
     }
 }
