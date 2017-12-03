@@ -2,15 +2,20 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-final class LowercaseFixer implements DeprecatedFixer
+final class LowercaseFixer implements Fixer
 {
-    public function isCandidate($property)
+    /**
+     * {@inheritdoc}
+     */
+    public function fix(array $composerJson)
     {
-        return $property === 'name';
-    }
+        foreach ($composerJson as $name => $value) {
+            if ($name !== 'name') {
+                continue;
+            }
+            $composerJson[$name] = mb_strtolower($value);
+        }
 
-    public function applyFix(&$value)
-    {
-        $value = mb_strtolower($value);
+        return $composerJson;
     }
 }

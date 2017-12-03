@@ -3,6 +3,7 @@
 namespace ComposerJsonFixer;
 
 use ComposerJsonFixer\Fixer\DeprecatedFixer;
+use ComposerJsonFixer\Fixer\Fixer;
 use Symfony\Component\Finder\Finder;
 
 class Runner
@@ -59,11 +60,15 @@ class Runner
         }
 
         foreach ($this->propertyFixers() as $fixer) {
-            foreach ($properties as $name => &$value) {
-                if ($fixer->isCandidate($name)) {
-                    $fixer->applyFix($value);
+            if ($fixer instanceof DeprecatedFixer) {
+                foreach ($properties as $name => &$value) {
+                    if ($fixer->isCandidate($name)) {
+                        $fixer->applyFix($value);
+                    }
                 }
+                continue;
             }
+            $properties = $fixer->fix($properties);
         }
 
         $properties = array_filter(
@@ -105,7 +110,7 @@ class Runner
     }
 
     /**
-     * @return DeprecatedFixer[]
+     * @return Fixer[]
      */
     private function propertyFixers()
     {
