@@ -24,6 +24,33 @@ abstract class AbstractFixerTestCase extends TestCase
         $this->fixer = new $fixerClass();
     }
 
+    final public function testFixerIsFinal()
+    {
+        $fixerReflection = new \ReflectionClass($this->fixer);
+
+        $this->assertTrue($fixerReflection->isFinal());
+    }
+
+    final public function testFixerImplementsFixer()
+    {
+        $this->assertInstanceOf(Fixer::class, $this->fixer);
+    }
+
+    final public function testFixerTestIsFinal()
+    {
+        $reflection = new \ReflectionClass($this);
+
+        $this->assertTrue($reflection->isFinal());
+    }
+
+    final public function testFixerTestCoversCorrectFixer()
+    {
+        $reflection      = new \ReflectionClass($this);
+        $fixerReflection = new \ReflectionClass($this->fixer);
+
+        $this->assertSame($reflection->getShortName(), $fixerReflection->getShortName() . 'Test');
+    }
+
     /**
      * @dataProvider provideFixerCases
      *
@@ -46,23 +73,4 @@ abstract class AbstractFixerTestCase extends TestCase
     }
 
     abstract public function provideFixerCases();
-
-    final public function testFixerIsFinal()
-    {
-        $reflection = new \ReflectionClass($this->fixer);
-
-        $this->assertTrue($reflection->isFinal());
-    }
-
-    final public function testFixerImplementsFixer()
-    {
-        $this->assertInstanceOf(Fixer::class, $this->fixer);
-    }
-
-    final public function testFixerTestIsFinal()
-    {
-        $reflection = new \ReflectionClass($this);
-
-        $this->assertTrue($reflection->isFinal());
-    }
 }
