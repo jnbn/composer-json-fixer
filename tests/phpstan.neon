@@ -1,2 +1,5 @@
 includes:
     - '../vendor/phpstan/phpstan-strict-rules/rules.neon'
+parameters:
+    ignoreErrors:
+        - '/^Parameter #1 \$finder of method PhpCsFixer\\ConfigInterface\:\:setFinder\(\) expects iterable\<string\>, PhpCsFixer\\Finder given\.$/'

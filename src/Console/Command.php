@@ -44,7 +44,7 @@ class Command extends \Symfony\Component\Console\Command\Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            if ($input->getOption(self::DRY_RUN) && $input->getOption(self::WITH_UPDATES)) {
+            if ($input->getOption(self::DRY_RUN) === true && $input->getOption(self::WITH_UPDATES) === true) {
                 throw new \Exception(\sprintf(
                     'It is impossible to run with both "--%s" and "--%s"',
                     self::DRY_RUN,
@@ -56,13 +56,13 @@ class Command extends \Symfony\Component\Console\Command\Command
 
             $fixer->fix();
 
-            if ($input->getOption(self::DRY_RUN) && $fixer->hasAnythingBeenFixed()) {
+            if ($input->getOption(self::DRY_RUN) === true && $fixer->hasAnythingBeenFixed()) {
                 $output->writeln($fixer->diff());
 
                 return 1;
             }
 
-            if ($input->getOption(self::WITH_UPDATES)) {
+            if ($input->getOption(self::WITH_UPDATES) === true) {
                 $fixer->runUpdates();
             }
 
