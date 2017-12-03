@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class RequireFixer implements Fixer
+final class RequireFixer implements Fixer
 {
     /**
      * {@inheritdoc}
@@ -10,24 +10,18 @@ class RequireFixer implements Fixer
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {
-            if (!$this->isCandidate($name)) {
+            if ($name !== 'require' && $name !== 'require-dev') {
                 continue;
             }
-            $this->applyFix($value);
-            $composerJson[$name] = $value;
+            $composerJson[$name] = $this->map($value);
         }
 
         return $composerJson;
     }
 
-    public function isCandidate($property)
+    private function map($value)
     {
-        return $property === 'require' || $property === 'require-dev';
-    }
-
-    public function applyFix(&$value)
-    {
-        $value = \array_map(
+        return \array_map(
             function ($require) {
                 return \trim(\preg_replace(
                     [
