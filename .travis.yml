@@ -19,8 +19,8 @@ matrix:
         - php: '7.0'
         - php: '7.1'
         - php: '7.2'
+          env: RUN_PHPSTAN=true
           install: composer require --dev phpstan/phpstan phpstan/phpstan-strict-rules
-          script: vendor/bin/phpstan analyse --configuration=tests/phpstan.neon --level=max src
 
 before_install:
     - composer self-update --stable
@@ -32,3 +32,4 @@ script:
     - vendor/bin/phpcs --report-full --standard=PSR2 src tests
     - vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run src tests
     - vendor/bin/phpunit -c tests/phpunit.xml
+    - if [[ RUN_PHPSTAN ]]; then vendor/bin/phpstan analyse --configuration=tests/phpstan.neon --level=max src; else exit 0; fi

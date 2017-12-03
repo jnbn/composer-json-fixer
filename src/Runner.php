@@ -81,7 +81,8 @@ class Runner
         \uksort(
             $properties,
             function ($x, $y) {
-                return \array_search($x, self::PROPERTIES_ORDER, true) - \array_search($y, self::PROPERTIES_ORDER, true);
+                return \array_search($x, self::PROPERTIES_ORDER, true)
+                    - \array_search($y, self::PROPERTIES_ORDER, true);
             }
         );
 

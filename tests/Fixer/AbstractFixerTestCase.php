@@ -16,7 +16,7 @@ abstract class AbstractFixerTestCase extends TestCase
         $comment    = $reflection->getDocComment();
 
         if (\preg_match('/@covers\s+(\S+)/', $comment, $matches) !== 1) {
-            throw new \UnexpectedValueException(\sprintf('Test class %s must cover exactly one class.', \get_class($this)));
+            throw new \UnexpectedValueException(\sprintf('Test %s must cover exactly one class.', \get_class($this)));
         }
 
         $fixerClass = $matches[1];
