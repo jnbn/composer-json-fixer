@@ -21,34 +21,32 @@ final class AutoloadFixer implements Fixer
             if ($name !== 'autoload' && $name !== 'autoload-dev') {
                 continue;
             }
-            $composerJson[$name] = $this->applyFix($value);
+            $value = $this->sort($value);
+            $value = \array_map(
+                function (array $autoloads) {
+                    return $this->isArrayAssociative($autoloads)
+                        ? $this->fixAssociativeArray($autoloads)
+                        : $this->fixIndexedArray($autoloads);
+                },
+                $value
+            );
+            $composerJson[$name] = $value;
         }
 
         return $composerJson;
     }
 
-    public function applyFix(&$value)
+    private function sort(array $array)
     {
-        \array_walk(
-            $value,
-            function (array &$autoloads) {
-                if ($this->isArrayAssociative($autoloads)) {
-                    $this->fixAssociativeArray($autoloads);
-                } else {
-                    \sort($autoloads);
-                }
-            }
-        );
-
         \uksort(
-            $value,
+            $array,
             function ($x, $y) {
                 return \array_search($x, self::PROPERTIES_ORDER, true)
                     - \array_search($y, self::PROPERTIES_ORDER, true);
             }
         );
 
-        return $value;
+        return $array;
     }
 
     private function isArrayAssociative(array $array)
@@ -56,7 +54,7 @@ final class AutoloadFixer implements Fixer
         return \count(\array_filter(\array_keys($array), 'is_string')) > 0;
     }
 
-    private function fixAssociativeArray(array &$autoloads)
+    private function fixAssociativeArray(array $autoloads)
     {
         $fixedAutoloads = [];
         foreach ($autoloads as $namespace => $directory) {
@@ -66,6 +64,14 @@ final class AutoloadFixer implements Fixer
             $fixedAutoloads[$namespace] = (\rtrim($directory, '/') . '/');
         }
         \ksort($fixedAutoloads);
-        $autoloads = $fixedAutoloads;
+
+        return $fixedAutoloads;
+    }
+
+    private function fixIndexedArray(array $autoloads)
+    {
+        \sort($autoloads);
+
+        return $autoloads;
     }
 }
