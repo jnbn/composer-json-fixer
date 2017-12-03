@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-class UnwantedPropertyFixer implements Fixer
+final class UnwantedPropertyFixer implements Fixer
 {
     /**
      * {@inheritdoc}
@@ -10,23 +10,12 @@ class UnwantedPropertyFixer implements Fixer
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {
-            if (!$this->isCandidate($name)) {
+            if ($name !== 'version') {
                 continue;
             }
-            $this->applyFix($value);
-            $composerJson[$name] = $value;
+            unset($composerJson[$name]);
         }
 
         return $composerJson;
-    }
-
-    public function isCandidate($property)
-    {
-        return $property === 'version';
-    }
-
-    public function applyFix(&$value)
-    {
-        $value = null;
     }
 }
