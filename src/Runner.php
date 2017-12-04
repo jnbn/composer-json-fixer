@@ -54,10 +54,6 @@ class Runner
     {
         $properties = $this->file->data();
 
-        if (!\array_key_exists('license', $properties)) {
-            $properties['license'] = 'proprietary';
-        }
-
         foreach ($this->fixers() as $fixer) {
             $properties = $fixer->fix($properties);
         }
