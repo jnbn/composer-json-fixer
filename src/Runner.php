@@ -2,9 +2,6 @@
 
 namespace ComposerJsonFixer;
 
-use ComposerJsonFixer\Fixer\Fixer;
-use Symfony\Component\Finder\Finder;
-
 class Runner
 {
     /** @var File */
@@ -20,9 +17,10 @@ class Runner
 
     public function fix()
     {
-        $properties = $this->file->data();
+        $fixerFactory = new FixerFactory();
+        $properties   = $this->file->data();
 
-        foreach ($this->fixers() as $fixer) {
+        foreach ($fixerFactory->fixers() as $fixer) {
             $properties = $fixer->fix($properties);
         }
 
@@ -48,30 +46,5 @@ class Runner
     public function save()
     {
         $this->file->save();
-    }
-
-    /**
-     * @return Fixer[]
-     */
-    private function fixers()
-    {
-        $fixers = [];
-        foreach (Finder::create()->files()->in(__DIR__ . '/Fixer')->name('/.+Fixer.php$/') as $file) {
-            $fixerClass = 'ComposerJsonFixer\\Fixer\\' . $file->getBasename('.php');
-            $fixers[]   = new $fixerClass();
-        }
-
-        \usort(
-            $fixers,
-            function (Fixer $x, Fixer $y) {
-                if ($x->priority() === $y->priority()) {
-                    return \strnatcmp(\get_class($x), \get_class($y));
-                }
-
-                return $x->priority() < $y->priority() ? 1 : -1;
-            }
-        );
-
-        return $fixers;
     }
 }
