@@ -36,6 +36,14 @@ final class AutoloadFixer implements Fixer
         return $composerJson;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function priority()
+    {
+        return 0;
+    }
+
     private function sort(array $array)
     {
         \uksort(

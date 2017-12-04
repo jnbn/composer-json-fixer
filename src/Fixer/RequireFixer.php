@@ -19,6 +19,14 @@ final class RequireFixer implements Fixer
         return $composerJson;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function priority()
+    {
+        return 0;
+    }
+
     private function map($value)
     {
         return \array_map(

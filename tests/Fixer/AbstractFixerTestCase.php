@@ -73,4 +73,15 @@ abstract class AbstractFixerTestCase extends TestCase
     }
 
     abstract public function provideFixerCases();
+
+    final public function testPriority()
+    {
+        switch (\get_class($this->fixer)) {
+            default:
+                $expected = 0;
+                break;
+        }
+
+        $this->assertSame($expected, $this->fixer->priority());
+    }
 }

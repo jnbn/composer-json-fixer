@@ -18,4 +18,12 @@ final class UnwantedPropertyFixer implements Fixer
 
         return $composerJson;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function priority()
+    {
+        return 0;
+    }
 }

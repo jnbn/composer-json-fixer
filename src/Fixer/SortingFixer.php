@@ -19,4 +19,12 @@ final class SortingFixer implements Fixer
 
         return $composerJson;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function priority()
+    {
+        return 0;
+    }
 }

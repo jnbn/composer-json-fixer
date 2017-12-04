@@ -29,6 +29,14 @@ final class RepositoriesFixer implements Fixer
         return $composerJson;
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function priority()
+    {
+        return 0;
+    }
+
     private function filter($value)
     {
         return \array_filter(
