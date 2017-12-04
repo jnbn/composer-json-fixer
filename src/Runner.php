@@ -7,38 +7,6 @@ use Symfony\Component\Finder\Finder;
 
 class Runner
 {
-    const PROPERTIES_ORDER = [
-        'name',
-        'description',
-        'version',
-        'type',
-        'keywords',
-        'homepage',
-        'time',
-        'license',
-        'authors',
-        'support',
-        'require',
-        'require-dev',
-        'conflict',
-        'replace',
-        'provide',
-        'suggest',
-        'autoload',
-        'autoload-dev',
-        'include-path',
-        'target-dir',
-        'minimum-stability',
-        'prefer-stable',
-        'repositories',
-        'config',
-        'scripts',
-        'extra',
-        'bin',
-        'archive',
-        'non-feature-branches',
-    ];
-
     /** @var File */
     private $file;
 
@@ -57,14 +25,6 @@ class Runner
         foreach ($this->fixers() as $fixer) {
             $properties = $fixer->fix($properties);
         }
-
-        \uksort(
-            $properties,
-            function ($x, $y) {
-                return \array_search($x, self::PROPERTIES_ORDER, true)
-                    - \array_search($y, self::PROPERTIES_ORDER, true);
-            }
-        );
 
         $this->file->update($properties);
     }

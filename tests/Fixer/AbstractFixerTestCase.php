@@ -80,6 +80,9 @@ abstract class AbstractFixerTestCase extends TestCase
             case 'ComposerJsonFixer\Fixer\ComposerKeysLowercaseFixer':
                 $expected = 1;
                 break;
+            case 'ComposerJsonFixer\Fixer\ComposerKeysSortingFixer':
+                $expected = -1;
+                break;
             default:
                 $expected = 0;
                 break;
