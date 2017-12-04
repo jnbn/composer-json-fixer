@@ -2,7 +2,6 @@
 
 namespace ComposerJsonFixer\Console;
 
-use ComposerJsonFixer\Fixer;
 use ComposerJsonFixer\Runner;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

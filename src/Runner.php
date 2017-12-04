@@ -62,13 +62,6 @@ class Runner
             $properties = $fixer->fix($properties);
         }
 
-        $properties = \array_filter(
-            $properties,
-            function ($x) {
-                return !empty($x);
-            }
-        );
-
         \uksort(
             $properties,
             function ($x, $y) {
