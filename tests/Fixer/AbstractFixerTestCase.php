@@ -77,6 +77,9 @@ abstract class AbstractFixerTestCase extends TestCase
     final public function testPriority()
     {
         switch (\get_class($this->fixer)) {
+            case 'ComposerJsonFixer\Fixer\ComposerKeysLowercaseFixer':
+                $expected = 1;
+                break;
             default:
                 $expected = 0;
                 break;

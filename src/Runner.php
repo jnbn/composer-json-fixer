@@ -52,13 +52,13 @@ class Runner
 
     public function fix()
     {
-        $properties = \array_change_key_case($this->file->data());
+        $properties = $this->file->data();
 
         if (!\array_key_exists('license', $properties)) {
             $properties['license'] = 'proprietary';
         }
 
-        foreach ($this->propertyFixers() as $fixer) {
+        foreach ($this->fixers() as $fixer) {
             $properties = $fixer->fix($properties);
         }
 
@@ -97,15 +97,24 @@ class Runner
     /**
      * @return Fixer[]
      */
-    private function propertyFixers()
+    private function fixers()
     {
         $fixers = [];
-        foreach ((new Finder())->files()->in(__DIR__ . '/Fixer') as $file) {
+        foreach (Finder::create()->files()->in(__DIR__ . '/Fixer')->name('/.+Fixer.php$/') as $file) {
             $fixerClass = 'ComposerJsonFixer\\Fixer\\' . $file->getBasename('.php');
-            if (\class_exists($fixerClass)) {
-                $fixers[] = new $fixerClass();
-            }
+            $fixers[]   = new $fixerClass();
         }
+
+        \usort(
+            $fixers,
+            function (Fixer $x, Fixer $y) {
+                if ($x->priority() === $y->priority()) {
+                    return \strnatcmp(\get_class($x), \get_class($y));
+                }
+
+                return $x->priority() < $y->priority() ? 1 : -1;
+            }
+        );
 
         return $fixers;
     }
