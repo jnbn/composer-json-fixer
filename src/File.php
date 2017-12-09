@@ -4,7 +4,6 @@ namespace ComposerJsonFixer;
 
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Process\Process;
 
 class File
 {
@@ -34,28 +33,12 @@ class File
         $iterator->rewind();
         $this->path = $iterator->current()->getRealpath();
 
-        $process = new Process(
-            [
-               'composer',
-               'validate',
-               '--no-check-all',
-               '--no-check-lock',
-               '--no-check-publish',
-            ],
-            $this->dir()
-        );
+        $composerWrapper = new ComposerWrapper();
 
-        $process->run();
-
-        if ($process->getExitCode() !== 0) {
-            throw new \Exception(\sprintf(
-                'File "composer.json" did not pass validation: %s',
-                $process->getErrorOutput()
-            ));
-        }
+        $composerWrapper->validate($this->dir());
 
         $this->originalContent = \file_get_contents($this->path);
-        $this->currentContent  = $this->originalContent;
+        $this->currentContent = $this->originalContent;
     }
 
     /**
