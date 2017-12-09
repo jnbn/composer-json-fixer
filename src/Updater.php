@@ -7,12 +7,12 @@ use Symfony\Component\Process\Process;
 
 class Updater
 {
-    /** @var File */
-    private $file;
+    /** @var JsonFile */
+    private $jsonFile;
 
-    public function __construct(File $file)
+    public function __construct(JsonFile $jsonFile)
     {
-        $this->file = $file;
+        $this->jsonFile = $jsonFile;
     }
 
     /**
@@ -23,10 +23,10 @@ class Updater
         $this->executeComposer('self-update', ['--stable']);
 
         $filesystem = new Filesystem();
-        $filesystem->remove($this->file->dir() . '/composer.lock');
-        $filesystem->remove($this->file->dir() . '/vendor');
+        $filesystem->remove($this->jsonFile->directory() . '/composer.lock');
+        $filesystem->remove($this->jsonFile->directory() . '/vendor');
 
-        $data = $this->file->data();
+        $data = $this->jsonFile->data();
 
         if (isset($data['require'])) {
             $this->executeComposerRequire($this->preparePackages($data['require']));
@@ -39,8 +39,8 @@ class Updater
             ));
         }
 
-        $file = new File($this->file->dir());
-        $this->file->update($file->data());
+        $file = new JsonFile($this->jsonFile->directory());
+        $this->jsonFile->update($file->data());
     }
 
     /**
@@ -82,7 +82,7 @@ class Updater
                 ],
                 $arguments
             ),
-            $this->file->dir()
+            $this->jsonFile->directory()
         );
 
         $process->run();

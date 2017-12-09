@@ -116,7 +116,7 @@ class FunctionalTest extends TestCase
     public function testInvalidFile()
     {
         $this->doTest(__DIR__ . '/stubs/invalid-json.json', [], 2);
-        $this->assertContains('File "composer.json" did not pass validation', $this->tester->getDisplay());
+        $this->assertContains('File "composer.json" does not contain valid JSON', $this->tester->getDisplay());
     }
 
     public function testSelfComposer()

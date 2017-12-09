@@ -4,47 +4,50 @@ namespace ComposerJsonFixer;
 
 class Runner
 {
-    /** @var File */
-    private $file;
+    /** @var JsonFile */
+    private $jsonFile;
 
     /**
      * @param string $path
      */
     public function __construct($path)
     {
-        $this->file = new File($path);
+        $this->jsonFile = new JsonFile($path);
+
+        $composerWrapper = new ComposerWrapper();
+        $composerWrapper->validate($this->jsonFile->directory());
     }
 
     public function fix()
     {
         $fixerFactory = new FixerFactory();
-        $properties   = $this->file->data();
+        $properties   = $this->jsonFile->data();
 
         foreach ($fixerFactory->fixers() as $fixer) {
             $properties = $fixer->fix($properties);
         }
 
-        $this->file->update($properties);
+        $this->jsonFile->update($properties);
     }
 
     public function hasAnythingBeenFixed()
     {
-        return $this->file->isModified();
+        return $this->jsonFile->isModified();
     }
 
     public function diff()
     {
-        return $this->file->diff();
+        return $this->jsonFile->diff();
     }
 
     public function runUpdates()
     {
-        $updater = new Updater($this->file);
+        $updater = new Updater($this->jsonFile);
         $updater->update();
     }
 
     public function save()
     {
-        $this->file->save();
+        $this->jsonFile->save();
     }
 }

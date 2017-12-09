@@ -5,7 +5,7 @@ namespace ComposerJsonFixer;
 use SebastianBergmann\Diff\Differ;
 use Symfony\Component\Finder\Finder;
 
-class File
+class JsonFile
 {
     /** @var string */
     private $path;
@@ -23,7 +23,7 @@ class File
      */
     public function __construct($path)
     {
-        $finder = (new Finder())->files()->in($path)->depth(0)->name('composer.json');
+        $finder = Finder::create()->files()->in($path)->depth(0)->name('composer.json');
 
         if ($finder->count() === 0) {
             throw new \Exception(\sprintf('File "composer.json" not found in "%s"', $path));
@@ -31,20 +31,20 @@ class File
 
         $iterator = $finder->getIterator();
         $iterator->rewind();
-        $this->path = $iterator->current()->getRealpath();
-
-        $composerWrapper = new ComposerWrapper();
-
-        $composerWrapper->validate($this->dir());
+        $this->path = $iterator->current()->getPathname();
 
         $this->originalContent = \file_get_contents($this->path);
-        $this->currentContent = $this->originalContent;
+        $this->currentContent  = $this->originalContent;
+
+        if ($this->data() === null) {
+            throw new \Exception('File "composer.json" does not contain valid JSON');
+        }
     }
 
     /**
      * @return string
      */
-    public function dir()
+    public function directory()
     {
         return \dirname($this->path);
     }
