@@ -36,7 +36,8 @@ class JsonFile
         $this->originalContent = \file_get_contents($this->path);
         $this->currentContent  = $this->originalContent;
 
-        if ($this->data() === null) {
+        \json_decode($this->currentContent);
+        if (\json_last_error() !== JSON_ERROR_NONE) {
             throw new \Exception('File "composer.json" does not contain valid JSON');
         }
     }

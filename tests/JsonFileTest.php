@@ -39,11 +39,12 @@ final class JsonFileTest extends TestCase
         $directory = vfsStream::setup();
         vfsStream::newFile('composer.json')
             ->at($directory)
-            ->setContent('{}');
+            ->setContent('{"foo":"bar"}');
 
         $jsonFile = new JsonFile($directory->url());
 
         $this->assertSame($directory->url(), $jsonFile->directory());
+        $this->assertSame(['foo' => 'bar'], $jsonFile->data());
         $this->assertFalse($jsonFile->isModified());
     }
 
