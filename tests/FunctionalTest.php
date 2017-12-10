@@ -49,54 +49,6 @@ class FunctionalTest extends TestCase
         }
     }
 
-    public function testImpossibleToDryRunAndWithUpdate()
-    {
-        $this->tester->run([
-            '--dry-run'      => true,
-            '--with-updates' => true,
-            'directory'      => '',
-        ]);
-
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains(
-            'It is impossible to run with both "--dry-run" and "--with-updates"',
-            $this->tester->getDisplay()
-        );
-    }
-
-    public function testNonExistentOption()
-    {
-        $this->tester->run([
-            '--non-existent-option' => true,
-            'directory'             => '',
-        ]);
-
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains('option does not exist', $this->tester->getDisplay());
-    }
-
-    public function testIncorrectPath()
-    {
-        $path = __DIR__ . '/incorrect/path';
-
-        $this->tester->run([
-            'directory' => $path,
-        ]);
-
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains("The \"$path\" directory does not exist", $this->tester->getDisplay());
-    }
-
-    public function testDirectoryWithoutComposerJson()
-    {
-        $this->tester->run([
-            'directory' => __DIR__,
-        ]);
-
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains('File "composer.json" not found', $this->tester->getDisplay());
-    }
-
     public function testDryRunNotChangingFile()
     {
         $original = __DIR__ . '/stubs/a-lot-to-fix.json';
