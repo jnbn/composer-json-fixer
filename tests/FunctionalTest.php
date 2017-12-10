@@ -49,23 +49,6 @@ class FunctionalTest extends TestCase
         }
     }
 
-    public function testInvalidFile()
-    {
-        $this->doTest(__DIR__ . '/stubs/invalid-json.json', [], 2);
-        $this->assertContains('File "composer.json" does not contain valid JSON', $this->tester->getDisplay());
-    }
-
-    public function testSelfComposer()
-    {
-        $this->doTest(__DIR__ . '/../composer.json', [], 0);
-    }
-
-    public function testFixing()
-    {
-        $this->doTest(__DIR__ . '/stubs/a-lot-to-fix.json', [], 1);
-        $this->assertFileEquals(__DIR__ . '/stubs/a-lot-to-fix-fixed.json', __DIR__ . '/composer.json');
-    }
-
     public function testWithUpdateAndFakeRepository()
     {
         $this->doTest(__DIR__ . '/stubs/fake-require.json', ['--with-updates' => true], 2);
