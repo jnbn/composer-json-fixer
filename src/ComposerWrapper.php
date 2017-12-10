@@ -45,7 +45,7 @@ class ComposerWrapper
         return !empty($this->composer);
     }
 
-    public function validate()
+    public function callValidate()
     {
         if (!$this->isFound()) {
             return;
@@ -69,7 +69,7 @@ class ComposerWrapper
         }
     }
 
-    public function selfUpdate()
+    public function callSelfUpdate()
     {
         $process = new Process(
             \sprintf(
@@ -81,7 +81,7 @@ class ComposerWrapper
         $process->run();
     }
 
-    public function require(array $packages, $isDev = false)
+    public function callRequire(array $packages, $isDev = false)
     {
         $flags = '--no-interaction --no-plugins --no-scripts --sort-packages --update-with-dependencies';
         if ($isDev) {

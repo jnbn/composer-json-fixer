@@ -22,7 +22,7 @@ class Runner
 
     public function fix()
     {
-        $this->composerWrapper->validate();
+        $this->composerWrapper->callValidate();
 
         $fixerFactory = new FixerFactory();
         $properties   = $this->jsonFile->data();

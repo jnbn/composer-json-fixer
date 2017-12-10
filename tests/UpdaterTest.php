@@ -21,8 +21,8 @@ final class UpdaterTest extends TestCase
             ->setContent('{}');
 
         $composerWrapper = $this->createMock(ComposerWrapper::class);
-        $composerWrapper->expects($this->once())->method('selfUpdate');
-        $composerWrapper->expects($this->exactly(2))->method('require')
+        $composerWrapper->expects($this->once())->method('callSelfUpdate');
+        $composerWrapper->expects($this->exactly(2))->method('callRequire')
             ->withConsecutive(
                 [['foo'], false],
                 [['bar'], true]

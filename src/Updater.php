@@ -23,7 +23,7 @@ class Updater
      */
     public function update()
     {
-        $this->composerWrapper->selfUpdate();
+        $this->composerWrapper->callSelfUpdate();
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->jsonFile->directory() . '/composer.lock');
@@ -32,11 +32,11 @@ class Updater
         $data = $this->jsonFile->data();
 
         if (isset($data['require'])) {
-            $this->composerWrapper->require($this->preparePackages($data['require']));
+            $this->composerWrapper->callRequire($this->preparePackages($data['require']));
         }
 
         if (isset($data['require-dev'])) {
-            $this->composerWrapper->require($this->preparePackages($data['require-dev']), true);
+            $this->composerWrapper->callRequire($this->preparePackages($data['require-dev']), true);
         }
 
         $file = new JsonFile($this->jsonFile->directory());
