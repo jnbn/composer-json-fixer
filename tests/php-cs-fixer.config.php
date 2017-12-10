@@ -1,14 +1,14 @@
 <?php
 
-// PHP-CS-Fixer v2.8
+// PHP-CS-Fixer v2.9
 return PhpCsFixer\Config::create()
     ->setUsingCache(false)
     ->setFinder(
         PhpCsFixer\Finder::create()
-             ->files()
-             ->in(__DIR__ . '/../src')
-             ->in(__DIR__ . '/../tests')
-             ->name('*.php')
+            ->files()
+            ->in(__DIR__ . '/../src')
+            ->in(__DIR__ . '/../tests')
+            ->name('*.php')
     )
     ->setRiskyAllowed(true)
     ->setRules([
@@ -37,6 +37,9 @@ return PhpCsFixer\Config::create()
         'declare_equal_normalize' => [
             'space' => 'single',
         ],
+        'explicit_indirect_variable'       => true,
+        'explicit_string_variable'         => true,
+        'final_internal_class'             => true,
         'general_phpdoc_annotation_remove' => [
             'annotations' => [
                 'author',
@@ -69,6 +72,7 @@ return PhpCsFixer\Config::create()
             'ensure_fully_multiline'           => true,
             'keep_multiple_spaces_after_comma' => false,
         ],
+        'method_chaining_indentation'      => true,
         'native_function_invocation'       => true,
         'no_extra_consecutive_blank_lines' => [
             'tokens' => [
@@ -95,6 +99,7 @@ return PhpCsFixer\Config::create()
             'sortAlgorithm' => 'alpha',
         ],
         'php_unit_strict'                     => true,
+        'php_unit_test_annotation'            => true,
         'php_unit_test_class_requires_covers' => true,
         'phpdoc_order'                        => true,
         'phpdoc_types_order'                  => [
@@ -104,6 +109,7 @@ return PhpCsFixer\Config::create()
         'return_type_declaration' => [
             'space_before' => 'one',
         ],
+//        'static_lambda'         => true,
         'strict_comparison'     => true,
         'strict_param'          => true,
         'unary_operator_spaces' => false,

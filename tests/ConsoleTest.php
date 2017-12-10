@@ -65,7 +65,7 @@ final class ConsoleTest extends TestCase
         ]);
 
         $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains("The \"$path\" directory does not exist", $this->tester->getDisplay());
+        $this->assertContains(\sprintf('The "%s" directory does not exist', $path), $this->tester->getDisplay());
     }
 
     public function testDirectoryWithoutComposerJson()

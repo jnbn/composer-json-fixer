@@ -24,7 +24,7 @@
         "symfony/process": "^2.7 || ^3 || ^4"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^2.8",
+        "friendsofphp/php-cs-fixer": "^2.9",
         "mikey179/vfsStream": "^1.6",
         "phpunit/phpunit": "^5.7 || ^6",
         "squizlabs/PHP_CodeSniffer": "^3.1"
