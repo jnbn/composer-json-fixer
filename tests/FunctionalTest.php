@@ -49,22 +49,6 @@ class FunctionalTest extends TestCase
         }
     }
 
-    public function testDryRunNotChangingFile()
-    {
-        $original = __DIR__ . '/stubs/a-lot-to-fix.json';
-        $tested   = __DIR__ . '/composer.json';
-
-        \copy($original, $tested);
-
-        $this->tester->run([
-            '--dry-run' => true,
-            'directory' => \dirname($tested),
-        ]);
-
-        $this->assertSame(1, $this->tester->getStatusCode());
-        $this->assertFileEquals($original, $tested);
-    }
-
     public function testInvalidFile()
     {
         $this->doTest(__DIR__ . '/stubs/invalid-json.json', [], 2);

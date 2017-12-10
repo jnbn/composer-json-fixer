@@ -14,6 +14,8 @@ use Symfony\Component\Console\Tester\ApplicationTester;
  */
 final class ConsoleTest extends TestCase
 {
+    const COMPOSER_JSON_BAD_FORMAT = '{"NaMe":"Foo"}';
+
     /** @var vfsStreamDirectory */
     private $directory;
 
@@ -76,5 +78,21 @@ final class ConsoleTest extends TestCase
 
         $this->assertSame(2, $this->tester->getStatusCode());
         $this->assertContains('File "composer.json" not found', $this->tester->getDisplay());
+    }
+
+    public function testDryRunNotChangingFile()
+    {
+        $composerJson = vfsStream::newFile('composer.json')
+            ->at($this->directory)
+            ->setContent(self::COMPOSER_JSON_BAD_FORMAT);
+
+        $this->tester->run([
+            '--dry-run' => true,
+            'directory' => $this->directory->url(),
+        ]);
+
+        $this->assertSame(1, $this->tester->getStatusCode());
+        $this->assertSame(self::COMPOSER_JSON_BAD_FORMAT, $composerJson->getContent());
+        $this->assertContains('"name": "foo', $this->tester->getDisplay());
     }
 }
