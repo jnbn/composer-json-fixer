@@ -3,16 +3,19 @@
 namespace ComposerJsonFixer;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Process\Process;
 
 class Updater
 {
+    /** @var ComposerWrapper */
+    private $composerWrapper;
+
     /** @var JsonFile */
     private $jsonFile;
 
-    public function __construct(JsonFile $jsonFile)
+    public function __construct(ComposerWrapper $composerWrapper, JsonFile $jsonFile)
     {
-        $this->jsonFile = $jsonFile;
+        $this->composerWrapper = $composerWrapper;
+        $this->jsonFile        = $jsonFile;
     }
 
     /**
@@ -20,7 +23,7 @@ class Updater
      */
     public function update()
     {
-        $this->executeComposer('self-update', ['--stable']);
+        $this->composerWrapper->selfUpdate();
 
         $filesystem = new Filesystem();
         $filesystem->remove($this->jsonFile->directory() . '/composer.lock');
@@ -29,67 +32,15 @@ class Updater
         $data = $this->jsonFile->data();
 
         if (isset($data['require'])) {
-            $this->executeComposerRequire($this->preparePackages($data['require']));
+            $this->composerWrapper->require($this->preparePackages($data['require']));
         }
 
         if (isset($data['require-dev'])) {
-            $this->executeComposerRequire(\array_merge(
-                ['--dev'],
-                $this->preparePackages($data['require-dev'])
-            ));
+            $this->composerWrapper->require($this->preparePackages($data['require-dev']), true);
         }
 
         $file = new JsonFile($this->jsonFile->directory());
         $this->jsonFile->update($file->data());
-    }
-
-    /**
-     * @param array $arguments
-     *
-     * @throws \Exception
-     */
-    private function executeComposerRequire(array $arguments)
-    {
-        $this->executeComposer(
-            'require',
-            \array_merge(
-                [
-                    '--no-interaction',
-                    '--no-plugins',
-                    '--no-scripts',
-                    '--sort-packages',
-                    '--update-with-dependencies',
-                ],
-                $arguments
-            )
-        );
-    }
-
-    /**
-     * @param string $command
-     * @param array  $arguments
-     *
-     * @throws \Exception
-     */
-    private function executeComposer($command, array $arguments)
-    {
-        $process = new Process(
-            \array_merge(
-                [
-                    'composer',
-                    $command,
-                    '--quiet',
-                ],
-                $arguments
-            ),
-            $this->jsonFile->directory()
-        );
-
-        $process->run();
-
-        if ($process->getExitCode() !== 0) {
-            throw new \Exception(\sprintf('Command "composer require" failed: %s', $process->getErrorOutput()));
-        }
     }
 
     /**
@@ -99,15 +50,14 @@ class Updater
      */
     private function preparePackages(array $requires)
     {
-        $packages = [];
-        foreach ($requires as $name => $version) {
-            if (\mb_strpos($name, 'ext-') === 0
-                || $name === 'roave/security-advisories' && $version === 'dev-master') {
-                continue;
-            }
-            $packages[] = $name;
-        }
+        $requires = \array_filter($requires, function ($name) {
+            return \mb_strpos($name, 'ext-') !== 0;
+        }, ARRAY_FILTER_USE_KEY);
 
-        return $packages;
+        $requires = \array_filter($requires, function ($version) {
+            return \mb_strpos($version, 'dev-') !== 0;
+        });
+
+        return \array_keys($requires);
     }
 }

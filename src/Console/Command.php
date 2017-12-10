@@ -2,7 +2,7 @@
 
 namespace ComposerJsonFixer\Console;
 
-use ComposerJsonFixer\Runner;
+use ComposerJsonFixer\RunnerFactory;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,7 +15,7 @@ class Command extends \Symfony\Component\Console\Command\Command
     const DRY_RUN      = 'dry-run';
     const WITH_UPDATES = 'with-updates';
 
-    const PATH = 'path';
+    const DIRECTORY = 'directory';
 
     protected function configure()
     {
@@ -33,9 +33,9 @@ class Command extends \Symfony\Component\Console\Command\Command
                 'Update dependencies with "composer require"'
             )
             ->addArgument(
-                self::PATH,
+                self::DIRECTORY,
                 InputArgument::OPTIONAL,
-                'Path to directory containing "composer.json" file',
+                'Directory containing "composer.json" file',
                 \getcwd()
             );
     }
@@ -51,7 +51,7 @@ class Command extends \Symfony\Component\Console\Command\Command
                 ));
             }
 
-            $fixer = new Runner($input->getArgument(self::PATH));
+            $fixer = RunnerFactory::create($input->getArgument(self::DIRECTORY));
 
             $fixer->fix();
 

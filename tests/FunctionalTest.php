@@ -54,7 +54,7 @@ class FunctionalTest extends TestCase
         $this->tester->run([
             '--dry-run'      => true,
             '--with-updates' => true,
-            'path'           => '',
+            'directory'      => '',
         ]);
 
         $this->assertSame(2, $this->tester->getStatusCode());
@@ -68,7 +68,7 @@ class FunctionalTest extends TestCase
     {
         $this->tester->run([
             '--non-existent-option' => true,
-            'path'                  => '',
+            'directory'             => '',
         ]);
 
         $this->assertSame(2, $this->tester->getStatusCode());
@@ -80,7 +80,7 @@ class FunctionalTest extends TestCase
         $path = __DIR__ . '/incorrect/path';
 
         $this->tester->run([
-            'path' => $path,
+            'directory' => $path,
         ]);
 
         $this->assertSame(2, $this->tester->getStatusCode());
@@ -90,7 +90,7 @@ class FunctionalTest extends TestCase
     public function testDirectoryWithoutComposerJson()
     {
         $this->tester->run([
-            'path' => __DIR__,
+            'directory' => __DIR__,
         ]);
 
         $this->assertSame(2, $this->tester->getStatusCode());
@@ -106,7 +106,7 @@ class FunctionalTest extends TestCase
 
         $this->tester->run([
             '--dry-run' => true,
-            'path'      => \dirname($tested),
+            'directory' => \dirname($tested),
         ]);
 
         $this->assertSame(1, $this->tester->getStatusCode());
@@ -162,7 +162,7 @@ class FunctionalTest extends TestCase
 
         $this->tester->run(\array_merge(
             $options,
-            ['path' => __DIR__]
+            ['directory' => __DIR__]
         ));
 
         $this->assertSame($statusCode, $this->tester->getStatusCode());

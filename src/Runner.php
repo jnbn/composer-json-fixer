@@ -4,22 +4,26 @@ namespace ComposerJsonFixer;
 
 class Runner
 {
+    /** @var ComposerWrapper */
+    private $composerWrapper;
+
     /** @var JsonFile */
     private $jsonFile;
 
-    /**
-     * @param string $path
-     */
-    public function __construct($path)
-    {
-        $this->jsonFile = new JsonFile($path);
+    /** @var Updater */
+    private $updater;
 
-        $composerWrapper = new ComposerWrapper();
-        $composerWrapper->validate($this->jsonFile->directory());
+    public function __construct(ComposerWrapper $composerWrapper, JsonFile $jsonFile, Updater $updater)
+    {
+        $this->composerWrapper = $composerWrapper;
+        $this->jsonFile        = $jsonFile;
+        $this->updater         = $updater;
     }
 
     public function fix()
     {
+        $this->composerWrapper->validate();
+
         $fixerFactory = new FixerFactory();
         $properties   = $this->jsonFile->data();
 
@@ -42,8 +46,7 @@ class Runner
 
     public function runUpdates()
     {
-        $updater = new Updater($this->jsonFile);
-        $updater->update();
+        $this->updater->update();
     }
 
     public function save()
