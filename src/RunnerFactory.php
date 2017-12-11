@@ -11,7 +11,7 @@ class RunnerFactory
      */
     public static function create($directory)
     {
-        $composerWrapper = new ComposerWrapper($directory);
+        $composerWrapper = new ComposerWrapper(new ComposerExecutable(), $directory);
 
         $jsonFile = new JsonFile($directory);
 

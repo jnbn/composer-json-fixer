@@ -10,22 +10,12 @@ use Symfony\Component\Filesystem\Filesystem;
 /**
  * @coversNothing
  */
-class FunctionalTest extends TestCase
+final class FunctionalTest extends TestCase
 {
+    const TMP_DIRECTORY = __DIR__ . '/tmp';
+
     /** @var ApplicationTester */
     private $tester;
-
-    public static function setUpBeforeClass()
-    {
-        eval(\sprintf('
-            namespace Symfony\Component\Process {
-                function proc_open(...$args)
-                {
-                    return \Tests\ProcOpenMock::call(...$args);
-                }
-            }
-        '));
-    }
 
     protected function setUp()
     {
@@ -34,56 +24,83 @@ class FunctionalTest extends TestCase
         $application->setCatchExceptions(false);
 
         $this->tester = new ApplicationTester($application);
+
+        $filesystem = new Filesystem();
+        $filesystem->remove(self::TMP_DIRECTORY);
+        $filesystem->mkdir(self::TMP_DIRECTORY);
     }
 
     protected function tearDown()
     {
-        if (\file_exists(__DIR__ . '/composer.json')) {
-            (new Filesystem())->remove(__DIR__ . '/composer.json');
-        }
-        if (\file_exists(__DIR__ . '/composer.lock')) {
-            (new Filesystem())->remove(__DIR__ . '/composer.lock');
-        }
-        if (\is_dir(__DIR__ . '/vendor')) {
-            (new Filesystem())->remove(__DIR__ . '/vendor');
-        }
-    }
-
-    public function testWithUpdateAndFakeRepository()
-    {
-        $this->doTest(__DIR__ . '/stubs/fake-require.json', ['--with-updates' => true], 2);
-        $this->assertContains('Command "composer require" failed', $this->tester->getDisplay());
-    }
-
-    public function testWithUpdateWhenNothingToFixAndUpdate()
-    {
-        $this->doTest(__DIR__ . '/stubs/psr-fixed-updated.json', ['--with-updates' => true], 0);
-    }
-
-    public function testWithUpdateWhenNothingToFix()
-    {
-        $this->doTest(__DIR__ . '/stubs/psr-fixed-to-update.json', ['--with-updates' => true], 1);
-    }
-
-    public function testWithUpdateWhenNothingToUpdate()
-    {
-        $this->doTest(__DIR__ . '/stubs/psr-to-fix-updated.json', ['--with-updates' => true], 1);
+        $filesystem = new Filesystem();
+        $filesystem->remove(self::TMP_DIRECTORY);
     }
 
     /**
-     * @param string $path
-     * @param array  $options
-     * @param int    $statusCode
+     * @param int    $exitCode
+     * @param string $message
+     * @param array  $json
+     *
+     * @dataProvider provideFixerCases
      */
-    private function doTest($path, $options, $statusCode)
+    public function testFixer($exitCode, $message, array $json)
     {
-        \copy($path, __DIR__ . '/composer.json');
+        \file_put_contents(
+            self::TMP_DIRECTORY . '/composer.json',
+            \json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . "\n"
+        );
 
-        $this->tester->run(\array_merge(
-            $options,
-            ['directory' => __DIR__]
-        ));
+        $this->tester->run([
+            '--with-updates' => true,
+            'directory'      => self::TMP_DIRECTORY,
+        ]);
 
-        $this->assertSame($statusCode, $this->tester->getStatusCode());
+        $this->assertSame($exitCode, $this->tester->getStatusCode());
+        $this->assertContains($message, $this->tester->getDisplay());
+    }
+
+    public function provideFixerCases()
+    {
+        return [
+            'non-existent repository' => [
+                2,
+                'Command "composer require" failed',
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'license'     => 'proprietary',
+                    'require'     => ['vendor/repository' => '*'],
+                ],
+            ],
+            'missing licence and dependency updated' => [
+                1,
+                'File "composer.json" was fixed successfully',
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'require'     => ['psr/log' => '^1.0'],
+                ],
+            ],
+            'dependency not updated' => [
+                1,
+                'File "composer.json" was fixed successfully',
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'license'     => 'proprietary',
+                    'require'     => ['psr/log' => '*'],
+                ],
+            ],
+            'nothing to fix' => [
+                0,
+                'There is nothing to fix',
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'license'     => 'proprietary',
+                    'require'     => ['psr/log' => '^1.0'],
+                ],
+            ],
+        ];
     }
 }
