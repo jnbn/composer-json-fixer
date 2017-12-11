@@ -27,7 +27,12 @@ final class RequireFixer implements Fixer
         return 0;
     }
 
-    private function map($value)
+    /**
+     * @param array $value
+     *
+     * @return array
+     */
+    private function map(array $value)
     {
         return \array_map(
             function ($require) {

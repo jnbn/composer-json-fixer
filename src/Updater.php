@@ -23,6 +23,8 @@ class Updater
      */
     public function update()
     {
+        $this->jsonFile->save();
+
         $this->composerWrapper->callSelfUpdate();
 
         $filesystem = new Filesystem();

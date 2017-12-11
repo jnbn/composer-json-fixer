@@ -44,6 +44,11 @@ final class AutoloadFixer implements Fixer
         return 0;
     }
 
+    /**
+     * @param array $array
+     *
+     * @return array
+     */
     private function sort(array $array)
     {
         \uksort(
@@ -57,11 +62,21 @@ final class AutoloadFixer implements Fixer
         return $array;
     }
 
+    /**
+     * @param array $array
+     *
+     * @return bool
+     */
     private function isArrayAssociative(array $array)
     {
         return \count(\array_filter(\array_keys($array), 'is_string')) > 0;
     }
 
+    /**
+     * @param array $autoloads
+     *
+     * @return array
+     */
     private function fixAssociativeArray(array $autoloads)
     {
         $fixedAutoloads = [];
@@ -76,6 +91,11 @@ final class AutoloadFixer implements Fixer
         return $fixedAutoloads;
     }
 
+    /**
+     * @param array $autoloads
+     *
+     * @return array
+     */
     private function fixIndexedArray(array $autoloads)
     {
         \sort($autoloads);

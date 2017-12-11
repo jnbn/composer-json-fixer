@@ -34,11 +34,17 @@ class Runner
         $this->jsonFile->update($properties);
     }
 
+    /**
+     * @return bool
+     */
     public function hasAnythingBeenFixed()
     {
         return $this->jsonFile->isModified();
     }
 
+    /**
+     * @return string
+     */
     public function diff()
     {
         return $this->jsonFile->diff();

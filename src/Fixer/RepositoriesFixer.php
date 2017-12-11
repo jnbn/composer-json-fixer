@@ -37,7 +37,12 @@ final class RepositoriesFixer implements Fixer
         return 0;
     }
 
-    private function filter($value)
+    /**
+     * @param array $value
+     *
+     * @return array
+     */
+    private function filter(array $value)
     {
         return \array_filter(
             $value,
@@ -47,7 +52,12 @@ final class RepositoriesFixer implements Fixer
         );
     }
 
-    private function sort($value)
+    /**
+     * @param array $value
+     *
+     * @return array
+     */
+    private function sort(array $value)
     {
         \usort(
             $value,
@@ -59,7 +69,12 @@ final class RepositoriesFixer implements Fixer
         return $value;
     }
 
-    private function sortRepositories($value)
+    /**
+     * @param array $value
+     *
+     * @return array
+     */
+    private function sortRepositories(array $value)
     {
         return \array_map(
             function (array $repository) {
