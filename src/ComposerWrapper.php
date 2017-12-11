@@ -2,59 +2,47 @@
 
 namespace ComposerJsonFixer;
 
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Process;
 
 class ComposerWrapper
 {
-    /** @var string */
-    private $composer;
+    /** @var ?string */
+    private $composerExecutable;
 
     /** @var string */
     private $directory;
 
-    public function __construct($directory)
+    /**
+     * @param ComposerExecutable $composerExecutable
+     * @param string             $directory
+     *
+     * @throws \Exception
+     */
+    public function __construct(ComposerExecutable $composerExecutable, $directory)
     {
-        $this->composer  = \trim(\shell_exec('which composer'));
         $this->directory = $directory;
 
-        if (empty($this->composer)) {
-            $finder = Finder::create()->files()->in($directory)->depth(0)->name('composer.phar');
-            if ($finder->count() === 1) {
-                $iterator = $finder->getIterator();
-                $iterator->rewind();
-                $this->composer = PHP_BINDIR . '/php ' . $iterator->current()->getPathname();
-            }
+        $this->composerExecutable = $composerExecutable->tryToGetFromUserPath();
+        if (empty($this->composerExecutable)) {
+            $this->composerExecutable = $composerExecutable->tryToGetLocalComposerPhar($directory);
         }
-
-        if (empty($this->composer)) {
-            $tmpComposer = \sys_get_temp_dir() . '/composer.phar';
-            if (\file_exists($tmpComposer)) {
-                $this->composer = PHP_BINDIR . '/php ' . $tmpComposer;
-            } elseif (\copy('https://getcomposer.org/composer.phar', $tmpComposer)) {
-                $this->composer = PHP_BINDIR . '/php ' . $tmpComposer;
-            }
+        if (empty($this->composerExecutable)) {
+            $this->composerExecutable = $composerExecutable->tryToDownloadComposerPhar();
+        }
+        if (empty($this->composerExecutable)) {
+            throw new \Exception('Please install Composer (or put composer.phar next to composer.json');
         }
     }
 
     /**
-     * @return bool
+     * @throws \Exception
      */
-    public function isFound()
-    {
-        return !empty($this->composer);
-    }
-
     public function callValidate()
     {
-        if (!$this->isFound()) {
-            return;
-        }
-
         $process = new Process(
             \sprintf(
-                '%s validate --no-check-all --no-check-lock --no-check-publish --quiet',
-                $this->composer
+                '%s validate --no-check-all --no-check-lock --quiet',
+                $this->composerExecutable
             ),
             $this->directory
         );
@@ -74,13 +62,19 @@ class ComposerWrapper
         $process = new Process(
             \sprintf(
                 '%s self-update --stable --quiet',
-                $this->composer
+                $this->composerExecutable
             )
         );
 
         $process->run();
     }
 
+    /**
+     * @param array $packages
+     * @param bool  $isDev
+     *
+     * @throws \Exception
+     */
     public function callRequire(array $packages, $isDev = false)
     {
         $flags = '--no-interaction --no-plugins --no-scripts --sort-packages --update-with-dependencies';
@@ -91,7 +85,7 @@ class ComposerWrapper
         $process = new Process(
             \sprintf(
                 '%s require %s %s',
-                $this->composer,
+                $this->composerExecutable,
                 $flags,
                 \implode(' ', $packages)
             ),
