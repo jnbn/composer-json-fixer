@@ -7,9 +7,13 @@ final class RepositoriesFixer implements Fixer
     const PROPERTIES_ORDER = [
         'type',
         'url',
+        'trunk-path',
+        'branches-path',
+        'tags-path',
+        'svn-cache-credentials',
+        'vendor-alias',
+        'package',
         'options',
-        'allow_ssl_downgrade',
-        'force-lazy-providers',
     ];
 
     /**
@@ -30,8 +34,8 @@ final class RepositoriesFixer implements Fixer
                 continue;
             }
             $value               = $this->filter($value);
-            $value               = $this->sort($value);
-            $composerJson[$name] = $this->sortRepositories($value);
+            $value               = $this->sortRepositories($value);
+            $composerJson[$name] = $this->sort($value);
         }
 
         return $composerJson;
@@ -55,7 +59,7 @@ final class RepositoriesFixer implements Fixer
         return \array_filter(
             $value,
             function (array $repository) {
-                return $repository['url'] !== 'https://packagist.org';
+                return !isset($repository['url']) || $repository['url'] !== 'https://packagist.org';
             }
         );
     }
@@ -70,11 +74,25 @@ final class RepositoriesFixer implements Fixer
         \usort(
             $value,
             function (array $x, array $y) {
-                return \strcmp($x['type'] . $x['url'], $y['type'] . $y['url']);
+                return \strcmp($this->implode($x), $this->implode($y));
             }
         );
 
         return $value;
+    }
+
+    /**
+     * @param array|string $value
+     *
+     * @return string
+     */
+    private function implode($value)
+    {
+        return \is_array($value)
+            ? \implode('', \array_map(function ($x) {
+                return $this->implode($x);
+            }, $value))
+            : $value;
     }
 
     /**
