@@ -35,7 +35,7 @@ class ReadmeCommand extends BaseCommand
 [![License](%s/github/license/kubawerlos/composer-json-fixer.svg)](%s)
 [![Build Status](%s/travis/kubawerlos/composer-json-fixer/master.svg)](%s)
 
-A tool for fixing and cleaning up `composer.json` file 
+A tool for fixing and cleaning up `composer.json` file
 according to its [schema](https://getcomposer.org/doc/04-schema.md) and best practices.
 
 ## Installation
@@ -49,6 +49,10 @@ composer require --dev kubawerlos/composer-json-fixer
 ```
 
 ## Usage
+Run and fix:
+```bash
+vendor/bin/composer-json-fixer
+```
 See diff of potential fixes:
 ```bash
 vendor/bin/composer-json-fixer --dry-run
