@@ -7,6 +7,14 @@ final class LicenseFixer implements Fixer
     /**
      * {@inheritdoc}
      */
+    public function description()
+    {
+        return 'adds `license` if it is missing';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fix(array $composerJson)
     {
         if (!\array_key_exists('license', $composerJson)) {

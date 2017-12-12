@@ -51,6 +51,11 @@ abstract class AbstractFixerTestCase extends TestCase
         $this->assertSame($reflection->getShortName(), $fixerReflection->getShortName() . 'Test');
     }
 
+    final public function testFixerDescriptionIsNotEmpty()
+    {
+        $this->assertNotEmpty($this->fixer->description());
+    }
+
     /**
      * @dataProvider provideFixerCases
      *

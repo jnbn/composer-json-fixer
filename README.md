@@ -36,17 +36,17 @@ vendor/bin/composer-json-fixer --with-updates
 
 
 ## Fixers
-- **composer keys lowercase**
-- **autoload**
-- **license**
-- **lowercase**
-- **remove default minimum stability**
-- **repositories**
-- **require**
-- **sorting by key**
-- **sorting**
-- **unwanted property**
-- **composer keys sorting**
+- **composer keys lowercase** - changes all properties names to lower case
+- **autoload** - fixes paths and sorts `autoload` and `autoload-dev`
+- **license** - adds `license` if it is missing
+- **lowercase** - makes package name lowe case
+- **remove default minimum stability** - removes `minimum-stability` if it has default value ("stable")
+- **repositories** - sorts `repositories`
+- **require** - cleans up versions for `require` and `require-dev`
+- **sorting by key** - sorts `config` values by key
+- **sorting by value** - sorts `keywords`
+- **unwanted property** - removes `version` if it is present
+- **composer keys sorting** - sorts properties according to [the documentation](https://getcomposer.org/doc/04-schema.md)
 
 
 ## Contribute

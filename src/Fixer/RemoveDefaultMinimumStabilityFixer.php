@@ -7,6 +7,14 @@ final class RemoveDefaultMinimumStabilityFixer implements Fixer
     /**
      * {@inheritdoc}
      */
+    public function description()
+    {
+        return 'removes `minimum-stability` if it has default value ("stable")';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {

@@ -5,6 +5,13 @@ namespace ComposerJsonFixer\Fixer;
 interface Fixer
 {
     /**
+     * Few words what fixer does.
+     *
+     * @return string
+     */
+    public function description();
+
+    /**
      * Applies fix and returns fixed array of composer.json.
      *
      * @param array $composerJson

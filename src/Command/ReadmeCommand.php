@@ -90,8 +90,9 @@ vendor/bin/composer-json-fixer --with-updates
             $fixerName  = \preg_replace('/(?<!^)[A-Z]/', ' $0', $fixerName);
             $fixerName  = \mb_strtolower($fixerName);
             $output .= \sprintf(
-                "- **%s**\n",
-                $fixerName
+                "- **%s** - %s\n",
+                $fixerName,
+                $fixer->description()
             );
         }
 

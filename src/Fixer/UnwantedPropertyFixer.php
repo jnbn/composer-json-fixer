@@ -7,6 +7,14 @@ final class UnwantedPropertyFixer implements Fixer
     /**
      * {@inheritdoc}
      */
+    public function description()
+    {
+        return 'removes `version` if it is present';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {

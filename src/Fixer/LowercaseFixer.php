@@ -7,6 +7,14 @@ final class LowercaseFixer implements Fixer
     /**
      * {@inheritdoc}
      */
+    public function description()
+    {
+        return 'makes package name lowe case';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {

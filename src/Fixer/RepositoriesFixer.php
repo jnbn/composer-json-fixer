@@ -15,6 +15,14 @@ final class RepositoriesFixer implements Fixer
     /**
      * {@inheritdoc}
      */
+    public function description()
+    {
+        return 'sorts `repositories`';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {

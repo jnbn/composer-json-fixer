@@ -39,6 +39,17 @@ final class ComposerKeysSortingFixer implements Fixer
     /**
      * {@inheritdoc}
      */
+    public function description()
+    {
+        return \sprintf(
+            'sorts properties according to [the documentation](%s)',
+            'https://getcomposer.org/doc/04-schema.md'
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fix(array $composerJson)
     {
         \uksort(

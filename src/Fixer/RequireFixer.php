@@ -7,6 +7,14 @@ final class RequireFixer implements Fixer
     /**
      * {@inheritdoc}
      */
+    public function description()
+    {
+        return 'cleans up versions for `require` and `require-dev`';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {

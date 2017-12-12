@@ -2,8 +2,16 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-final class SortingFixer implements Fixer
+final class SortingByValueFixer implements Fixer
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function description()
+    {
+        return 'sorts `keywords`';
+    }
+
     /**
      * {@inheritdoc}
      */
