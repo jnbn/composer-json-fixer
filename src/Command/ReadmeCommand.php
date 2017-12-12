@@ -9,6 +9,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ReadmeCommand extends BaseCommand
 {
+    const SHIELDS_HOST  = 'https://img.shields.io';
+    const PACKAGIST_URL = 'https://packagist.org/packages/kubawerlos/composer-json-fixer';
+    const TRAVIS_URL    = 'https://travis-ci.org/kubawerlos/composer-json-fixer';
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln($this->header());
@@ -26,19 +30,20 @@ class ReadmeCommand extends BaseCommand
         return \sprintf(
             '# composer.json fixer
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
-[![PHP Version](https://img.shields.io/badge/php-%s-8892BF.svg)](https://php.net)
-[![License](https://img.shields.io/github/license/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
-[![Build Status](https://img.shields.io/travis/kubawerlos/composer-json-fixer/master.svg)](https://travis-ci.org/kubawerlos/composer-json-fixer)
+[![Latest Stable Version](%s/packagist/v/kubawerlos/composer-json-fixer.svg)](%s)
+[![PHP Version](%s/badge/php-%s-8892BF.svg)](https://php.net)
+[![License](%s/github/license/kubawerlos/composer-json-fixer.svg)](%s)
+[![Build Status](%s/travis/kubawerlos/composer-json-fixer/master.svg)](%s)
 
-A tool for fixing and cleaning up `composer.json` file according to its [schema](https://getcomposer.org/doc/04-schema.md) and best practices.
+A tool for fixing and cleaning up `composer.json` file 
+according to its [schema](https://getcomposer.org/doc/04-schema.md) and best practices.
 
 ## Installation
 composer.json fixer can be installed [globally](https://getcomposer.org/doc/03-cli.md#global):
 ```bash
 composer global require kubawerlos/composer-json-fixer
 ```
-or as developing dependency (e.g. to include into CI process):
+or as a dependency (e.g. to include into CI process):
 ```bash
 composer require --dev kubawerlos/composer-json-fixer
 ```
@@ -48,7 +53,7 @@ See diff of potential fixes:
 ```bash
 vendor/bin/composer-json-fixer --dry-run
 ```
-or also update dependencies with `composer require`:
+Update dependencies with `composer require`:
 ```bash
 vendor/bin/composer-json-fixer --with-updates
 ```
@@ -59,8 +64,15 @@ vendor/bin/composer-json-fixer --with-updates
  - `1` - `composer.json` file can be, or was fixed,
  - `2` - exception was thrown.
 ',
-            \rawurlencode($composer->require->php)
-            );
+            self::SHIELDS_HOST,
+            self::PACKAGIST_URL,
+            self::SHIELDS_HOST,
+            \rawurlencode($composer->require->php),
+            self::SHIELDS_HOST,
+            self::PACKAGIST_URL,
+            self::SHIELDS_HOST,
+            self::TRAVIS_URL
+        );
     }
 
     /**
@@ -97,7 +109,7 @@ Request a feature or report a bug by creating [issue](https://github.com/kubawer
 Or fork the repo, develop your changes, make sure all checks pass:
 ```bash
 vendor/bin/phpcs --report-full --standard=PSR2 src tests
-vendor/bin/php-cs-fixer fix --config=tests/.php-cs-fixer.config.php --diff --dry-run src tests
+vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run
 vendor/bin/phpunit -c tests/phpunit.xml
 ```
 and submit a pull request.';
