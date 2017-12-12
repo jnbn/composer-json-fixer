@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests;
+namespace Tests\Command;
 
-use ComposerJsonFixer\Console\Application;
+use ComposerJsonFixer\Command\FixerCommand;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
- * @covers \ComposerJsonFixer\Console\Application
- * @covers \ComposerJsonFixer\Console\Command
+ * @covers \ComposerJsonFixer\Command\FixerCommand
  */
-final class ConsoleTest extends TestCase
+final class FixerCommandTest extends TestCase
 {
     /** @var vfsStreamDirectory */
     private $directory;
@@ -25,20 +25,14 @@ final class ConsoleTest extends TestCase
         $this->directory = vfsStream::setup();
 
         $application = new Application();
+        $command     = new FixerCommand('composer-json-fixer');
+
+        $application->add($command);
+        $application->setDefaultCommand($command->getName(), true);
         $application->setAutoExit(false);
         $application->setCatchExceptions(false);
+
         $this->tester = new ApplicationTester($application);
-    }
-
-    public function testNonExistentOption()
-    {
-        $this->tester->run([
-            '--non-existent-option' => true,
-            'directory'             => $this->directory->url(),
-        ]);
-
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains('option does not exist', $this->tester->getDisplay());
     }
 
     public function testImpossibleToDryRunAndWithUpdate()
@@ -125,7 +119,7 @@ final class ConsoleTest extends TestCase
     public function testSelfComposer()
     {
         $this->tester->run([
-            'directory' => __DIR__ . '/..',
+            'directory' => __DIR__ . '/../..',
         ]);
 
         $this->assertSame(0, $this->tester->getStatusCode());

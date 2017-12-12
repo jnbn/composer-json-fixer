@@ -1,16 +1,17 @@
 <?php
 
-namespace ComposerJsonFixer\Console;
+namespace ComposerJsonFixer\Command;
 
 use ComposerJsonFixer\RunnerFactory;
+use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Command extends \Symfony\Component\Console\Command\Command
+class FixerCommand extends BaseCommand
 {
-    const NAME = 'composer-json-fixer';
+    const VERSION = '1.2.2';
 
     const DRY_RUN      = 'dry-run';
     const WITH_UPDATES = 'with-updates';
@@ -19,7 +20,7 @@ class Command extends \Symfony\Component\Console\Command\Command
 
     protected function configure()
     {
-        $this->setName(self::NAME)
+        $this
             ->addOption(
                 self::DRY_RUN,
                 'd',
@@ -42,6 +43,8 @@ class Command extends \Symfony\Component\Console\Command\Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln(\sprintf('<info>%s</info> <comment>%s</comment>', $this->getName(), self::VERSION));
+
         try {
             if ($input->getOption(self::DRY_RUN) === true && $input->getOption(self::WITH_UPDATES) === true) {
                 throw new \Exception(\sprintf(

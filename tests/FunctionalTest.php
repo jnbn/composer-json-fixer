@@ -2,8 +2,9 @@
 
 namespace Tests;
 
-use ComposerJsonFixer\Console\Application;
+use ComposerJsonFixer\Command\FixerCommand;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -20,6 +21,10 @@ final class FunctionalTest extends TestCase
     protected function setUp()
     {
         $application = new Application();
+        $command     = new FixerCommand('composer-json-fixer');
+
+        $application->add($command);
+        $application->setDefaultCommand($command->getName(), true);
         $application->setAutoExit(false);
         $application->setCatchExceptions(false);
 
