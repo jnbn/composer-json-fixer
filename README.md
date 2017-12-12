@@ -1,7 +1,7 @@
 # composer.json fixer
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D%205.6.6-8892BF.svg)](https://php.net)
+[![PHP Version](https://img.shields.io/badge/php-%3E%3D5.6.6-8892BF.svg)](https://php.net)
 [![License](https://img.shields.io/github/license/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
 [![Build Status](https://img.shields.io/travis/kubawerlos/composer-json-fixer/master.svg)](https://travis-ci.org/kubawerlos/composer-json-fixer)
 
@@ -32,6 +32,20 @@ vendor/bin/composer-json-fixer --with-updates
  - `0` - `composer.json` file does not require fixing,
  - `1` - `composer.json` file can be, or was fixed,
  - `2` - exception was thrown.
+
+
+## Fixers
+- **composer keys lowercase**
+- **autoload**
+- **license**
+- **lowercase**
+- **remove default minimum stability**
+- **repositories**
+- **require**
+- **sorting by key**
+- **sorting**
+- **unwanted property**
+- **composer keys sorting**
 
 
 ## Contribute
