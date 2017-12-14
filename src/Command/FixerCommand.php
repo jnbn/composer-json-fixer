@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixerCommand extends BaseCommand
 {
-    const VERSION = '1.2.2';
+    const VERSION = '1.3.0';
 
     const DRY_RUN      = 'dry-run';
     const WITH_UPDATES = 'with-updates';

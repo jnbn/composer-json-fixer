@@ -61,12 +61,6 @@ Update dependencies with `composer require`:
 ```bash
 vendor/bin/composer-json-fixer --with-updates
 ```
-
-
-## Exit status
- - `0` - `composer.json` file does not require fixing,
- - `1` - `composer.json` file can be, or was fixed,
- - `2` - exception was thrown.
 ',
             self::SHIELDS_HOST,
             self::PACKAGIST_URL,
@@ -108,10 +102,16 @@ vendor/bin/composer-json-fixer --with-updates
      */
     private function footer()
     {
-        return '## Contribute
+        return '## Exit status
+ - `0` - `composer.json` file does not require fixing,
+ - `1` - `composer.json` file can be, or was fixed,
+ - `2` - exception was thrown.
+
+
+## Contributing
 Request a feature or report a bug by creating [issue](https://github.com/kubawerlos/composer-json-fixer/issues).
 
-Or fork the repo, develop your changes, make sure all checks pass:
+Alternatively, fork the repo, develop your changes, make sure all checks pass:
 ```bash
 vendor/bin/phpcs --report-full --standard=PSR2 src tests
 vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run
