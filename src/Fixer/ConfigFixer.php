@@ -2,14 +2,14 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-final class LowercaseFixer implements Fixer
+final class ConfigFixer implements Fixer
 {
     /**
      * {@inheritdoc}
      */
     public function description()
     {
-        return 'makes package name lowe case';
+        return 'sorts `config` by key';
     }
 
     /**
@@ -17,11 +17,11 @@ final class LowercaseFixer implements Fixer
      */
     public function fix(array $composerJson)
     {
-        foreach ($composerJson as $name => $value) {
-            if ($name !== 'name') {
+        foreach ($composerJson as $name => &$value) {
+            if ($name !== 'config') {
                 continue;
             }
-            $composerJson[$name] = \mb_strtolower($value);
+            \ksort($value);
         }
 
         return $composerJson;

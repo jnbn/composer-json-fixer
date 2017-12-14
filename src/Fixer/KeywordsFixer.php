@@ -2,14 +2,14 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-final class RemoveDefaultMinimumStabilityFixer implements Fixer
+final class KeywordsFixer implements Fixer
 {
     /**
      * {@inheritdoc}
      */
     public function description()
     {
-        return 'removes `minimum-stability` if it has default value ("stable")';
+        return 'sorts `keywords` by value';
     }
 
     /**
@@ -18,10 +18,11 @@ final class RemoveDefaultMinimumStabilityFixer implements Fixer
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {
-            if ($name === 'minimum-stability' && $value === 'stable') {
-                unset($composerJson[$name]);
-                break;
+            if ($name !== 'keywords') {
+                continue;
             }
+            \sort($value);
+            $composerJson[$name] = $value;
         }
 
         return $composerJson;

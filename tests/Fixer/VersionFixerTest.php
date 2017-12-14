@@ -3,9 +3,9 @@
 namespace Tests\Fixer;
 
 /**
- * @covers \ComposerJsonFixer\Fixer\UnwantedPropertyFixer
+ * @covers \ComposerJsonFixer\Fixer\VersionFixer
  */
-final class UnwantedPropertyFixerTest extends AbstractFixerTestCase
+final class VersionFixerTest extends AbstractFixerTestCase
 {
     public function provideFixerCases()
     {

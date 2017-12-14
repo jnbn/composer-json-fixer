@@ -2,14 +2,14 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-final class SortingByValueFixer implements Fixer
+final class VersionFixer implements Fixer
 {
     /**
      * {@inheritdoc}
      */
     public function description()
     {
-        return 'sorts `keywords`';
+        return 'removes `version` if it is present';
     }
 
     /**
@@ -18,11 +18,10 @@ final class SortingByValueFixer implements Fixer
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {
-            if ($name !== 'keywords') {
+            if ($name !== 'version') {
                 continue;
             }
-            \sort($value);
-            $composerJson[$name] = $value;
+            unset($composerJson[$name]);
         }
 
         return $composerJson;

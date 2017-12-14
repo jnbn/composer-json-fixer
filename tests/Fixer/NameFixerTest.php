@@ -3,9 +3,9 @@
 namespace Tests\Fixer;
 
 /**
- * @covers \ComposerJsonFixer\Fixer\LowercaseFixer
+ * @covers \ComposerJsonFixer\Fixer\NameFixer
  */
-final class LowercaseFixerTest extends AbstractFixerTestCase
+final class NameFixerTest extends AbstractFixerTestCase
 {
     public function provideFixerCases()
     {

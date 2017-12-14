@@ -2,14 +2,14 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-final class SortingByKeyFixer implements Fixer
+final class NameFixer implements Fixer
 {
     /**
      * {@inheritdoc}
      */
     public function description()
     {
-        return 'sorts `config` values by key';
+        return 'makes package name lowercase';
     }
 
     /**
@@ -17,11 +17,11 @@ final class SortingByKeyFixer implements Fixer
      */
     public function fix(array $composerJson)
     {
-        foreach ($composerJson as $name => &$value) {
-            if ($name !== 'config') {
+        foreach ($composerJson as $name => $value) {
+            if ($name !== 'name') {
                 continue;
             }
-            \ksort($value);
+            $composerJson[$name] = \mb_strtolower($value);
         }
 
         return $composerJson;

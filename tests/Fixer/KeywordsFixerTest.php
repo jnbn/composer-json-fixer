@@ -3,9 +3,9 @@
 namespace Tests\Fixer;
 
 /**
- * @covers \ComposerJsonFixer\Fixer\SortingByValueFixer
+ * @covers \ComposerJsonFixer\Fixer\KeywordsFixer
  */
-final class SortingByValueFixerTest extends AbstractFixerTestCase
+final class KeywordsFixerTest extends AbstractFixerTestCase
 {
     public function provideFixerCases()
     {

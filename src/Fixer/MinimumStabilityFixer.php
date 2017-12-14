@@ -2,14 +2,14 @@
 
 namespace ComposerJsonFixer\Fixer;
 
-final class UnwantedPropertyFixer implements Fixer
+final class MinimumStabilityFixer implements Fixer
 {
     /**
      * {@inheritdoc}
      */
     public function description()
     {
-        return 'removes `version` if it is present';
+        return 'removes `minimum-stability` if it has default value ("stable")';
     }
 
     /**
@@ -18,10 +18,10 @@ final class UnwantedPropertyFixer implements Fixer
     public function fix(array $composerJson)
     {
         foreach ($composerJson as $name => $value) {
-            if ($name !== 'version') {
-                continue;
+            if ($name === 'minimum-stability' && $value === 'stable') {
+                unset($composerJson[$name]);
+                break;
             }
-            unset($composerJson[$name]);
         }
 
         return $composerJson;

@@ -9,7 +9,7 @@ final class ComposerKeysLowercaseFixer implements Fixer
      */
     public function description()
     {
-        return 'changes all properties names to lower case';
+        return 'changes names of properties to lowercase';
     }
 
     /**

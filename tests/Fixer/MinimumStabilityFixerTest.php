@@ -3,9 +3,9 @@
 namespace Tests\Fixer;
 
 /**
- * @covers \ComposerJsonFixer\Fixer\RemoveDefaultMinimumStabilityFixer
+ * @covers \ComposerJsonFixer\Fixer\MinimumStabilityFixer
  */
-final class RemoveDefaultMinimumStabilityFixerTest extends AbstractFixerTestCase
+final class MinimumStabilityFixerTest extends AbstractFixerTestCase
 {
     public function provideFixerCases()
     {
