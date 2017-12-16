@@ -52,11 +52,11 @@ class Updater
      */
     private function preparePackages(array $requires)
     {
-        $requires = \array_filter($requires, function ($name) {
+        $requires = \array_filter($requires, static function ($name) {
             return \mb_strpos($name, 'ext-') !== 0;
         }, ARRAY_FILTER_USE_KEY);
 
-        $requires = \array_filter($requires, function ($version) {
+        $requires = \array_filter($requires, static function ($version) {
             return \mb_strpos($version, 'dev-') !== 0;
         });
 

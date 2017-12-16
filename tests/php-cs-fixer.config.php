@@ -109,7 +109,7 @@ return PhpCsFixer\Config::create()
         'return_type_declaration' => [
             'space_before' => 'one',
         ],
-//        'static_lambda'         => true,
+        'static_lambda'         => true,
         'strict_comparison'     => true,
         'strict_param'          => true,
         'unary_operator_spaces' => false,

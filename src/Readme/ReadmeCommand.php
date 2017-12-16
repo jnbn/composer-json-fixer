@@ -217,7 +217,7 @@ and submit a pull request.',
 
         return \array_filter(
             $yaml['script'],
-            function ($script) {
+            static function ($script) {
                 return \mb_strpos($script, 'vendor/bin') === 0;
             }
         );
