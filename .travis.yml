@@ -30,6 +30,6 @@ install:
 
 script:
     - vendor/bin/phpcs --report-full --standard=PSR2 src tests
-    - vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run src tests
+    - vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run
     - vendor/bin/phpunit -c tests/phpunit.xml
     - if [[ $RUN_PHPSTAN ]]; then vendor/bin/phpstan analyse --configuration=tests/phpstan.neon --level=max src; else exit 0; fi

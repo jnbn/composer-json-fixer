@@ -6,6 +6,7 @@ use ComposerJsonFixer\FixerFactory;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class ReadmeCommand extends BaseCommand
 {
@@ -102,7 +103,8 @@ vendor/bin/composer-json-fixer --with-updates
      */
     private function footer()
     {
-        return '## Exit status
+        return \sprintf(
+            '## Exit status
  - `0` - `composer.json` file does not require fixing,
  - `1` - `composer.json` file can be, or was fixed,
  - `2` - exception was thrown.
@@ -113,10 +115,25 @@ Request a feature or report a bug by creating [issue](https://github.com/kubawer
 
 Alternatively, fork the repo, develop your changes, make sure all checks pass:
 ```bash
-vendor/bin/phpcs --report-full --standard=PSR2 src tests
-vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run
-vendor/bin/phpunit -c tests/phpunit.xml
+%s
 ```
-and submit a pull request.';
+and submit a pull request.',
+            \implode("\n", $this->travisScripts())
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function travisScripts()
+    {
+        $yaml = Yaml::parse(\file_get_contents(__DIR__ . '/../../.travis.yml'));
+
+        return \array_filter(
+            $yaml['script'],
+            function ($script) {
+                return \mb_strpos($script, 'vendor/bin') === 0;
+            }
+        );
     }
 }
