@@ -1,14 +1,14 @@
 <?php
 
-namespace Tests\Command;
+namespace Tests\Readme;
 
-use ComposerJsonFixer\Command\ReadmeCommand;
+use ComposerJsonFixer\Readme\ReadmeCommand;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\ApplicationTester;
 
 /**
- * @covers \ComposerJsonFixer\Command\ReadmeCommand
+ * @covers \ComposerJsonFixer\Readme\ReadmeCommand
  */
 final class ReadmeCommandTest extends TestCase
 {
