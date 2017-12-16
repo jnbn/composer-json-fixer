@@ -50,6 +50,62 @@ vendor/bin/composer-json-fixer --with-updates
 - **composer keys sorting** - sorts properties according to [the documentation](https://getcomposer.org/doc/04-schema.md)
 
 
+## Example
+Before running `composer-json-fixer`:
+```json
+{
+    "name": "JohnDoe/FooBar",
+    "version": "v1.0.0",
+    "type": "library",
+    "description": "A library to do something cool",
+    "keywords": [
+        "cool",
+        "awesome stuff"
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^5.7 | ^6.5"
+    },
+    "require": {
+        "symfony/finder": "^2.7|^3.4|^4",
+        "symfony/yaml": ">= 2.7"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "FooBar": "src"
+        }
+    }
+}
+
+```
+After:
+```json
+{
+    "name": "johndoe/foobar",
+    "description": "A library to do something cool",
+    "type": "library",
+    "keywords": [
+        "awesome stuff",
+        "cool"
+    ],
+    "license": "proprietary",
+    "require": {
+        "symfony/finder": "^2.7 || ^3.4 || ^4",
+        "symfony/yaml": ">=2.7"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7 || ^6.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "FooBar\\": "src/"
+        }
+    }
+}
+
+```
+
+
 ## Exit status
  - `0` - `composer.json` file does not require fixing,
  - `1` - `composer.json` file can be, or was fixed,

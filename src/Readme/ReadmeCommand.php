@@ -2,10 +2,14 @@
 
 namespace ComposerJsonFixer\Readme;
 
+use ComposerJsonFixer\Command\FixerCommand;
 use ComposerJsonFixer\FixerFactory;
+use org\bovigo\vfs\vfsStream;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Tester\ApplicationTester;
 use Symfony\Component\Yaml\Yaml;
 
 class ReadmeCommand extends BaseCommand
@@ -22,6 +26,7 @@ class ReadmeCommand extends BaseCommand
         $output->writeln($this->installation());
         $output->writeln($this->usage());
         $output->writeln($this->fixers());
+        $output->writeln($this->example());
         $output->writeln($this->exitStatus());
         $output->writeln($this->contributing());
     }
@@ -124,6 +129,47 @@ vendor/bin/composer-json-fixer --with-updates
         }
 
         return $output;
+    }
+
+    /**
+     * @return string
+     */
+    private function example()
+    {
+        $application = new Application();
+        $command     = new FixerCommand('composer-json-fixer');
+
+        $application->add($command);
+        $application->setDefaultCommand($command->getName(), true);
+        $application->setAutoExit(false);
+        $application->setCatchExceptions(false);
+
+        $tester = new ApplicationTester($application);
+
+        $jsonBeforeFixing = \file_get_contents(__DIR__ . '/example.json');
+
+        $directory    = vfsStream::setup();
+        $composerJson = vfsStream::newFile('composer.json')
+            ->at($directory)
+            ->setContent($jsonBeforeFixing);
+
+        $tester->run(['directory' => $directory->url()]);
+
+        return \sprintf(
+            '
+## Example
+Before running `composer-json-fixer`:
+```json
+%s
+```
+After:
+```json
+%s
+```
+',
+            $jsonBeforeFixing,
+            $composerJson->getContent()
+        );
     }
 
     /**
