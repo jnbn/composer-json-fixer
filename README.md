@@ -124,6 +124,6 @@ make sure all checks pass:
 vendor/bin/phpcs --report-full --standard=PSR2 src tests
 vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run
 vendor/bin/types-checker src tests
-vendor/bin/phpunit -c tests/phpunit.xml
+vendor/bin/phpunit --configuration=tests/phpunit.xml
 ```
 and submit a pull request.
