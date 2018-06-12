@@ -16,13 +16,15 @@ use Symfony\Component\Yaml\Yaml;
 
 class ReadmeCommand extends BaseCommand
 {
+    private const NAME = 'composer.json fixer';
+
     private const SHIELDS_HOST  = 'https://img.shields.io';
     private const PACKAGIST_URL = 'https://packagist.org/packages/kubawerlos/composer-json-fixer';
     private const TRAVIS_URL    = 'https://travis-ci.org/kubawerlos/composer-json-fixer';
 
     protected function execute(InputInterface $input, OutputInterface $output) : void
     {
-        $output->writeln('# composer.json fixer');
+        $output->writeln(\sprintf('# %s', self::NAME));
         $output->writeln($this->badges());
         $output->writeln($this->description());
         $output->writeln($this->installation());
@@ -35,8 +37,6 @@ class ReadmeCommand extends BaseCommand
 
     private function badges() : string
     {
-        $composer = \json_decode(\file_get_contents(__DIR__ . '/../../composer.json'));
-
         return \sprintf(
             '
 [![Latest Stable Version](%s/packagist/v/kubawerlos/composer-json-fixer.svg)](%s)
@@ -47,7 +47,7 @@ class ReadmeCommand extends BaseCommand
             self::SHIELDS_HOST,
             self::PACKAGIST_URL,
             self::SHIELDS_HOST,
-            \rawurlencode($composer->require->php),
+            \rawurlencode($this->composer()->require->php),
             self::SHIELDS_HOST,
             self::PACKAGIST_URL,
             self::SHIELDS_HOST,
@@ -65,17 +65,22 @@ according to its [schema](https://getcomposer.org/doc/04-schema.md) and best pra
 
     private function installation() : string
     {
-        return '
+        return \sprintf(
+            '
 ## Installation
-composer.json fixer can be installed [globally](https://getcomposer.org/doc/03-cli.md#global):
+%s can be installed [globally](https://getcomposer.org/doc/03-cli.md#global):
 ```bash
-composer global require kubawerlos/composer-json-fixer
+composer global require %s
 ```
 or as a dependency (e.g. to include into CI process):
 ```bash
-composer require --dev kubawerlos/composer-json-fixer
+composer require --dev %s
 ```
-';
+',
+            self::NAME,
+            $this->composer()->name,
+            $this->composer()->name
+        );
     }
 
     private function usage() : string
@@ -190,11 +195,23 @@ and submit a pull request.',
     {
         $yaml = Yaml::parse(\file_get_contents(__DIR__ . '/../../.travis.yml'));
 
-        return \array_filter(
+        $scripts = \array_filter(
             $yaml['script'],
             static function ($script) {
                 return \mb_strpos($script, 'vendor/bin') === 0;
             }
         );
+
+        return \array_map(
+            static function (string $script) : string {
+                return \rtrim($script, '$COVERAGE');
+            },
+            $scripts
+        );
+    }
+
+    private function composer() : \stdClass
+    {
+        return \json_decode(\file_get_contents(__DIR__ . '/../../composer.json'));
     }
 }
