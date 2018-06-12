@@ -9,7 +9,7 @@ namespace Tests\Fixer;
  */
 final class ConfigFixerTest extends AbstractFixerTestCase
 {
-    public function provideFixerCases()
+    public function provideFixerCases() : array
     {
         return [
             [

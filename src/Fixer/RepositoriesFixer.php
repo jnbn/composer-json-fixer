@@ -18,18 +18,12 @@ final class RepositoriesFixer implements Fixer
         'options',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return 'sorts `repositories`';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         foreach ($composerJson as $name => $value) {
             if ($name !== 'repositories') {
@@ -43,20 +37,12 @@ final class RepositoriesFixer implements Fixer
         return $composerJson;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return 0;
     }
 
-    /**
-     * @param array $value
-     *
-     * @return array
-     */
-    private function filter(array $value)
+    private function filter(array $value) : array
     {
         return \array_filter(
             $value,
@@ -66,43 +52,19 @@ final class RepositoriesFixer implements Fixer
         );
     }
 
-    /**
-     * @param array $value
-     *
-     * @return array
-     */
-    private function sort(array $value)
+    private function sort(array $value) : array
     {
         \usort(
             $value,
-            function (array $x, array $y) {
-                return \strcmp($this->implode($x), $this->implode($y));
+            static function (array $x, array $y) {
+                return \strcmp(\json_encode($x), \json_encode($y));
             }
         );
 
         return $value;
     }
 
-    /**
-     * @param array|string $value
-     *
-     * @return string
-     */
-    private function implode($value)
-    {
-        return \is_array($value)
-            ? \implode('', \array_map(function ($x) {
-                return $this->implode($x);
-            }, $value))
-            : $value;
-    }
-
-    /**
-     * @param array $value
-     *
-     * @return array
-     */
-    private function sortRepositories(array $value)
+    private function sortRepositories(array $value) : array
     {
         return \array_map(
             static function (array $repository) {

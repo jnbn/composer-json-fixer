@@ -6,18 +6,12 @@ namespace ComposerJsonFixer\Fixer;
 
 final class RequireFixer implements Fixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return 'cleans up versions for `require` and `require-dev`';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         foreach ($composerJson as $name => $value) {
             if ($name !== 'require' && $name !== 'require-dev') {
@@ -29,20 +23,12 @@ final class RequireFixer implements Fixer
         return $composerJson;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return 0;
     }
 
-    /**
-     * @param array $value
-     *
-     * @return array
-     */
-    private function map(array $value)
+    private function map(array $value) : array
     {
         return \array_map(
             static function ($require) {

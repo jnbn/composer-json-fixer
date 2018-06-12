@@ -6,18 +6,12 @@ namespace ComposerJsonFixer\Fixer;
 
 final class ConfigFixer implements Fixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return 'sorts `config` by key';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         foreach ($composerJson as $name => &$value) {
             if ($name !== 'config') {
@@ -29,10 +23,7 @@ final class ConfigFixer implements Fixer
         return $composerJson;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return 0;
     }

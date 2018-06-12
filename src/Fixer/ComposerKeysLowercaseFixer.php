@@ -6,26 +6,17 @@ namespace ComposerJsonFixer\Fixer;
 
 final class ComposerKeysLowercaseFixer implements Fixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return 'changes names of properties to lowercase';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         return \array_change_key_case($composerJson);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return 1;
     }

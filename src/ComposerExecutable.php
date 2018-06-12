@@ -9,20 +9,12 @@ use Symfony\Component\Finder\Finder;
 
 class ComposerExecutable
 {
-    /**
-     * @return string
-     */
-    public function tryToGetFromUserPath()
+    public function tryToGetFromUserPath() : string
     {
         return \trim(\shell_exec('which composer'));
     }
 
-    /**
-     * @param string $directory
-     *
-     * @return ?string
-     */
-    public function tryToGetLocalComposerPhar($directory)
+    public function tryToGetLocalComposerPhar(string $directory) : ?string
     {
         $finder = Finder::create()->files()->in($directory)->depth(0)->name('composer.phar');
         if ($finder->count() === 1) {
@@ -31,12 +23,11 @@ class ComposerExecutable
 
             return PHP_BINDIR . '/php ' . $iterator->current()->getPathname();
         }
+
+        return null;
     }
 
-    /**
-     * @return ?string
-     */
-    public function tryToDownloadComposerPhar()
+    public function tryToDownloadComposerPhar() : ?string
     {
         $tmpComposer = \sys_get_temp_dir() . '/composer.phar';
 
@@ -48,5 +39,7 @@ class ComposerExecutable
         if (\copy('https://getcomposer.org/composer.phar', $tmpComposer)) {
             return PHP_BINDIR . '/php ' . $tmpComposer;
         }
+
+        return null;
     }
 }

@@ -14,18 +14,12 @@ final class AutoloadFixer implements Fixer
         'exclude-from-classmap',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return 'fixes paths and sorts `autoload` and `autoload-dev`';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         foreach ($composerJson as $name => $value) {
             if ($name !== 'autoload' && $name !== 'autoload-dev') {
@@ -46,20 +40,12 @@ final class AutoloadFixer implements Fixer
         return $composerJson;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return 0;
     }
 
-    /**
-     * @param array $array
-     *
-     * @return array
-     */
-    private function sort(array $array)
+    private function sort(array $array) : array
     {
         \uksort(
             $array,
@@ -72,22 +58,12 @@ final class AutoloadFixer implements Fixer
         return $array;
     }
 
-    /**
-     * @param array $array
-     *
-     * @return bool
-     */
-    private function isArrayAssociative(array $array)
+    private function isArrayAssociative(array $array) : bool
     {
         return \count(\array_filter(\array_keys($array), 'is_string')) > 0;
     }
 
-    /**
-     * @param array $autoloads
-     *
-     * @return array
-     */
-    private function fixAssociativeArray(array $autoloads)
+    private function fixAssociativeArray(array $autoloads) : array
     {
         $fixedAutoloads = [];
         foreach ($autoloads as $namespace => $directory) {
@@ -101,12 +77,7 @@ final class AutoloadFixer implements Fixer
         return $fixedAutoloads;
     }
 
-    /**
-     * @param array $autoloads
-     *
-     * @return array
-     */
-    private function fixIndexedArray(array $autoloads)
+    private function fixIndexedArray(array $autoloads) : array
     {
         \sort($autoloads);
 

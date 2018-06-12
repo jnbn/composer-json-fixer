@@ -43,7 +43,7 @@ class FixerCommand extends BaseCommand
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : int
     {
         $output->writeln(\sprintf('<info>%s</info> <comment>%s</comment>', $this->getName(), self::VERSION));
 

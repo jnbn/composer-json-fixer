@@ -33,10 +33,7 @@ class ReadmeCommand extends BaseCommand
         $output->writeln($this->contributing());
     }
 
-    /**
-     * @return string
-     */
-    private function badges()
+    private function badges() : string
     {
         $composer = \json_decode(\file_get_contents(__DIR__ . '/../../composer.json'));
 
@@ -58,10 +55,7 @@ class ReadmeCommand extends BaseCommand
         );
     }
 
-    /**
-     * @return string
-     */
-    private function description()
+    private function description() : string
     {
         return '
 A tool for fixing and cleaning up `composer.json` file
@@ -69,10 +63,7 @@ according to its [schema](https://getcomposer.org/doc/04-schema.md) and best pra
 ';
     }
 
-    /**
-     * @return string
-     */
-    private function installation()
+    private function installation() : string
     {
         return '
 ## Installation
@@ -87,10 +78,7 @@ composer require --dev kubawerlos/composer-json-fixer
 ';
     }
 
-    /**
-     * @return string
-     */
-    private function usage()
+    private function usage() : string
     {
         return '
 ## Usage
@@ -109,10 +97,7 @@ vendor/bin/composer-json-fixer --with-updates
 ';
     }
 
-    /**
-     * @return string
-     */
-    private function fixers()
+    private function fixers() : string
     {
         $output = "\n## Fixers\n";
 
@@ -133,10 +118,7 @@ vendor/bin/composer-json-fixer --with-updates
         return $output;
     }
 
-    /**
-     * @return string
-     */
-    private function example()
+    private function example() : string
     {
         $application = new Application();
         $command     = new FixerCommand('composer-json-fixer');
@@ -174,10 +156,7 @@ After:
         );
     }
 
-    /**
-     * @return string
-     */
-    private function exitStatus()
+    private function exitStatus() : string
     {
         return '
 ## Exit status
@@ -187,10 +166,7 @@ After:
 ';
     }
 
-    /**
-     * @return string
-     */
-    private function contributing()
+    private function contributing() : string
     {
         return \sprintf(
             '
@@ -199,7 +175,7 @@ Request a feature or report a bug by creating [issue](https://github.com/kubawer
 
 Alternatively, fork the repo, develop your changes, regenerate `README.md`:
 ```bash
-src/Readme/bin > README.md
+src/Readme/run > README.md
 ```
 make sure all checks pass:
 ```bash
@@ -210,10 +186,7 @@ and submit a pull request.',
         );
     }
 
-    /**
-     * @return array
-     */
-    private function travisScripts()
+    private function travisScripts() : array
     {
         $yaml = Yaml::parse(\file_get_contents(__DIR__ . '/../../.travis.yml'));
 

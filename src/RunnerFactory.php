@@ -6,12 +6,7 @@ namespace ComposerJsonFixer;
 
 class RunnerFactory
 {
-    /**
-     * @param string $directory
-     *
-     * @return Runner
-     */
-    public static function create($directory)
+    public static function create(string $directory) : Runner
     {
         $composerWrapper = new ComposerWrapper(new ComposerExecutable(), $directory);
 
