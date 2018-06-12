@@ -10,7 +10,7 @@ return PhpCsFixer\Config::create()
             ->files()
             ->in(__DIR__ . '/../src')
             ->in(__DIR__ . '/../tests')
-            ->name('*.php')
+            ->append([__DIR__ . '/../composer-json-fixer', __FILE__])
     )
     ->setRiskyAllowed(true)
     ->setRules([
