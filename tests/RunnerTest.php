@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests;
 
 use ComposerJsonFixer\ComposerWrapper;
@@ -17,53 +19,53 @@ final class RunnerTest extends TestCase
     private $jsonFile;
     private $updater;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->composerWrapper = $this->createMock(ComposerWrapper::class);
         $this->jsonFile        = $this->createMock(JsonFile::class);
         $this->updater         = $this->createMock(Updater::class);
     }
 
-    public function testFixing()
+    public function testFixing() : void
     {
         $this->jsonFile->method('data')->willReturn([]);
-        $this->jsonFile->expects($this->once())->method('update');
+        $this->jsonFile->expects(static::once())->method('update');
 
         $runner = new Runner($this->composerWrapper, $this->jsonFile, $this->updater);
 
         $runner->fix();
     }
 
-    public function testCheckingIfAnythingBeenFixed()
+    public function testCheckingIfAnythingBeenFixed() : void
     {
         $this->jsonFile->method('isModified')->willReturn(true);
 
         $runner = new Runner($this->composerWrapper, $this->jsonFile, $this->updater);
 
-        $this->assertTrue($runner->hasAnythingBeenFixed());
+        static::assertTrue($runner->hasAnythingBeenFixed());
     }
 
-    public function testDiff()
+    public function testDiff() : void
     {
         $this->jsonFile->method('diff')->willReturn('foo');
 
         $runner = new Runner($this->composerWrapper, $this->jsonFile, $this->updater);
 
-        $this->assertSame('foo', $runner->diff());
+        static::assertSame('foo', $runner->diff());
     }
 
-    public function testRunningUpdates()
+    public function testRunningUpdates() : void
     {
-        $this->updater->expects($this->once())->method('update');
+        $this->updater->expects(static::once())->method('update');
 
         $runner = new Runner($this->composerWrapper, $this->jsonFile, $this->updater);
 
         $runner->runUpdates();
     }
 
-    public function testSaving()
+    public function testSaving() : void
     {
-        $this->jsonFile->expects($this->once())->method('save');
+        $this->jsonFile->expects(static::once())->method('save');
 
         $runner = new Runner($this->composerWrapper, $this->jsonFile, $this->updater);
 

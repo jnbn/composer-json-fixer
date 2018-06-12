@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer\Readme;
 
 use ComposerJsonFixer\Command\FixerCommand;
@@ -14,11 +16,11 @@ use Symfony\Component\Yaml\Yaml;
 
 class ReadmeCommand extends BaseCommand
 {
-    const SHIELDS_HOST  = 'https://img.shields.io';
-    const PACKAGIST_URL = 'https://packagist.org/packages/kubawerlos/composer-json-fixer';
-    const TRAVIS_URL    = 'https://travis-ci.org/kubawerlos/composer-json-fixer';
+    private const SHIELDS_HOST  = 'https://img.shields.io';
+    private const PACKAGIST_URL = 'https://packagist.org/packages/kubawerlos/composer-json-fixer';
+    private const TRAVIS_URL    = 'https://travis-ci.org/kubawerlos/composer-json-fixer';
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output) : void
     {
         $output->writeln('# composer.json fixer');
         $output->writeln($this->badges());

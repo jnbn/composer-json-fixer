@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer;
 
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,7 +23,7 @@ class Updater
     /**
      * @throws \Exception
      */
-    public function update()
+    public function update() : void
     {
         $this->jsonFile->save();
 

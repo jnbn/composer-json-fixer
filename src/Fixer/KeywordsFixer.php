@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer\Fixer;
 
 final class KeywordsFixer implements Fixer

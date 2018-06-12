@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests;
 
 use ComposerJsonFixer\ComposerExecutable;
@@ -12,22 +14,22 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class ComposerWrapperTest extends TestCase
 {
-    const TMP_DIRECTORY = __DIR__ . '/tmp';
+    private const TMP_DIRECTORY = __DIR__ . '/tmp';
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $filesystem = new Filesystem();
         $filesystem->remove(self::TMP_DIRECTORY);
         $filesystem->mkdir(self::TMP_DIRECTORY);
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         $filesystem = new Filesystem();
         $filesystem->remove(self::TMP_DIRECTORY);
     }
 
-    public function testWhenComposerExecutableNotFound()
+    public function testWhenComposerExecutableNotFound() : void
     {
         $composerExecutable = $this->createMock(ComposerExecutable::class);
         $composerExecutable->method('tryToGetFromUserPath')->willReturn('');
@@ -40,7 +42,7 @@ final class ComposerWrapperTest extends TestCase
         new ComposerWrapper($composerExecutable, self::TMP_DIRECTORY);
     }
 
-    public function testValidatingIncorrectFile()
+    public function testValidatingIncorrectFile() : void
     {
         \file_put_contents(self::TMP_DIRECTORY . '/composer.json', '{}');
 
@@ -49,10 +51,10 @@ final class ComposerWrapperTest extends TestCase
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('File "composer.json" did not pass validation');
 
-        $this->assertNull($composerWrapper->callValidate());
+        static::assertNull($composerWrapper->callValidate());
     }
 
-    public function testValidatingCorrectFile()
+    public function testValidatingCorrectFile() : void
     {
         $content = \json_encode(['name' => 'foo/bar', 'description' => 'Hello world']);
 
@@ -60,17 +62,17 @@ final class ComposerWrapperTest extends TestCase
 
         $composerWrapper = new ComposerWrapper(new ComposerExecutable(), self::TMP_DIRECTORY);
 
-        $this->assertNull($composerWrapper->callValidate());
+        static::assertNull($composerWrapper->callValidate());
     }
 
-    public function testSelfUpdate()
+    public function testSelfUpdate() : void
     {
         $composerWrapper = new ComposerWrapper(new ComposerExecutable(), self::TMP_DIRECTORY);
 
-        $this->assertNull($composerWrapper->callSelfUpdate());
+        static::assertNull($composerWrapper->callSelfUpdate());
     }
 
-    public function testRequire()
+    public function testRequire() : void
     {
         $content = \json_encode(['name' => 'foo/bar', 'description' => 'Hello world']);
 
@@ -78,10 +80,10 @@ final class ComposerWrapperTest extends TestCase
 
         $composerWrapper = new ComposerWrapper(new ComposerExecutable(), self::TMP_DIRECTORY);
 
-        $this->assertNull($composerWrapper->callRequire(['psr/log'], true));
+        static::assertNull($composerWrapper->callRequire(['psr/log'], true));
     }
 
-    public function testRequireWithFakeRepository()
+    public function testRequireWithFakeRepository() : void
     {
         $content = \json_encode(['name' => 'foo/bar', 'description' => 'Hello world']);
 

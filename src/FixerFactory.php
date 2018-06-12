@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer;
 
 use ComposerJsonFixer\Fixer\Fixer;

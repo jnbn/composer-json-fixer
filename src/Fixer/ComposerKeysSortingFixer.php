@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer\Fixer;
 
 final class ComposerKeysSortingFixer implements Fixer
 {
-    const PROPERTIES_ORDER = [
+    private const PROPERTIES_ORDER = [
         'name',
         'description',
         'version',

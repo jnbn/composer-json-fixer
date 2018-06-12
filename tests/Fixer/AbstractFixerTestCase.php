@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\Fixer;
 
 use ComposerJsonFixer\Fixer\Fixer;
@@ -10,7 +12,7 @@ abstract class AbstractFixerTestCase extends TestCase
     /** @var Fixer */
     private $fixer;
 
-    final protected function setUp()
+    final protected function setUp() : void
     {
         $reflection = new \ReflectionClass($this);
         $comment    = $reflection->getDocComment();
@@ -24,36 +26,36 @@ abstract class AbstractFixerTestCase extends TestCase
         $this->fixer = new $fixerClass();
     }
 
-    final public function testFixerIsFinal()
+    final public function testFixerIsFinal() : void
     {
         $fixerReflection = new \ReflectionClass($this->fixer);
 
-        $this->assertTrue($fixerReflection->isFinal());
+        static::assertTrue($fixerReflection->isFinal());
     }
 
-    final public function testFixerImplementsFixer()
+    final public function testFixerImplementsFixer() : void
     {
-        $this->assertInstanceOf(Fixer::class, $this->fixer);
+        static::assertInstanceOf(Fixer::class, $this->fixer);
     }
 
-    final public function testFixerTestIsFinal()
+    final public function testFixerTestIsFinal() : void
     {
         $reflection = new \ReflectionClass($this);
 
-        $this->assertTrue($reflection->isFinal());
+        static::assertTrue($reflection->isFinal());
     }
 
-    final public function testFixerTestCoversCorrectFixer()
+    final public function testFixerTestCoversCorrectFixer() : void
     {
         $reflection      = new \ReflectionClass($this);
         $fixerReflection = new \ReflectionClass($this->fixer);
 
-        $this->assertSame($reflection->getShortName(), $fixerReflection->getShortName() . 'Test');
+        static::assertSame($reflection->getShortName(), $fixerReflection->getShortName() . 'Test');
     }
 
-    final public function testFixerDescriptionIsNotEmpty()
+    final public function testFixerDescriptionIsNotEmpty() : void
     {
-        $this->assertNotEmpty($this->fixer->description());
+        static::assertNotEmpty($this->fixer->description());
     }
 
     /**
@@ -62,7 +64,7 @@ abstract class AbstractFixerTestCase extends TestCase
      * @param array      $expected
      * @param array|null $input
      */
-    final public function testFixer(array $expected, array $input = null)
+    final public function testFixer(array $expected, array $input = null) : void
     {
         if ($expected === $input) {
             throw new \InvalidArgumentException('Input parameter must not be equal to expected parameter.');
@@ -70,16 +72,16 @@ abstract class AbstractFixerTestCase extends TestCase
 
         if ($input !== null) {
             $fixed = $this->fixer->fix($input);
-            $this->assertSame($expected, $fixed);
+            static::assertSame($expected, $fixed);
         }
 
         $fixed = $this->fixer->fix($expected);
-        $this->assertSame($expected, $fixed);
+        static::assertSame($expected, $fixed);
     }
 
     abstract public function provideFixerCases();
 
-    final public function testPriority()
+    final public function testPriority() : void
     {
         switch (\get_class($this->fixer)) {
             case 'ComposerJsonFixer\Fixer\ComposerKeysLowercaseFixer':
@@ -93,6 +95,6 @@ abstract class AbstractFixerTestCase extends TestCase
                 break;
         }
 
-        $this->assertSame($expected, $this->fixer->priority());
+        static::assertSame($expected, $this->fixer->priority());
     }
 }

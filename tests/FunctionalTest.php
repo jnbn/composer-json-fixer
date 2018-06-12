@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests;
 
 use ComposerJsonFixer\Command\FixerCommand;
@@ -13,12 +15,12 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 final class FunctionalTest extends TestCase
 {
-    const TMP_DIRECTORY = __DIR__ . '/tmp';
+    private const TMP_DIRECTORY = __DIR__ . '/tmp';
 
     /** @var ApplicationTester */
     private $tester;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $application = new Application();
         $command     = new FixerCommand('composer-json-fixer');
@@ -35,7 +37,7 @@ final class FunctionalTest extends TestCase
         $filesystem->mkdir(self::TMP_DIRECTORY);
     }
 
-    protected function tearDown()
+    protected function tearDown() : void
     {
         $filesystem = new Filesystem();
         $filesystem->remove(self::TMP_DIRECTORY);
@@ -48,7 +50,7 @@ final class FunctionalTest extends TestCase
      *
      * @dataProvider provideFixerCases
      */
-    public function testFixer($exitCode, $message, array $json)
+    public function testFixer($exitCode, $message, array $json) : void
     {
         \file_put_contents(
             self::TMP_DIRECTORY . '/composer.json',
@@ -60,8 +62,8 @@ final class FunctionalTest extends TestCase
             'directory'      => self::TMP_DIRECTORY,
         ]);
 
-        $this->assertSame($exitCode, $this->tester->getStatusCode());
-        $this->assertContains($message, $this->tester->getDisplay());
+        static::assertSame($exitCode, $this->tester->getStatusCode());
+        static::assertContains($message, $this->tester->getDisplay());
     }
 
     public function provideFixerCases()
