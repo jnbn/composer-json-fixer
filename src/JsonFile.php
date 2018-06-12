@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer;
 
 use SebastianBergmann\Diff\Differ;
@@ -61,7 +63,7 @@ class JsonFile
     /**
      * @param array $data
      */
-    public function update(array $data)
+    public function update(array $data) : void
     {
         $this->currentContent = \json_encode(
             $data,
@@ -77,7 +79,7 @@ class JsonFile
         return $this->originalContent !== $this->currentContent;
     }
 
-    public function save()
+    public function save() : void
     {
         \file_put_contents($this->path, $this->currentContent);
     }

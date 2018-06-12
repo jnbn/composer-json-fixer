@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\Readme;
 
 use ComposerJsonFixer\Readme\ReadmeCommand;
@@ -12,7 +14,7 @@ use Symfony\Component\Console\Tester\ApplicationTester;
  */
 final class ReadmeCommandTest extends TestCase
 {
-    public function testReadmeIsUpToDate()
+    public function testReadmeIsUpToDate() : void
     {
         $application = new Application();
         $command     = new ReadmeCommand('readme');
@@ -26,7 +28,7 @@ final class ReadmeCommandTest extends TestCase
 
         $tester->run([]);
 
-        $this->assertStringEqualsFile(
+        static::assertStringEqualsFile(
             __DIR__ . '/../../README.md',
             $tester->getDisplay()
         );

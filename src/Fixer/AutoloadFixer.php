@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer\Fixer;
 
 final class AutoloadFixer implements Fixer
 {
-    const PROPERTIES_ORDER = [
+    private const PROPERTIES_ORDER = [
         'psr-0',
         'psr-4',
         'classmap',

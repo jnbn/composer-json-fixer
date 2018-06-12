@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer;
 
 use Symfony\Component\Process\Process;
@@ -37,7 +39,7 @@ class ComposerWrapper
     /**
      * @throws \Exception
      */
-    public function callValidate()
+    public function callValidate() : void
     {
         $process = new Process(
             \sprintf(
@@ -57,7 +59,7 @@ class ComposerWrapper
         }
     }
 
-    public function callSelfUpdate()
+    public function callSelfUpdate() : void
     {
         $process = new Process(
             \sprintf(
@@ -75,7 +77,7 @@ class ComposerWrapper
      *
      * @throws \Exception
      */
-    public function callRequire(array $packages, $isDev = false)
+    public function callRequire(array $packages, $isDev = false) : void
     {
         $flags = '--no-interaction --no-plugins --no-scripts --sort-packages --update-with-dependencies';
         if ($isDev) {

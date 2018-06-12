@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\Command;
 
 use ComposerJsonFixer\Command\FixerCommand;
@@ -20,7 +22,7 @@ final class FixerCommandTest extends TestCase
     /** @var ApplicationTester */
     private $tester;
 
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->directory = vfsStream::setup();
 
@@ -35,7 +37,7 @@ final class FixerCommandTest extends TestCase
         $this->tester = new ApplicationTester($application);
     }
 
-    public function testImpossibleToDryRunAndWithUpdate()
+    public function testImpossibleToDryRunAndWithUpdate() : void
     {
         $this->tester->run([
             '--dry-run'      => true,
@@ -43,14 +45,14 @@ final class FixerCommandTest extends TestCase
             'directory'      => $this->directory->url(),
         ]);
 
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains(
+        static::assertSame(2, $this->tester->getStatusCode());
+        static::assertContains(
             'It is impossible to run with both "--dry-run" and "--with-updates"',
             $this->tester->getDisplay()
         );
     }
 
-    public function testIncorrectPath()
+    public function testIncorrectPath() : void
     {
         $path = $this->directory->url() . '/incorrect/path';
 
@@ -58,21 +60,21 @@ final class FixerCommandTest extends TestCase
             'directory' => $path,
         ]);
 
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains(\sprintf('The "%s" directory does not exist', $path), $this->tester->getDisplay());
+        static::assertSame(2, $this->tester->getStatusCode());
+        static::assertContains(\sprintf('The "%s" directory does not exist', $path), $this->tester->getDisplay());
     }
 
-    public function testDirectoryWithoutComposerJson()
+    public function testDirectoryWithoutComposerJson() : void
     {
         $this->tester->run([
             'directory' => $this->directory->url(),
         ]);
 
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains('File "composer.json" not found', $this->tester->getDisplay());
+        static::assertSame(2, $this->tester->getStatusCode());
+        static::assertContains('File "composer.json" not found', $this->tester->getDisplay());
     }
 
-    public function testInvalidFile()
+    public function testInvalidFile() : void
     {
         vfsStream::newFile('composer.json')
             ->at($this->directory)
@@ -82,11 +84,11 @@ final class FixerCommandTest extends TestCase
             'directory' => $this->directory->url(),
         ]);
 
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains('File "composer.json" does not contain valid JSON', $this->tester->getDisplay());
+        static::assertSame(2, $this->tester->getStatusCode());
+        static::assertContains('File "composer.json" does not contain valid JSON', $this->tester->getDisplay());
     }
 
-    public function testDryRunNotChangingFile()
+    public function testDryRunNotChangingFile() : void
     {
         $composerJson = vfsStream::newFile('composer.json')
             ->at($this->directory)
@@ -97,12 +99,12 @@ final class FixerCommandTest extends TestCase
             'directory' => $this->directory->url(),
         ]);
 
-        $this->assertSame(1, $this->tester->getStatusCode());
-        $this->assertSame('{"NaMe":"Foo"}', $composerJson->getContent());
-        $this->assertContains('"name": "foo', $this->tester->getDisplay());
+        static::assertSame(1, $this->tester->getStatusCode());
+        static::assertSame('{"NaMe":"Foo"}', $composerJson->getContent());
+        static::assertContains('"name": "foo', $this->tester->getDisplay());
     }
 
-    public function testFixing()
+    public function testFixing() : void
     {
         $composerJson = vfsStream::newFile('composer.json')
             ->at($this->directory)
@@ -112,20 +114,20 @@ final class FixerCommandTest extends TestCase
             'directory' => $this->directory->url(),
         ]);
 
-        $this->assertSame(1, $this->tester->getStatusCode());
-        $this->assertContains('"name": "foo', $composerJson->getContent());
+        static::assertSame(1, $this->tester->getStatusCode());
+        static::assertContains('"name": "foo', $composerJson->getContent());
     }
 
-    public function testSelfComposer()
+    public function testSelfComposer() : void
     {
         $this->tester->run([
             'directory' => __DIR__ . '/../..',
         ]);
 
-        $this->assertSame(0, $this->tester->getStatusCode());
+        static::assertSame(0, $this->tester->getStatusCode());
     }
 
-    public function testFixingWithUpdateAndFakeRepository()
+    public function testFixingWithUpdateAndFakeRepository() : void
     {
         vfsStream::newFile('composer.json')
             ->at($this->directory)
@@ -136,11 +138,11 @@ final class FixerCommandTest extends TestCase
             'directory'      => $this->directory->url(),
         ]);
 
-        $this->assertSame(2, $this->tester->getStatusCode());
-        $this->assertContains('Command "composer require" failed', $this->tester->getDisplay());
+        static::assertSame(2, $this->tester->getStatusCode());
+        static::assertContains('Command "composer require" failed', $this->tester->getDisplay());
     }
 
-    public function testWithUpdateWhenNothingToFixAndUpdate()
+    public function testWithUpdateWhenNothingToFixAndUpdate() : void
     {
         vfsStream::newFile('composer.json')
             ->at($this->directory)
@@ -151,7 +153,7 @@ final class FixerCommandTest extends TestCase
             'directory'      => $this->directory->url(),
         ]);
 
-        $this->assertSame(0, $this->tester->getStatusCode());
-        $this->assertContains('There is nothing to fix', $this->tester->getDisplay());
+        static::assertSame(0, $this->tester->getStatusCode());
+        static::assertContains('There is nothing to fix', $this->tester->getDisplay());
     }
 }

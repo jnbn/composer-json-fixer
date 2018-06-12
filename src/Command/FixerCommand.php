@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer\Command;
 
 use ComposerJsonFixer\RunnerFactory;
@@ -11,14 +13,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixerCommand extends BaseCommand
 {
-    const VERSION = '1.3.0';
+    private const VERSION = '1.3.0';
 
-    const DRY_RUN      = 'dry-run';
-    const WITH_UPDATES = 'with-updates';
+    private const DRY_RUN      = 'dry-run';
+    private const WITH_UPDATES = 'with-updates';
 
-    const DIRECTORY = 'directory';
+    private const DIRECTORY = 'directory';
 
-    protected function configure()
+    protected function configure() : void
     {
         $this
             ->addOption(

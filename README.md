@@ -1,7 +1,7 @@
 # composer.json fixer
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
-[![PHP Version](https://img.shields.io/badge/php-%3E%3D5.6.6-8892BF.svg)](https://php.net)
+[![PHP Version](https://img.shields.io/badge/php-%5E7.1-8892BF.svg)](https://php.net)
 [![License](https://img.shields.io/github/license/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
 [![Build Status](https://img.shields.io/travis/kubawerlos/composer-json-fixer/master.svg)](https://travis-ci.org/kubawerlos/composer-json-fixer)
 

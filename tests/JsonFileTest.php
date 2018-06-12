@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests;
 
 use ComposerJsonFixer\JsonFile;
@@ -11,7 +13,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class JsonFileTest extends TestCase
 {
-    public function testWhenNoFile()
+    public function testWhenNoFile() : void
     {
         $directory = vfsStream::setup();
 
@@ -21,7 +23,7 @@ final class JsonFileTest extends TestCase
         new JsonFile($directory->url());
     }
 
-    public function testWhenContentIsNotJson()
+    public function testWhenContentIsNotJson() : void
     {
         $directory = vfsStream::setup();
         vfsStream::newFile('composer.json')
@@ -34,7 +36,7 @@ final class JsonFileTest extends TestCase
         new JsonFile($directory->url());
     }
 
-    public function testDirectoryIsCorrect()
+    public function testDirectoryIsCorrect() : void
     {
         $directory = vfsStream::setup();
         vfsStream::newFile('composer.json')
@@ -43,12 +45,12 @@ final class JsonFileTest extends TestCase
 
         $jsonFile = new JsonFile($directory->url());
 
-        $this->assertSame($directory->url(), $jsonFile->directory());
-        $this->assertSame(['foo' => 'bar'], $jsonFile->data());
-        $this->assertFalse($jsonFile->isModified());
+        static::assertSame($directory->url(), $jsonFile->directory());
+        static::assertSame(['foo' => 'bar'], $jsonFile->data());
+        static::assertFalse($jsonFile->isModified());
     }
 
-    public function testUpdating()
+    public function testUpdating() : void
     {
         $directory = vfsStream::setup();
         vfsStream::newFile('composer.json')
@@ -66,11 +68,11 @@ final class JsonFileTest extends TestCase
 }
 ';
 
-        $this->assertSame($expectedContent, $directory->getChild('composer.json')->getContent());
-        $this->assertTrue($jsonFile->isModified());
+        static::assertSame($expectedContent, $directory->getChild('composer.json')->getContent());
+        static::assertTrue($jsonFile->isModified());
     }
 
-    public function testDiff()
+    public function testDiff() : void
     {
         $directory = vfsStream::setup();
         vfsStream::newFile('composer.json')
@@ -80,6 +82,6 @@ final class JsonFileTest extends TestCase
         $jsonFile = new JsonFile($directory->url());
         $jsonFile->update(['foo' => 'bar']);
 
-        $this->assertContains('+    "foo": "bar"', $jsonFile->diff());
+        static::assertContains('+    "foo": "bar"', $jsonFile->diff());
     }
 }

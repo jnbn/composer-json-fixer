@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests;
 
 use ComposerJsonFixer\ComposerWrapper;
@@ -13,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  */
 final class UpdaterTest extends TestCase
 {
-    public function testUpdating()
+    public function testUpdating() : void
     {
         $directory = vfsStream::setup();
         vfsStream::newFile('composer.json')
@@ -21,8 +23,8 @@ final class UpdaterTest extends TestCase
             ->setContent('{}');
 
         $composerWrapper = $this->createMock(ComposerWrapper::class);
-        $composerWrapper->expects($this->once())->method('callSelfUpdate');
-        $composerWrapper->expects($this->exactly(2))->method('callRequire')
+        $composerWrapper->expects(static::once())->method('callSelfUpdate');
+        $composerWrapper->expects(static::exactly(2))->method('callRequire')
             ->withConsecutive(
                 [['foo'], false],
                 [['bar'], true]
@@ -30,7 +32,7 @@ final class UpdaterTest extends TestCase
 
         $jsonFile = $this->createMock(JsonFile::class);
         $jsonFile->method('directory')->willReturn($directory->url());
-        $jsonFile->method('data')->willReturn(['require' => ['foo' => 1], 'require-dev' => ['bar' => 1]]);
+        $jsonFile->method('data')->willReturn(['require' => ['foo' => '1'], 'require-dev' => ['bar' => '1']]);
 
         $updater = new Updater($composerWrapper, $jsonFile);
         $updater->update();

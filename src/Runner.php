@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace ComposerJsonFixer;
 
 class Runner
@@ -20,7 +22,7 @@ class Runner
         $this->updater         = $updater;
     }
 
-    public function fix()
+    public function fix() : void
     {
         $this->composerWrapper->callValidate();
 
@@ -50,12 +52,12 @@ class Runner
         return $this->jsonFile->diff();
     }
 
-    public function runUpdates()
+    public function runUpdates() : void
     {
         $this->updater->update();
     }
 
-    public function save()
+    public function save() : void
     {
         $this->jsonFile->save();
     }

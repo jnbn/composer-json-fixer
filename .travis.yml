@@ -14,9 +14,8 @@ notifications:
 
 matrix:
     include:
-        - php: '5.6.6'
+        - php: '7.1'
           install: composer update --prefer-lowest
-        - php: '7.0'
         - php: '7.1'
         - php: '7.2'
           env: RUN_PHPSTAN=true
