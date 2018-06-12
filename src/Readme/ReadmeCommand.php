@@ -37,22 +37,31 @@ class ReadmeCommand extends BaseCommand
 
     private function badges() : string
     {
-        return \sprintf(
-            '
-[![Latest Stable Version](%s/packagist/v/kubawerlos/composer-json-fixer.svg)](%s)
-[![PHP Version](%s/badge/php-%s-8892BF.svg)](https://php.net)
-[![License](%s/github/license/kubawerlos/composer-json-fixer.svg)](%s)
-[![Build Status](%s/travis/kubawerlos/composer-json-fixer/master.svg)](%s)
-',
-            self::SHIELDS_HOST,
-            self::PACKAGIST_URL,
-            self::SHIELDS_HOST,
-            \rawurlencode($this->composer()->require->php),
-            self::SHIELDS_HOST,
-            self::PACKAGIST_URL,
-            self::SHIELDS_HOST,
-            self::TRAVIS_URL
-        );
+        return "\n" . \implode("\n", [
+            \sprintf(
+                '[![Latest Stable Version](%s/packagist/v/%s.svg)](%s)',
+                self::SHIELDS_HOST,
+                $this->composer()->name,
+                self::PACKAGIST_URL
+            ),
+            \sprintf(
+                '[![PHP Version](%s/badge/php-%s-8892BF.svg)](https://php.net)',
+                self::SHIELDS_HOST,
+                \rawurlencode($this->composer()->require->php)
+            ),
+            \sprintf(
+                '[![License](%s/github/license/%s.svg)](%s)',
+                self::SHIELDS_HOST,
+                $this->composer()->name,
+                self::PACKAGIST_URL
+            ),
+            \sprintf(
+                '[![Build Status](%s/travis/%s/master.svg)](%s)',
+                self::SHIELDS_HOST,
+                $this->composer()->name,
+                self::TRAVIS_URL
+            ),
+        ]) . "\n";
     }
 
     private function description() : string
@@ -204,7 +213,7 @@ and submit a pull request.',
 
         return \array_map(
             static function (string $script) : string {
-                return \rtrim($script, '$COVERAGE');
+                return \rtrim($script, ' $COVERAGE');
             },
             $scripts
         );
