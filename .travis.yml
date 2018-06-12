@@ -23,7 +23,7 @@ matrix:
         - php: '7.2'
           env: COVERAGE=--coverage-clover=coverage.xml
           install: composer require --dev php-coveralls/php-coveralls
-          after_success: vendor/bin/php-coveralls -v
+          after_success: vendor/bin/php-coveralls
 
 before_install:
     - composer self-update --stable
