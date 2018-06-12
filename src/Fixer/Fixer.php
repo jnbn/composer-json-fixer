@@ -8,26 +8,18 @@ interface Fixer
 {
     /**
      * Few words what fixer does.
-     *
-     * @return string
      */
-    public function description();
+    public function description() : string;
 
     /**
      * Applies fix and returns fixed array of composer.json.
-     *
-     * @param array $composerJson
-     *
-     * @return array
      */
-    public function fix(array $composerJson);
+    public function fix(array $composerJson) : array;
 
     /**
      * Returns the priority of the fixer.
      *
      * The default priority is 0 and higher priorities are executed first.
-     *
-     * @return int
      */
-    public function priority();
+    public function priority() : int;
 }

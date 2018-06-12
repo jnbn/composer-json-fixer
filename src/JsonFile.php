@@ -19,11 +19,9 @@ class JsonFile
     private $currentContent;
 
     /**
-     * @param string $path
-     *
      * @throws \Exception
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $finder = Finder::create()->files()->in($path)->depth(0)->name('composer.json');
 
@@ -44,25 +42,16 @@ class JsonFile
         }
     }
 
-    /**
-     * @return string
-     */
-    public function directory()
+    public function directory() : string
     {
         return \dirname($this->path);
     }
 
-    /**
-     * @return array
-     */
-    public function data()
+    public function data() : array
     {
         return \json_decode($this->currentContent, true);
     }
 
-    /**
-     * @param array $data
-     */
     public function update(array $data) : void
     {
         $this->currentContent = \json_encode(
@@ -71,10 +60,7 @@ class JsonFile
         ) . "\n";
     }
 
-    /**
-     * @return bool
-     */
-    public function isModified()
+    public function isModified() : bool
     {
         return $this->originalContent !== $this->currentContent;
     }
@@ -84,10 +70,7 @@ class JsonFile
         \file_put_contents($this->path, $this->currentContent);
     }
 
-    /**
-     * @return string
-     */
-    public function diff()
+    public function diff() : string
     {
         return (new Differ())->diff($this->originalContent, $this->currentContent);
     }

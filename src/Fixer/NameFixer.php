@@ -6,18 +6,12 @@ namespace ComposerJsonFixer\Fixer;
 
 final class NameFixer implements Fixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return 'makes package name lowercase';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         foreach ($composerJson as $name => $value) {
             if ($name !== 'name') {
@@ -29,10 +23,7 @@ final class NameFixer implements Fixer
         return $composerJson;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return 0;
     }

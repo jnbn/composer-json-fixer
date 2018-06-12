@@ -44,13 +44,9 @@ final class FunctionalTest extends TestCase
     }
 
     /**
-     * @param int    $exitCode
-     * @param string $message
-     * @param array  $json
-     *
      * @dataProvider provideFixerCases
      */
-    public function testFixer($exitCode, $message, array $json) : void
+    public function testFixer(int $exitCode, string $message, array $json) : void
     {
         \file_put_contents(
             self::TMP_DIRECTORY . '/composer.json',
@@ -66,7 +62,7 @@ final class FunctionalTest extends TestCase
         static::assertContains($message, $this->tester->getDisplay());
     }
 
-    public function provideFixerCases()
+    public function provideFixerCases() : array
     {
         return [
             'non-existent repository' => [

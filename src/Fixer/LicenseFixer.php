@@ -6,18 +6,12 @@ namespace ComposerJsonFixer\Fixer;
 
 final class LicenseFixer implements Fixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return 'adds `license` if it is missing';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         if (!\array_key_exists('license', $composerJson)) {
             $composerJson['license'] = 'proprietary';
@@ -26,10 +20,7 @@ final class LicenseFixer implements Fixer
         return $composerJson;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return 0;
     }

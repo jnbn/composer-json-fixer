@@ -6,18 +6,12 @@ namespace ComposerJsonFixer\Fixer;
 
 final class MinimumStabilityFixer implements Fixer
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return 'removes `minimum-stability` if it has default value ("stable")';
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         foreach ($composerJson as $name => $value) {
             if ($name === 'minimum-stability' && $value === 'stable') {
@@ -29,10 +23,7 @@ final class MinimumStabilityFixer implements Fixer
         return $composerJson;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return 0;
     }

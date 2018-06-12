@@ -15,12 +15,9 @@ class ComposerWrapper
     private $directory;
 
     /**
-     * @param ComposerExecutable $composerExecutable
-     * @param string             $directory
-     *
      * @throws \Exception
      */
-    public function __construct(ComposerExecutable $composerExecutable, $directory)
+    public function __construct(ComposerExecutable $composerExecutable, string $directory)
     {
         $this->directory = $directory;
 
@@ -72,12 +69,9 @@ class ComposerWrapper
     }
 
     /**
-     * @param array $packages
-     * @param bool  $isDev
-     *
      * @throws \Exception
      */
-    public function callRequire(array $packages, $isDev = false) : void
+    public function callRequire(array $packages, bool $isDev) : void
     {
         $flags = '--no-interaction --no-plugins --no-scripts --sort-packages --update-with-dependencies';
         if ($isDev) {

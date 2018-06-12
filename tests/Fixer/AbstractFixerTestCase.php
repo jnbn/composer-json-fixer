@@ -60,9 +60,6 @@ abstract class AbstractFixerTestCase extends TestCase
 
     /**
      * @dataProvider provideFixerCases
-     *
-     * @param array      $expected
-     * @param array|null $input
      */
     final public function testFixer(array $expected, array $input = null) : void
     {
@@ -79,7 +76,7 @@ abstract class AbstractFixerTestCase extends TestCase
         static::assertSame($expected, $fixed);
     }
 
-    abstract public function provideFixerCases();
+    abstract public function provideFixerCases() : array;
 
     final public function testPriority() : void
     {

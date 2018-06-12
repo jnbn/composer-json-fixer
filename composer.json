@@ -28,7 +28,8 @@
         "mikey179/vfsStream": "^1.6",
         "phpunit/phpunit": "^7.2",
         "squizlabs/php_codesniffer": "^3.3",
-        "symfony/yaml": "^4.1"
+        "symfony/yaml": "^4.1",
+        "kubawerlos/types-checker": "^1.1"
     },
     "autoload": {
         "psr-4": {

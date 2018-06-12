@@ -38,10 +38,7 @@ final class ComposerKeysSortingFixer implements Fixer
         'non-feature-branches',
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function description()
+    public function description() : string
     {
         return \sprintf(
             'sorts properties according to [the documentation](%s)',
@@ -49,10 +46,7 @@ final class ComposerKeysSortingFixer implements Fixer
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function fix(array $composerJson)
+    public function fix(array $composerJson) : array
     {
         \uksort(
             $composerJson,
@@ -65,10 +59,7 @@ final class ComposerKeysSortingFixer implements Fixer
         return $composerJson;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function priority()
+    public function priority() : int
     {
         return -1;
     }

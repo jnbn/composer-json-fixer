@@ -36,7 +36,7 @@ class Updater
         $data = $this->jsonFile->data();
 
         if (isset($data['require'])) {
-            $this->composerWrapper->callRequire($this->preparePackages($data['require']));
+            $this->composerWrapper->callRequire($this->preparePackages($data['require']), false);
         }
 
         if (isset($data['require-dev'])) {
@@ -47,12 +47,7 @@ class Updater
         $this->jsonFile->update($file->data());
     }
 
-    /**
-     * @param array $requires
-     *
-     * @return array
-     */
-    private function preparePackages(array $requires)
+    private function preparePackages(array $requires) : array
     {
         $requires = \array_filter($requires, static function ($name) {
             return \mb_strpos($name, 'ext-') !== 0;

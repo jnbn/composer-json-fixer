@@ -12,7 +12,7 @@ class FixerFactory
     /**
      * @return Fixer[]
      */
-    public function fixers()
+    public function fixers() : array
     {
         $fixers = [];
 
