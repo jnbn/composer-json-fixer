@@ -21,6 +21,7 @@ class ReadmeCommand extends BaseCommand
     private const SHIELDS_HOST  = 'https://img.shields.io';
     private const PACKAGIST_URL = 'https://packagist.org/packages/kubawerlos/composer-json-fixer';
     private const TRAVIS_URL    = 'https://travis-ci.org/kubawerlos/composer-json-fixer';
+    private const COVERALLS_URL = 'https://coveralls.io/github/kubawerlos/composer-json-fixer';
 
     protected function execute(InputInterface $input, OutputInterface $output) : void
     {
@@ -60,6 +61,12 @@ class ReadmeCommand extends BaseCommand
                 self::SHIELDS_HOST,
                 $this->composer()->name,
                 self::TRAVIS_URL
+            ),
+            \sprintf(
+                '[![Code coverage](%s/coveralls/github/%s.svg?label=code%%20coverage)](%s)',
+                self::SHIELDS_HOST,
+                $this->composer()->name,
+                self::COVERALLS_URL
             ),
         ]) . "\n";
     }
