@@ -70,7 +70,7 @@ final class RepositoriesFixer implements Fixer
             static function (array $repository) {
                 \uksort(
                     $repository,
-                    static function ($x, $y) {
+                    static function (string $x, string $y) {
                         return (int) \array_search($x, self::PROPERTIES_ORDER, true)
                             - (int) \array_search($y, self::PROPERTIES_ORDER, true);
                     }

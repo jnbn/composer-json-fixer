@@ -13,7 +13,6 @@
         <ForbiddenCode errorLevel="suppress" />
         <LessSpecificReturnStatement errorLevel="suppress" />
         <LessSpecificReturnType errorLevel="suppress" />
-        <MissingClosureParamType errorLevel="suppress" />
         <MissingClosureReturnType errorLevel="suppress" />
         <MoreSpecificReturnType errorLevel="suppress" />
         <PossiblyInvalidMethodCall errorLevel="suppress" />

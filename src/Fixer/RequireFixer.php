@@ -31,7 +31,7 @@ final class RequireFixer implements Fixer
     private function map(array $value) : array
     {
         return \array_map(
-            static function ($require) {
+            static function (string $require) {
                 return \trim(\preg_replace(
                     [
                         '#\s*\|\|?\s*#',
