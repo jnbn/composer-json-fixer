@@ -56,11 +56,11 @@ final class RunnerTest extends TestCase
 
     public function testRunningUpdates() : void
     {
-        $this->updater->expects(static::once())->method('update');
+        $this->updater->expects(static::once())->method('update')->with(false);
 
         $runner = new Runner($this->composerWrapper, $this->jsonFile, $this->updater);
 
-        $runner->runUpdates();
+        $runner->runUpdates(false);
     }
 
     public function testSaving() : void
