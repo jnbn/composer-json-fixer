@@ -22,7 +22,7 @@ class ComposerWrapper
         $this->directory = $directory;
 
         $this->composerExecutable = $composerExecutable->tryToGetFromUserPath();
-        if ($this->composerExecutable === '') {
+        if ($this->composerExecutable === null) {
             $this->composerExecutable = $composerExecutable->tryToGetLocalComposerPhar($directory);
         }
         if ($this->composerExecutable === null) {

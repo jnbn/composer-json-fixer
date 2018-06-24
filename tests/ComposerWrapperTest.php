@@ -32,7 +32,7 @@ final class ComposerWrapperTest extends TestCase
     public function testWhenComposerExecutableNotFound() : void
     {
         $composerExecutable = $this->createMock(ComposerExecutable::class);
-        $composerExecutable->method('tryToGetFromUserPath')->willReturn('');
+        $composerExecutable->method('tryToGetFromUserPath')->willReturn(null);
         $composerExecutable->method('tryToGetLocalComposerPhar')->willReturn(null);
         $composerExecutable->method('tryToDownloadComposerPhar')->willReturn(null);
 
