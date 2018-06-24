@@ -23,7 +23,7 @@ class Updater
     /**
      * @throws \Exception
      */
-    public function update() : void
+    public function update(bool $upgradeDevOnly) : void
     {
         $this->jsonFile->save();
 
@@ -35,7 +35,7 @@ class Updater
 
         $data = $this->jsonFile->data();
 
-        if (isset($data['require'])) {
+        if (!$upgradeDevOnly && isset($data['require'])) {
             $this->composerWrapper->callRequire($this->preparePackages($data['require']), false);
         }
 

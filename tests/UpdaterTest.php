@@ -35,6 +35,25 @@ final class UpdaterTest extends TestCase
         $jsonFile->method('data')->willReturn(['require' => ['foo' => '1'], 'require-dev' => ['bar' => '1']]);
 
         $updater = new Updater($composerWrapper, $jsonFile);
-        $updater->update();
+        $updater->update(false);
+    }
+
+    public function testUpdatingOnlyDev() : void
+    {
+        $directory = vfsStream::setup();
+        vfsStream::newFile('composer.json')
+            ->at($directory)
+            ->setContent('{}');
+
+        $composerWrapper = $this->createMock(ComposerWrapper::class);
+        $composerWrapper->expects(static::once())->method('callSelfUpdate');
+        $composerWrapper->expects(static::once())->method('callRequire')->with(['bar'], true);
+
+        $jsonFile = $this->createMock(JsonFile::class);
+        $jsonFile->method('directory')->willReturn($directory->url());
+        $jsonFile->method('data')->willReturn(['require' => ['foo' => '1'], 'require-dev' => ['bar' => '1']]);
+
+        $updater = new Updater($composerWrapper, $jsonFile);
+        $updater->update(true);
     }
 }

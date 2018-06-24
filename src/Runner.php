@@ -46,9 +46,9 @@ class Runner
         return $this->jsonFile->diff();
     }
 
-    public function runUpdates() : void
+    public function runUpdates(bool $upgradeDevOnly) : void
     {
-        $this->updater->update();
+        $this->updater->update($upgradeDevOnly);
     }
 
     public function save() : void

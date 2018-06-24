@@ -21,7 +21,8 @@ class FixerCommand extends BaseCommand
         $this
             ->addArgument('directory', InputArgument::OPTIONAL, 'Directory containing "composer.json" file', \getcwd())
             ->addOption('dry-run', 'd', InputOption::VALUE_NONE, 'Do not modify "composer.json", show only diff')
-            ->addOption('upgrade', 'u', InputOption::VALUE_NONE, 'Upgrade dependencies with "composer require"');
+            ->addOption('upgrade', 'u', InputOption::VALUE_NONE, 'Upgrade dependencies with "composer require"')
+            ->addOption('upgrade-dev', null, InputOption::VALUE_NONE, 'Upgrade dev dependencies with "composer require"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int
@@ -32,7 +33,8 @@ class FixerCommand extends BaseCommand
             $configuration = new Configuration(
                 $input->getArgument('directory'),
                 $input->getOption('dry-run'),
-                $input->getOption('upgrade')
+                $input->getOption('upgrade'),
+                $input->getOption('upgrade-dev')
             );
 
             $fixer = RunnerFactory::create($configuration->directory());
@@ -45,8 +47,8 @@ class FixerCommand extends BaseCommand
                 return 1;
             }
 
-            if ($configuration->upgrade()) {
-                $fixer->runUpdates();
+            if ($configuration->upgrade() || $configuration->upgradeDev()) {
+                $fixer->runUpdates($configuration->upgradeDev());
             }
 
             if ($fixer->hasAnythingBeenFixed()) {

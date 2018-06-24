@@ -46,26 +46,68 @@ final class FunctionalTest extends TestCase
     /**
      * @dataProvider provideFixerCases
      */
-    public function testFixer(int $exitCode, string $message, array $json) : void
-    {
+    public function testFixer(
+        array $options,
+        int $exitCode,
+        string $message,
+        array $providedJson,
+        array $expectedJson = null
+    ) : void {
         \file_put_contents(
             self::TMP_DIRECTORY . '/composer.json',
-            \json_encode($json, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . "\n"
+            \json_encode($providedJson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . "\n"
         );
 
-        $this->tester->run([
-            '--upgrade' => true,
-            'directory' => self::TMP_DIRECTORY,
-        ]);
+        $options['directory'] = self::TMP_DIRECTORY;
+
+        $this->tester->run($options);
 
         static::assertSame($exitCode, $this->tester->getStatusCode());
         static::assertContains($message, $this->tester->getDisplay());
+
+        if ($expectedJson !== null) {
+            static::assertStringEqualsFile(
+                self::TMP_DIRECTORY . '/composer.json',
+                \json_encode($expectedJson, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) . "\n"
+            );
+        }
     }
 
     public function provideFixerCases() : array
     {
         return [
+            'nothing to fix' => [
+                [],
+                0,
+                'There is nothing to fix',
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'license'     => 'proprietary',
+                    'require'     => ['psr/log' => '^1.0'],
+                    'require-dev' => ['psr/cache' => '^1.0'],
+                ],
+            ],
+            'missing licence and dependency updated' => [
+                [],
+                1,
+                'File "composer.json" was fixed successfully',
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'require'     => ['psr/log' => '^1.0'],
+                    'require-dev' => ['psr/cache' => '^1.0'],
+                ],
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'license'     => 'proprietary',
+                    'require'     => ['psr/log' => '^1.0'],
+                    'require-dev' => ['psr/cache' => '^1.0'],
+                ],
+            ],
             'non-existent repository' => [
+                ['--upgrade' => true],
                 2,
                 'Command "composer require" failed',
                 [
@@ -75,16 +117,8 @@ final class FunctionalTest extends TestCase
                     'require'     => ['vendor/repository' => '*'],
                 ],
             ],
-            'missing licence and dependency updated' => [
-                1,
-                'File "composer.json" was fixed successfully',
-                [
-                    'name'        => 'foo/bar',
-                    'description' => 'text',
-                    'require'     => ['psr/log' => '^1.0'],
-                ],
-            ],
-            'dependency not updated' => [
+            'upgrade require and require-dev' => [
+                ['--upgrade' => true],
                 1,
                 'File "composer.json" was fixed successfully',
                 [
@@ -92,16 +126,33 @@ final class FunctionalTest extends TestCase
                     'description' => 'text',
                     'license'     => 'proprietary',
                     'require'     => ['psr/log' => '*'],
+                    'require-dev' => ['psr/cache' => '*'],
                 ],
-            ],
-            'nothing to fix' => [
-                0,
-                'There is nothing to fix',
                 [
                     'name'        => 'foo/bar',
                     'description' => 'text',
                     'license'     => 'proprietary',
                     'require'     => ['psr/log' => '^1.0'],
+                    'require-dev' => ['psr/cache' => '^1.0'],
+                ],
+            ],
+            'upgrade only require-dev' => [
+                ['--upgrade-dev' => true],
+                1,
+                'File "composer.json" was fixed successfully',
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'license'     => 'proprietary',
+                    'require'     => ['psr/log' => '*'],
+                    'require-dev' => ['psr/cache' => '*'],
+                ],
+                [
+                    'name'        => 'foo/bar',
+                    'description' => 'text',
+                    'license'     => 'proprietary',
+                    'require'     => ['psr/log' => '*'],
+                    'require-dev' => ['psr/cache' => '^1.0'],
                 ],
             ],
         ];
