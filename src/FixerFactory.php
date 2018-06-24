@@ -23,7 +23,7 @@ class FixerFactory
 
         \usort(
             $fixers,
-            static function (Fixer $x, Fixer $y) {
+            static function (Fixer $x, Fixer $y) : int {
                 if ($x->priority() === $y->priority()) {
                     return \strnatcmp(\get_class($x), \get_class($y));
                 }

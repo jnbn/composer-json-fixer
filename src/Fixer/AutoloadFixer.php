@@ -27,7 +27,7 @@ final class AutoloadFixer implements Fixer
             }
             $value = $this->sort($value);
             $value = \array_map(
-                function (array $autoloads) {
+                function (array $autoloads) : array {
                     return $this->isArrayAssociative($autoloads)
                         ? $this->fixAssociativeArray($autoloads)
                         : $this->fixIndexedArray($autoloads);
@@ -49,7 +49,7 @@ final class AutoloadFixer implements Fixer
     {
         \uksort(
             $array,
-            static function ($x, $y) {
+            static function (string $x, string $y) : int {
                 return (int) \array_search($x, self::PROPERTIES_ORDER, true)
                     - (int) \array_search($y, self::PROPERTIES_ORDER, true);
             }

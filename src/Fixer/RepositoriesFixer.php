@@ -46,7 +46,7 @@ final class RepositoriesFixer implements Fixer
     {
         return \array_filter(
             $value,
-            static function (array $repository) {
+            static function (array $repository) : bool {
                 return !isset($repository['url']) || $repository['url'] !== 'https://packagist.org';
             }
         );
@@ -56,7 +56,7 @@ final class RepositoriesFixer implements Fixer
     {
         \usort(
             $value,
-            static function (array $x, array $y) {
+            static function (array $x, array $y) : int {
                 return \strcmp((string) \json_encode($x), (string) \json_encode($y));
             }
         );
@@ -67,10 +67,10 @@ final class RepositoriesFixer implements Fixer
     private function sortRepositories(array $value) : array
     {
         return \array_map(
-            static function (array $repository) {
+            static function (array $repository) : array {
                 \uksort(
                     $repository,
-                    static function ($x, $y) {
+                    static function (string $x, string $y) : int {
                         return (int) \array_search($x, self::PROPERTIES_ORDER, true)
                             - (int) \array_search($y, self::PROPERTIES_ORDER, true);
                     }
