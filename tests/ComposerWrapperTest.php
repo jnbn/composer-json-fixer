@@ -34,7 +34,7 @@ final class ComposerWrapperTest extends TestCase
         $composerExecutable = $this->createMock(ComposerExecutable::class);
         $composerExecutable->method('tryToGetFromUserPath')->willReturn(null);
         $composerExecutable->method('tryToGetLocalComposerPhar')->willReturn(null);
-        $composerExecutable->method('tryToDownloadComposerPhar')->willReturn(null);
+        $composerExecutable->method('tryToDownloadComposerPhar')->willReturn('');
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Please install Composer');

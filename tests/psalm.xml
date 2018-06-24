@@ -12,7 +12,6 @@
     <issueHandlers>
         <ForbiddenCode errorLevel="suppress" />
         <LessSpecificReturnStatement errorLevel="suppress" />
-        <LessSpecificReturnType errorLevel="suppress" />
         <MoreSpecificReturnType errorLevel="suppress" />
         <PossiblyInvalidMethodCall errorLevel="suppress" />
     </issueHandlers>

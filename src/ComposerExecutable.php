@@ -29,7 +29,7 @@ class ComposerExecutable
         return null;
     }
 
-    public function tryToDownloadComposerPhar() : ?string
+    public function tryToDownloadComposerPhar() : string
     {
         $tmpComposer = \sys_get_temp_dir() . '/composer.phar';
 

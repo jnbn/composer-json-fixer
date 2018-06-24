@@ -28,7 +28,7 @@ class ComposerWrapper
         if ($this->composerExecutable === null) {
             $this->composerExecutable = $composerExecutable->tryToDownloadComposerPhar();
         }
-        if ($this->composerExecutable === null) {
+        if ($this->composerExecutable === '') {
             throw new \Exception('Please install Composer (or put composer.phar next to composer.json');
         }
     }
