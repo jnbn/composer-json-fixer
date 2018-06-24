@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<psalm
+    totallyTyped="false"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config file:///home/kuba/GitHub/composer-json-fixer/vendor/vimeo/psalm/config.xsd"
+>
+    <projectFiles>
+        <directory name="src" />
+    </projectFiles>
+
+    <issueHandlers>
+        <ForbiddenCode errorLevel="suppress" />
+        <LessSpecificReturnStatement errorLevel="suppress" />
+        <LessSpecificReturnType errorLevel="suppress" />
+        <MissingClosureParamType errorLevel="suppress" />
+        <MissingClosureReturnType errorLevel="suppress" />
+        <MoreSpecificReturnType errorLevel="suppress" />
+        <PossiblyInvalidMethodCall errorLevel="suppress" />
+    </issueHandlers>
+</psalm>
