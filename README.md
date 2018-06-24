@@ -31,9 +31,9 @@ See diff of potential fixes:
 ```bash
 vendor/bin/composer-json-fixer --dry-run
 ```
-Update dependencies with `composer require`:
+Upgrade dependencies with `composer require`:
 ```bash
-vendor/bin/composer-json-fixer --with-updates
+vendor/bin/composer-json-fixer --upgrade
 ```
 
 
