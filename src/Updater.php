@@ -49,11 +49,11 @@ class Updater
 
     private function preparePackages(array $requires) : array
     {
-        $requires = \array_filter($requires, static function (string $name) {
+        $requires = \array_filter($requires, static function (string $name) : bool {
             return \mb_strpos($name, 'ext-') !== 0;
         }, ARRAY_FILTER_USE_KEY);
 
-        $requires = \array_filter($requires, static function (string $version) {
+        $requires = \array_filter($requires, static function (string $version) : bool {
             return \mb_strpos($version, 'dev-') !== 0;
         });
 
