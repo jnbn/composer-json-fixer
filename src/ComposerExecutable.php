@@ -36,10 +36,8 @@ class ComposerExecutable
             $filesystem->remove($tmpComposer);
         }
 
-        if (\copy('https://getcomposer.org/composer.phar', $tmpComposer)) {
-            return PHP_BINDIR . '/php ' . $tmpComposer;
-        }
+        \copy('https://getcomposer.org/composer.phar', $tmpComposer);
 
-        return null;
+        return PHP_BINDIR . '/php ' . $tmpComposer;
     }
 }
