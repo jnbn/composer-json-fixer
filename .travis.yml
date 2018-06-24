@@ -18,23 +18,15 @@ matrix:
           install: composer update --prefer-lowest
         - php: '7.1'
         - php: '7.2'
-          env: RUN_PHPSTAN=true
-          install: composer require --dev phpstan/phpstan phpstan/phpstan-strict-rules
         - php: '7.2'
-          env: COVERAGE=--coverage-clover=build/logs/clover.xml
           install: composer require --dev php-coveralls/php-coveralls
+          script: composer phpunit -- --coverage-clover=build/logs/clover.xml
           after_success: vendor/bin/php-coveralls
 
 before_install:
     - composer self-update --stable
     - composer global show hirak/prestissimo -q || composer global require hirak/prestissimo
 
-install:
-    - composer install
+install: composer install
 
-script:
-    - vendor/bin/phpcs --exclude=Generic.Files.LineLength --report-full --standard=PSR2 src tests
-    - vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run
-    - vendor/bin/types-checker src tests
-    - vendor/bin/phpunit --configuration=tests/phpunit.xml $COVERAGE
-    - if [[ $RUN_PHPSTAN ]]; then vendor/bin/phpstan analyse --configuration=tests/phpstan.neon --level=max src; else return 0; fi
+script: composer check
