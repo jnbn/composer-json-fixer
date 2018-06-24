@@ -37,17 +37,17 @@ final class FixerCommandTest extends TestCase
         $this->tester = new ApplicationTester($application);
     }
 
-    public function testImpossibleToDryRunAndWithUpdate() : void
+    public function testImpossibleToDryRunAndWithUpgrades() : void
     {
         $this->tester->run([
-            '--dry-run'      => true,
-            '--with-updates' => true,
-            'directory'      => $this->directory->url(),
+            '--dry-run' => true,
+            '--upgrade' => true,
+            'directory' => $this->directory->url(),
         ]);
 
         static::assertSame(2, $this->tester->getStatusCode());
         static::assertContains(
-            'It is impossible to run with both "--dry-run" and "--with-updates"',
+            'It is impossible to run with both dry run and upgrade',
             $this->tester->getDisplay()
         );
     }
@@ -127,30 +127,30 @@ final class FixerCommandTest extends TestCase
         static::assertSame(0, $this->tester->getStatusCode());
     }
 
-    public function testFixingWithUpdateAndFakeRepository() : void
+    public function testFixingWithUpgradeAndFakeRepository() : void
     {
         vfsStream::newFile('composer.json')
             ->at($this->directory)
             ->setContent('{"require":{"foo/bar": "^1.0"}}');
 
         $this->tester->run([
-            '--with-updates' => true,
-            'directory'      => $this->directory->url(),
+            '--upgrade' => true,
+            'directory' => $this->directory->url(),
         ]);
 
         static::assertSame(2, $this->tester->getStatusCode());
         static::assertContains('Command "composer require" failed', $this->tester->getDisplay());
     }
 
-    public function testWithUpdateWhenNothingToFixAndUpdate() : void
+    public function testWithUpgradeWhenNothingToFixAndUpdate() : void
     {
         vfsStream::newFile('composer.json')
             ->at($this->directory)
             ->setContent("{\n    \"license\": \"proprietary\"\n}\n");
 
         $this->tester->run([
-            '--with-updates' => true,
-            'directory'      => $this->directory->url(),
+            '--upgrade' => true,
+            'directory' => $this->directory->url(),
         ]);
 
         static::assertSame(0, $this->tester->getStatusCode());

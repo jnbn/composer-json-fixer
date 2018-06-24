@@ -54,8 +54,8 @@ final class FunctionalTest extends TestCase
         );
 
         $this->tester->run([
-            '--with-updates' => true,
-            'directory'      => self::TMP_DIRECTORY,
+            '--upgrade' => true,
+            'directory' => self::TMP_DIRECTORY,
         ]);
 
         static::assertSame($exitCode, $this->tester->getStatusCode());
