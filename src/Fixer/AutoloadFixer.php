@@ -50,8 +50,8 @@ final class AutoloadFixer implements Fixer
         \uksort(
             $array,
             static function ($x, $y) {
-                return \array_search($x, self::PROPERTIES_ORDER, true)
-                    - \array_search($y, self::PROPERTIES_ORDER, true);
+                return (int) \array_search($x, self::PROPERTIES_ORDER, true)
+                    - (int) \array_search($y, self::PROPERTIES_ORDER, true);
             }
         );
 
@@ -67,7 +67,7 @@ final class AutoloadFixer implements Fixer
     {
         $fixedAutoloads = [];
         foreach ($autoloads as $namespace => $directory) {
-            if ($namespace !== '') {
+            if (\is_string($namespace) && $namespace !== '') {
                 $namespace = (\rtrim($namespace, '\\') . '\\');
             }
             $fixedAutoloads[$namespace] = (\rtrim($directory, '/') . '/');

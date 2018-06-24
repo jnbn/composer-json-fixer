@@ -51,8 +51,8 @@ final class ComposerKeysSortingFixer implements Fixer
         \uksort(
             $composerJson,
             static function ($x, $y) {
-                return \array_search($x, self::PROPERTIES_ORDER, true)
-                    - \array_search($y, self::PROPERTIES_ORDER, true);
+                return (int) \array_search($x, self::PROPERTIES_ORDER, true)
+                    - (int) \array_search($y, self::PROPERTIES_ORDER, true);
             }
         );
 

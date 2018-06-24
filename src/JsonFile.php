@@ -31,9 +31,10 @@ class JsonFile
 
         $iterator = $finder->getIterator();
         $iterator->rewind();
-        $this->path = $iterator->current()->getPathname();
+        $file       = $iterator->current();
+        $this->path = $file->getPathname();
 
-        $this->originalContent = \file_get_contents($this->path);
+        $this->originalContent = $file->getContents();
         $this->currentContent  = $this->originalContent;
 
         \json_decode($this->currentContent);

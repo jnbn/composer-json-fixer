@@ -57,7 +57,7 @@ final class RepositoriesFixer implements Fixer
         \usort(
             $value,
             static function (array $x, array $y) {
-                return \strcmp(\json_encode($x), \json_encode($y));
+                return \strcmp((string) \json_encode($x), (string) \json_encode($y));
             }
         );
 
@@ -71,8 +71,8 @@ final class RepositoriesFixer implements Fixer
                 \uksort(
                     $repository,
                     static function ($x, $y) {
-                        return \array_search($x, self::PROPERTIES_ORDER, true)
-                            - \array_search($y, self::PROPERTIES_ORDER, true);
+                        return (int) \array_search($x, self::PROPERTIES_ORDER, true)
+                            - (int) \array_search($y, self::PROPERTIES_ORDER, true);
                     }
                 );
 

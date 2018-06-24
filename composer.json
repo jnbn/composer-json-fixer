@@ -52,7 +52,7 @@
             "vendor/bin/phpcs --exclude=Generic.Files.LineLength --report-full --standard=PSR2 src tests",
             "vendor/bin/php-cs-fixer fix --config=tests/php-cs-fixer.config.php --diff --dry-run",
             "vendor/bin/types-checker src tests",
-            "vendor/bin/phpstan analyse --ansi --configuration=tests/phpstan.neon --level=5 src"
+            "vendor/bin/phpstan analyse --ansi --configuration=tests/phpstan.neon --level=6 src"
         ],
         "phpunit": [
             "phpdbg -qrr vendor/bin/phpunit --configuration=tests/phpunit.xml"
