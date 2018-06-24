@@ -9,9 +9,11 @@ use Symfony\Component\Finder\Finder;
 
 class ComposerExecutable
 {
-    public function tryToGetFromUserPath() : string
+    public function tryToGetFromUserPath() : ?string
     {
-        return \trim(\shell_exec('which composer'));
+        $output = \shell_exec('which composer');
+
+        return $output === null ? null : \trim($output);
     }
 
     public function tryToGetLocalComposerPhar(string $directory) : ?string

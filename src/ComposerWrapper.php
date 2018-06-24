@@ -22,13 +22,13 @@ class ComposerWrapper
         $this->directory = $directory;
 
         $this->composerExecutable = $composerExecutable->tryToGetFromUserPath();
-        if (empty($this->composerExecutable)) {
+        if ($this->composerExecutable === null) {
             $this->composerExecutable = $composerExecutable->tryToGetLocalComposerPhar($directory);
         }
-        if (empty($this->composerExecutable)) {
+        if ($this->composerExecutable === null) {
             $this->composerExecutable = $composerExecutable->tryToDownloadComposerPhar();
         }
-        if (empty($this->composerExecutable)) {
+        if ($this->composerExecutable === null) {
             throw new \Exception('Please install Composer (or put composer.phar next to composer.json');
         }
     }

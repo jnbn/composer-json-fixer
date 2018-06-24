@@ -154,7 +154,7 @@ vendor/bin/composer-json-fixer --upgrade
 
         $tester = new ApplicationTester($application);
 
-        $jsonBeforeFixing = \file_get_contents(__DIR__ . '/example.json');
+        $jsonBeforeFixing = (string) \file_get_contents(__DIR__ . '/example.json');
 
         $directory    = vfsStream::setup();
         $composerJson = vfsStream::newFile('composer.json')
@@ -209,6 +209,6 @@ and submit a pull request.';
 
     private function composer() : \stdClass
     {
-        return \json_decode(\file_get_contents(__DIR__ . '/../../composer.json'));
+        return \json_decode((string) \file_get_contents(__DIR__ . '/../../composer.json'));
     }
 }
