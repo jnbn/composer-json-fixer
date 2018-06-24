@@ -12,7 +12,6 @@ use Symfony\Component\Console\Command\Command as BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Tester\ApplicationTester;
-use Symfony\Component\Yaml\Yaml;
 
 class ReadmeCommand extends BaseCommand
 {
@@ -193,8 +192,7 @@ After:
 
     private function contributing() : string
     {
-        return \sprintf(
-            '
+        return '
 ## Contributing
 Request a feature or report a bug by creating [issue](https://github.com/kubawerlos/composer-json-fixer/issues).
 
@@ -204,30 +202,9 @@ src/Readme/run > README.md
 ```
 make sure all checks pass:
 ```bash
-%s
+composer check
 ```
-and submit a pull request.',
-            \implode("\n", $this->travisScripts())
-        );
-    }
-
-    private function travisScripts() : array
-    {
-        $yaml = Yaml::parse(\file_get_contents(__DIR__ . '/../../.travis.yml'));
-
-        $scripts = \array_filter(
-            $yaml['script'],
-            static function ($script) {
-                return \mb_strpos($script, 'vendor/bin') === 0;
-            }
-        );
-
-        return \array_map(
-            static function (string $script) : string {
-                return \rtrim($script, ' $COVERAGE');
-            },
-            $scripts
-        );
+and submit a pull request.';
     }
 
     private function composer() : \stdClass
