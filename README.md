@@ -4,7 +4,7 @@
 [![PHP Version](https://img.shields.io/badge/php-%5E7.1-8892BF.svg)](https://php.net)
 [![License](https://img.shields.io/github/license/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
 [![Build Status](https://img.shields.io/travis/kubawerlos/composer-json-fixer/master.svg)](https://travis-ci.org/kubawerlos/composer-json-fixer)
-[![Code coverage](https://coveralls.io/repos/github/kubawerlos/composer-json-fixer/badge.svg?branch=master)](https://coveralls.io/github/kubawerlos/composer-json-fixer?branch=master)
+[![Code coverage](https://img.shields.io/coveralls/github/kubawerlos/composer-json-fixer/master.svg)](https://coveralls.io/github/kubawerlos/composer-json-fixer?branch=master)
 
 
 A tool for fixing and cleaning up `composer.json` file

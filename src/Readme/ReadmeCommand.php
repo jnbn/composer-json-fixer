@@ -58,7 +58,7 @@ class ReadmeCommand extends BaseCommand
             ),
             $this->badge(
                 'Code coverage',
-                \sprintf('https://coveralls.io/repos/github/%s/badge.svg?branch=master', $this->composer()->name),
+                \sprintf('%s/coveralls/github/%s/master.svg', self::SHIELDS_HOST, $this->composer()->name),
                 \sprintf('https://coveralls.io/github/%s?branch=master', $this->composer()->name)
             ),
         ]) . "\n";
