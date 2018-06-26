@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixerCommand extends BaseCommand
 {
-    private const VERSION = '2.0.0';
+    private const VERSION = '2.1.0';
 
     protected function configure() : void
     {
@@ -22,7 +22,7 @@ class FixerCommand extends BaseCommand
             ->addArgument('directory', InputArgument::OPTIONAL, 'Directory containing "composer.json" file', \getcwd())
             ->addOption('dry-run', 'd', InputOption::VALUE_NONE, 'Do not modify "composer.json", show only diff')
             ->addOption('upgrade', 'u', InputOption::VALUE_NONE, 'Upgrade dependencies with "composer require"')
-            ->addOption('upgrade-dev', null, InputOption::VALUE_NONE, 'Upgrade dev dependencies with "composer require"');
+            ->addOption('upgrade-dev', 'x', InputOption::VALUE_NONE, 'Upgrade dev dependencies with "composer require"');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output) : int
