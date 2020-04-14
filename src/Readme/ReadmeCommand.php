@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer\Readme;
 
@@ -34,7 +34,7 @@ class ReadmeCommand extends BaseCommand
 
     private function badges() : string
     {
-        return "\n" . \implode("\n", [
+        return "\n".\implode("\n", [
             $this->badge(
                 'Latest Stable Version',
                 \sprintf('%s/packagist/v/%s.svg', self::SHIELDS_HOST, $this->composer()->name),
@@ -60,7 +60,7 @@ class ReadmeCommand extends BaseCommand
                 \sprintf('%s/coveralls/github/%s/master.svg', self::SHIELDS_HOST, $this->composer()->name),
                 \sprintf('https://coveralls.io/github/%s?branch=master', $this->composer()->name)
             ),
-        ]) . "\n";
+        ])."\n";
     }
 
     private function badge(string $description, string $imageUrl, string $targetUrl) : string
@@ -129,9 +129,9 @@ vendor/bin/composer-json-fixer --upgrade
 
         foreach ($fixerFactory->fixers() as $fixer) {
             $reflection = new \ReflectionClass($fixer);
-            $fixerName  = \preg_replace('/^(.*)Fixer$/', '$1', $reflection->getShortName());
-            $fixerName  = \preg_replace('/(?<!^)[A-Z]/', ' $0', $fixerName);
-            $fixerName  = \mb_strtolower($fixerName);
+            $fixerName = \preg_replace('/^(.*)Fixer$/', '$1', $reflection->getShortName());
+            $fixerName = \preg_replace('/(?<!^)[A-Z]/', ' $0', $fixerName);
+            $fixerName = \mb_strtolower($fixerName);
             $output .= \sprintf(
                 "- **%s** - %s\n",
                 $fixerName,
@@ -145,7 +145,7 @@ vendor/bin/composer-json-fixer --upgrade
     private function example() : string
     {
         $application = new Application();
-        $command     = new FixerCommand('composer-json-fixer');
+        $command = new FixerCommand('composer-json-fixer');
 
         $application->add($command);
         $application->setDefaultCommand($command->getName(), true);
@@ -154,9 +154,9 @@ vendor/bin/composer-json-fixer --upgrade
 
         $tester = new ApplicationTester($application);
 
-        $jsonBeforeFixing = (string) \file_get_contents(__DIR__ . '/example.json');
+        $jsonBeforeFixing = (string) \file_get_contents(__DIR__.'/example.json');
 
-        $directory    = vfsStream::setup();
+        $directory = vfsStream::setup();
         $composerJson = vfsStream::newFile('composer.json')
             ->at($directory)
             ->setContent($jsonBeforeFixing);
@@ -209,6 +209,6 @@ and submit a pull request.';
 
     private function composer() : \stdClass
     {
-        return \json_decode((string) \file_get_contents(__DIR__ . '/../../composer.json'));
+        return \json_decode((string) \file_get_contents(__DIR__.'/../../composer.json'));
     }
 }

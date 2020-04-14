@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer\Fixer;
 
@@ -13,7 +13,7 @@ final class LicenseFixer implements Fixer
 
     public function fix(array $composerJson) : array
     {
-        if (!\array_key_exists('license', $composerJson)) {
+        if (! \array_key_exists('license', $composerJson)) {
             $composerJson['license'] = 'proprietary';
         }
 

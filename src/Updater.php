@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer;
 
@@ -17,7 +17,7 @@ class Updater
     public function __construct(ComposerWrapper $composerWrapper, JsonFile $jsonFile)
     {
         $this->composerWrapper = $composerWrapper;
-        $this->jsonFile        = $jsonFile;
+        $this->jsonFile = $jsonFile;
     }
 
     /**
@@ -30,12 +30,12 @@ class Updater
         $this->composerWrapper->callSelfUpdate();
 
         $filesystem = new Filesystem();
-        $filesystem->remove($this->jsonFile->directory() . '/composer.lock');
-        $filesystem->remove($this->jsonFile->directory() . '/vendor');
+        $filesystem->remove($this->jsonFile->directory().'/composer.lock');
+        $filesystem->remove($this->jsonFile->directory().'/vendor');
 
         $data = $this->jsonFile->data();
 
-        if (!$upgradeDevOnly && isset($data['require'])) {
+        if (! $upgradeDevOnly && isset($data['require'])) {
             $this->composerWrapper->callRequire($this->preparePackages($data['require']), false);
         }
 

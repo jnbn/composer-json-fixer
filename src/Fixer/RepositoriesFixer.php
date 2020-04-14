@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer\Fixer;
 
@@ -29,8 +29,8 @@ final class RepositoriesFixer implements Fixer
             if ($name !== 'repositories') {
                 continue;
             }
-            $value               = $this->filter($value);
-            $value               = $this->sortRepositories($value);
+            $value = $this->filter($value);
+            $value = $this->sortRepositories($value);
             $composerJson[$name] = $this->sort($value);
         }
 
@@ -47,7 +47,7 @@ final class RepositoriesFixer implements Fixer
         return \array_filter(
             $value,
             static function (array $repository) : bool {
-                return !isset($repository['url']) || $repository['url'] !== 'https://packagist.org';
+                return ! isset($repository['url']) || $repository['url'] !== 'https://packagist.org';
             }
         );
     }

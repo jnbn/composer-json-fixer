@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer\Fixer;
 
@@ -68,9 +68,9 @@ final class AutoloadFixer implements Fixer
         $fixedAutoloads = [];
         foreach ($autoloads as $namespace => $directory) {
             if (\is_string($namespace) && $namespace !== '') {
-                $namespace = (\rtrim($namespace, '\\') . '\\');
+                $namespace = (\rtrim($namespace, '\\').'\\');
             }
-            $fixedAutoloads[$namespace] = (\rtrim($directory, '/') . '/');
+            $fixedAutoloads[$namespace] = (\rtrim($directory, '/').'/');
         }
         \ksort($fixedAutoloads);
 

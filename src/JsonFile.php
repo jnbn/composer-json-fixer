@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer;
 
@@ -31,11 +31,11 @@ class JsonFile
 
         $iterator = $finder->getIterator();
         $iterator->rewind();
-        $file       = $iterator->current();
+        $file = $iterator->current();
         $this->path = $file->getPathname();
 
         $this->originalContent = $file->getContents();
-        $this->currentContent  = $this->originalContent;
+        $this->currentContent = $this->originalContent;
 
         \json_decode($this->currentContent);
         if (\json_last_error() !== JSON_ERROR_NONE) {
@@ -58,7 +58,7 @@ class JsonFile
         $this->currentContent = \json_encode(
             $data,
             JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_PRESERVE_ZERO_FRACTION
-        ) . "\n";
+        )."\n";
     }
 
     public function isModified() : bool

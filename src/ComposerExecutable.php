@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer;
 
@@ -23,7 +23,7 @@ class ComposerExecutable
             $iterator = $finder->getIterator();
             $iterator->rewind();
 
-            return PHP_BINDIR . '/php ' . $iterator->current()->getPathname();
+            return PHP_BINDIR.'/php '.$iterator->current()->getPathname();
         }
 
         return null;
@@ -31,7 +31,7 @@ class ComposerExecutable
 
     public function tryToDownloadComposerPhar() : string
     {
-        $tmpComposer = \sys_get_temp_dir() . '/composer.phar';
+        $tmpComposer = \sys_get_temp_dir().'/composer.phar';
 
         if (\file_exists($tmpComposer)) {
             $filesystem = new Filesystem();
@@ -40,6 +40,6 @@ class ComposerExecutable
 
         \copy('https://getcomposer.org/composer.phar', $tmpComposer);
 
-        return PHP_BINDIR . '/php ' . $tmpComposer;
+        return PHP_BINDIR.'/php '.$tmpComposer;
     }
 }

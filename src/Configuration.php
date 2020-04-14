@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer;
 
@@ -24,9 +24,9 @@ final class Configuration
         bool $upgrade,
         bool $upgradeDev
     ) {
-        $this->directory  = $directory;
-        $this->dryRun     = $dryRun;
-        $this->upgrade    = $upgrade;
+        $this->directory = $directory;
+        $this->dryRun = $dryRun;
+        $this->upgrade = $upgrade;
         $this->upgradeDev = $upgradeDev;
 
         if ($this->dryRun) {

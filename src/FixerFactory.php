@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer;
 
@@ -16,9 +16,9 @@ class FixerFactory
     {
         $fixers = [];
 
-        foreach (Finder::create()->files()->in(__DIR__ . '/Fixer')->name('/.+Fixer.php$/') as $file) {
-            $fixerClass = 'ComposerJsonFixer\\Fixer\\' . $file->getBasename('.php');
-            $fixers[]   = new $fixerClass();
+        foreach (Finder::create()->files()->in(__DIR__.'/Fixer')->name('/.+Fixer.php$/') as $file) {
+            $fixerClass = 'ComposerJsonFixer\\Fixer\\'.$file->getBasename('.php');
+            $fixers[] = new $fixerClass();
         }
 
         \usort(

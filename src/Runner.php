@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace ComposerJsonFixer;
 
@@ -18,8 +18,8 @@ class Runner
     public function __construct(ComposerWrapper $composerWrapper, JsonFile $jsonFile, Updater $updater)
     {
         $this->composerWrapper = $composerWrapper;
-        $this->jsonFile        = $jsonFile;
-        $this->updater         = $updater;
+        $this->jsonFile = $jsonFile;
+        $this->updater = $updater;
     }
 
     public function fix() : void
@@ -27,7 +27,7 @@ class Runner
         $this->composerWrapper->callValidate();
 
         $fixerFactory = new FixerFactory();
-        $properties   = $this->jsonFile->data();
+        $properties = $this->jsonFile->data();
 
         foreach ($fixerFactory->fixers() as $fixer) {
             $properties = $fixer->fix($properties);
