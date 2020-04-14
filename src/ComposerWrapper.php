@@ -44,13 +44,14 @@ class ComposerWrapper
             '--no-check-all',
             '--no-check-lock',
             '--quiet',
-            $this->directory,
-        ]);
+        ], $this->directory);
 
         $process->run();
 
         if ($process->getExitCode() !== 0) {
-            throw new \Exception(\sprintf('File "composer.json" did not pass validation: %s' $process->getErrorOutput()));
+            throw new \Exception(
+                \sprintf('File "composer.json" did not pass validation: %s', $process->getErrorOutput())
+            );
         }
     }
 
@@ -76,12 +77,10 @@ class ComposerWrapper
             $flags .= ' --dev';
         }
 
-        $process = new Process([
-            $this->directory,
-            $this->composerExecutable,
-            $flags,
-            \implode(' ', $packages)
-        ]);
+        $process = Process::fromShellCommandline(
+            \sprintf('%s require %s %s', $this->composerExecutable, $flags, \implode(' ', $packages)), $this->directory
+        );
+        $process->setTimeout(3600);
 
         $process->run();
 

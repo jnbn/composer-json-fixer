@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class FixerCommand extends BaseCommand
 {
-    private const VERSION = '2.1.0';
+    private const VERSION = '3.0.0';
 
     protected function configure() : void
     {
