@@ -38,32 +38,30 @@ class ComposerWrapper
      */
     public function callValidate() : void
     {
-        $process = new Process(
-            \sprintf(
-                '%s validate --no-check-all --no-check-lock --quiet',
-                $this->composerExecutable
-            ),
-            $this->directory
-        );
+        $process = new Process([
+            $this->composerExecutable,
+            'validate',
+            '--no-check-all',
+            '--no-check-lock',
+            '--quiet',
+            $this->directory,
+        ]);
 
         $process->run();
 
         if ($process->getExitCode() !== 0) {
-            throw new \Exception(\sprintf(
-                'File "composer.json" did not pass validation: %s',
-                $process->getErrorOutput()
-            ));
+            throw new \Exception(\sprintf('File "composer.json" did not pass validation: %s' $process->getErrorOutput()));
         }
     }
 
     public function callSelfUpdate() : void
     {
-        $process = new Process(
-            \sprintf(
-                '%s self-update --stable --quiet',
-                $this->composerExecutable
-            )
-        );
+        $process = new Process([
+            $this->composerExecutable,
+            'self-update',
+            '--stable',
+            '--quiet',
+        ]);
 
         $process->run();
     }
@@ -78,20 +76,19 @@ class ComposerWrapper
             $flags .= ' --dev';
         }
 
-        $process = new Process(
-            \sprintf(
-                '%s require %s %s',
-                $this->composerExecutable,
-                $flags,
-                \implode(' ', $packages)
-            ),
-            $this->directory
-        );
+        $process = new Process([
+            $this->directory,
+            $this->composerExecutable,
+            $flags,
+            \implode(' ', $packages)
+        ]);
 
         $process->run();
 
         if ($process->getExitCode() !== 0) {
-            throw new \Exception(\sprintf('Command "composer require" failed: %s', $process->getErrorOutput()));
+            throw new \Exception(
+                \sprintf('Command "composer require" failed: %s', $process->getErrorOutput())
+            );
         }
     }
 }
