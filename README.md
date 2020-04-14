@@ -1,10 +1,10 @@
 # composer.json fixer
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
+[![Latest Stable Version](https://img.shields.io/packagist/v/jnbn/composer-json-fixer.svg)](https://packagist.org/packages/jnbn/composer-json-fixer)
 [![PHP Version](https://img.shields.io/badge/php-%5E7.1-8892BF.svg)](https://php.net)
-[![License](https://img.shields.io/github/license/kubawerlos/composer-json-fixer.svg)](https://packagist.org/packages/kubawerlos/composer-json-fixer)
-[![Build Status](https://img.shields.io/travis/kubawerlos/composer-json-fixer/master.svg)](https://travis-ci.org/kubawerlos/composer-json-fixer)
-[![Code coverage](https://img.shields.io/coveralls/github/kubawerlos/composer-json-fixer/master.svg)](https://coveralls.io/github/kubawerlos/composer-json-fixer?branch=master)
+[![License](https://img.shields.io/github/license/jnbn/composer-json-fixer.svg)](https://packagist.org/packages/jnbn/composer-json-fixer)
+[![Build Status](https://img.shields.io/travis/jnbn/composer-json-fixer/master.svg)](https://travis-ci.org/jnbn/composer-json-fixer)
+[![Code coverage](https://img.shields.io/coveralls/github/jnbn/composer-json-fixer/master.svg)](https://coveralls.io/github/jnbn/composer-json-fixer?branch=master)
 
 
 A tool for fixing and cleaning up `composer.json` file
@@ -14,11 +14,11 @@ according to its [schema](https://getcomposer.org/doc/04-schema.md) and best pra
 ## Installation
 composer.json fixer can be installed [globally](https://getcomposer.org/doc/03-cli.md#global):
 ```bash
-composer global require kubawerlos/composer-json-fixer
+composer global require jnbn/composer-json-fixer
 ```
 or as a dependency (e.g. to include into CI process):
 ```bash
-composer require --dev kubawerlos/composer-json-fixer
+composer require --dev jnbn/composer-json-fixer
 ```
 
 
@@ -114,7 +114,7 @@ After:
 
 
 ## Contributing
-Request a feature or report a bug by creating [issue](https://github.com/kubawerlos/composer-json-fixer/issues).
+Request a feature or report a bug by creating [issue](https://github.com/jnbn/composer-json-fixer/issues).
 
 Alternatively, fork the repo, develop your changes, regenerate `README.md`:
 ```bash
