@@ -1,5 +1,5 @@
 {
-    "name": "kubawerlos/composer-json-fixer",
+    "name": "jnbn/composer-json-fixer",
     "description": "A tool for fixing and cleaning up `composer.json` file according to its schema and best practices.",
     "type": "library",
     "keywords": [
@@ -11,6 +11,10 @@
         {
             "name": "Kuba Werłos",
             "email": "werlos@gmail.com"
+        },
+        {
+            "name": "Uğur Aydoğdu",
+            "email": "ugur.aydogdu@epigra.com"
         }
     ],
     "require": {
